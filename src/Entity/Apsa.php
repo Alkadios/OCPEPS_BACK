@@ -15,7 +15,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 #[ApiResource(
     normalizationContext: [
-        'groups' => ['read:apsa'],
+        'groups' => ['read:ca'],
     ]
 )]
 class Apsa
@@ -25,18 +25,19 @@ class Apsa
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:apsa'])]
+    #[Groups(['read:apsa', 'read:ca'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:apsa'])]
+    #[Groups(['read:apsa', 'read:ca'])]
     private $libelle;
 
     /**
      * @ORM\ManyToOne(targetEntity=Ca::class, inversedBy="Apsa")
      */
+    #[Groups(['read:ca'])]
     private $ca;
 
     /**
