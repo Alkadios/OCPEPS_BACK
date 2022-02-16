@@ -26,7 +26,7 @@ class Af
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:Af'])]
+    #[Groups(['read:Af', 'read:AfRetenu'])]
     private $libelle;
 
     /**

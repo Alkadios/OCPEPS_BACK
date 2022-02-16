@@ -14,7 +14,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 #[ApiResource(
     normalizationContext: [
-        'groups' => ['read:AfRetenu', 'read:Af', 'read:ApsaRetenu', 'read:apsa'],
+        'groups' => ['read:AfRetenu', 'read:Af', 'read:ApsaRetenu', 'read:Apsa'],
     ]
 )]
 class AfRetenu
@@ -35,7 +35,7 @@ class AfRetenu
     /**
      * @ORM\ManyToOne(targetEntity=Af::class, inversedBy="afRetenus")
      */
-    #[Groups(['read:Af'])]
+    #[Groups(['read:Af', 'read:AfRetenu'])]
     private $Af;
 
     /**

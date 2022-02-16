@@ -7,11 +7,12 @@ use App\Repository\CritereRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=CritereRepository::class)
- * @ApiResource()
  */
+#[ApiResource()]
 class Critere
 {
     /**
@@ -19,16 +20,19 @@ class Critere
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    #[Groups(['read:Critere'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['read:Critere'])]
     private $libelle;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['read:Critere'])]
     private $description;
 
     /**
