@@ -7,11 +7,12 @@ use App\Repository\AfRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=AfRepository::class)
- * @ApiResource()
  */
+#[ApiResource()]
 class Af
 {
     /**
@@ -19,11 +20,13 @@ class Af
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    #[Groups(['read:Af'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['read:Af'])]
     private $libelle;
 
     /**
