@@ -25,13 +25,13 @@ class Apsa
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:Apsa', 'read:ca'])]
+    #[Groups(['read:apsa', 'read:ca', 'read:Apsa'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:Apsa', 'read:ca', 'read:Apsa'])]
+    #[Groups(['read:apsa', 'read:ca', 'read:Apsa'])]
     private $libelle;
 
     /**
