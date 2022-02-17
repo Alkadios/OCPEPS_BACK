@@ -7,11 +7,16 @@ use App\Repository\CaRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=CaRepository::class)
- * @ApiResource()
  */
+#[ApiResource(
+    normalizationContext: [
+        'groups' => ['read:apsa'],
+    ]
+)]
 class Ca
 {
     /**
@@ -19,16 +24,19 @@ class Ca
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    #[Groups(['read:apsa', 'read:ca'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['read:apsa', 'read:ca'])]
     private $libelle;
 
     /**
      * @ORM\OneToMany(targetEntity=Apsa::class, mappedBy="ca")
      */
+    #[Groups(['read:apsa'])]
     private $Apsa;
 
     /**

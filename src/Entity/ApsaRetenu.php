@@ -7,11 +7,16 @@ use App\Repository\ApsaRetenuRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ApsaRetenuRepository::class)
- * @ApiResource()
  */
+#[ApiResource(
+    normalizationContext: [
+        'groups' => ['read:Apsa', 'read:AfRetenu', 'read:Critere']
+    ]
+)]
 class ApsaRetenu
 {
     /**
@@ -19,21 +24,25 @@ class ApsaRetenu
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    #[Groups(['read:ApsaRetenu', 'read:Apsa'])]
     private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=Apsa::class, inversedBy="apsaRetenus")
      */
+    #[Groups(['read:ApsaRetenu', 'read:Apsa'])]
     private $Apsa;
 
     /**
      * @ORM\ManyToOne(targetEntity=AfRetenu::class, inversedBy="apsaRetenus")
      */
+    #[Groups(['read:AfRetenu'])]
     private $AfRetenu;
 
     /**
      * @ORM\OneToMany(targetEntity=Critere::class, mappedBy="ApsaRetenu")
      */
+    #[Groups(['read:Critere'])]
     private $criteres;
 
     public function __construct()

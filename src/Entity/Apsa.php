@@ -7,11 +7,17 @@ use App\Repository\ApsaRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ApsaRepository::class)
  * @ApiResource()
  */
+#[ApiResource(
+    normalizationContext: [
+        'groups' => ['read:ca'],
+    ]
+)]
 class Apsa
 {
     /**
@@ -19,16 +25,19 @@ class Apsa
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    #[Groups(['read:apsa', 'read:ca', 'read:Apsa'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['read:apsa', 'read:ca', 'read:Apsa'])]
     private $libelle;
 
     /**
      * @ORM\ManyToOne(targetEntity=Ca::class, inversedBy="Apsa")
      */
+    #[Groups(['read:ca'])]
     private $ca;
 
     /**
