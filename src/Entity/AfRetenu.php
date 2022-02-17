@@ -18,7 +18,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * )
  * @UniqueEntity(
  *      fields={"choix_annee_id","af_id"},
- *      message="League for given country already exists in database."
+ *      message="Afretenu for given country already exists in database."
  * )
  */
 #[ApiResource(

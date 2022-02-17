@@ -5,9 +5,18 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\EvaluationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=EvaluationRepository::class)
+ * @ORM\Table(
+ *      name="evaluation",
+ *      uniqueConstraints={@ORM\UniqueConstraint(columns={"eleve_id", "indicateur_critere_id","date_eval"})}
+ * )
+ * @UniqueEntity(
+ *      fields={"eleve_id", "indicateur_critere_id","date_eval"},
+ *      message="Evaluation for given country already exists in database."
+ * )
  * @ApiResource()
  */
 class Evaluation

@@ -7,10 +7,19 @@ use App\Repository\ApsaRetenuRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ApsaRetenuRepository::class)
+ * @ORM\Table(
+ *      name="apsaretenu",
+ *      uniqueConstraints={@ORM\UniqueConstraint(columns={"apsa_id", "af_retenu_id"})}
+ * )
+ * @UniqueEntity(
+ *      fields={"apsa_id","af_retenu_id"},
+ *      message="Apsaretenu for given country already exists in database."
+ * )
  */
 #[ApiResource(
     normalizationContext: [
