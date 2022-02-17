@@ -12,7 +12,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity(repositoryClass=CritereRepository::class)
  */
-#[ApiResource()]
+#[ApiResource(
+    normalizationContext: [
+        'groups' => ['read:Critere', 'read:indicateurCritere']
+    ]
+)]
 class Critere
 {
     /**
@@ -20,19 +24,19 @@ class Critere
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:Critere'])]
+    #[Groups(['read:Critere', 'read:indicateurCritere'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:Critere'])]
+    #[Groups(['read:Critere', 'read:indicateurCritere'])]
     private $libelle;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:Critere'])]
+    #[Groups(['read:Critere', 'read:indicateurCritere'])]
     private $description;
 
     /**
@@ -43,6 +47,7 @@ class Critere
     /**
      * @ORM\OneToMany(targetEntity=IndicateurCritere::class, mappedBy="Critere")
      */
+    #[Groups(['read:indicateurCritere'])]
     private $indicateurCriteres;
 
     public function __construct()
