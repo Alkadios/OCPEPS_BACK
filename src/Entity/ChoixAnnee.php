@@ -6,10 +6,19 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\ChoixAnneeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=ChoixAnneeRepository::class)
+ * @ORM\Table(
+ *      name="choixannee",
+ *      uniqueConstraints={@ORM\UniqueConstraint(columns={"niveau_id", "annee_id","ca_id"})}
+ * )
+ * @UniqueEntity(
+ *      fields={"niveau_id","annee_id","ca_id"},
+ *      message="League for given country already exists in database."
+ * )
  * @ApiResource()
  */
 class ChoixAnnee

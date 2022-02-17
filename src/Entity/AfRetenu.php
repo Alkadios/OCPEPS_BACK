@@ -7,11 +7,25 @@ use App\Repository\AfRetenuRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=AfRetenuRepository::class)
- * @ApiResource()
+ * @ORM\Table(
+ *      name="afretenu",
+ *      uniqueConstraints={@ORM\UniqueConstraint(columns={"choix_annee_id", "af_id"})}
+ * )
+ * @UniqueEntity(
+ *      fields={"choix_annee_id","af_id"},
+ *      message="League for given country already exists in database."
+ * )
  */
+#[ApiResource(
+    normalizationContext: [
+        'groups' => ['read:AfRetenu', 'read:Af', 'read:ApsaRetenu', 'read:Apsa'],
+    ]
+)]
 class AfRetenu
 {
     /**
@@ -19,6 +33,7 @@ class AfRetenu
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    #[Groups(['read:AfRetenu'])]
     private $id;
 
     /**
@@ -29,11 +44,13 @@ class AfRetenu
     /**
      * @ORM\ManyToOne(targetEntity=Af::class, inversedBy="afRetenus")
      */
+    #[Groups(['read:Af', 'read:AfRetenu'])]
     private $Af;
 
     /**
      * @ORM\OneToMany(targetEntity=ApsaRetenu::class, mappedBy="AfRetenu")
      */
+    #[Groups(['read:ApsaRetenu'])]
     private $apsaRetenus;
 
     public function __construct()
