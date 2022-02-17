@@ -7,9 +7,18 @@ use App\Repository\IndicateurCritereRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=IndicateurCritereRepository::class)
+ * @ORM\Table(
+ *      name="indicateurcritere",
+ *      uniqueConstraints={@ORM\UniqueConstraint(columns={"critere_id", "indicateur_id"})}
+ * )
+ * @UniqueEntity(
+ *      fields={"critere_id","indicateur_id"},
+ *      message="IndicateurCritere for given country already exists in database."
+ * )
  * @ApiResource()
  */
 class IndicateurCritere
