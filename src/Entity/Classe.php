@@ -11,8 +11,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ClasseRepository::class)
- * @ApiResource()
  */
+#[ApiResource(
+    normalizationContext: [
+        'groups' => ['read:eleve', 'read:cycle']
+    ]
+)]
 class Classe
 {
     /**
@@ -32,11 +36,13 @@ class Classe
     /**
      * @ORM\OneToMany(targetEntity=Eleve::class, mappedBy="classe")
      */
+    #[Groups(['read:eleve'])]
     private $Eleve;
 
     /**
      * @ORM\ManyToOne(targetEntity=Cycle::class, inversedBy="classes")
      */
+    #[Groups(['read:cycle'])]
     private $cycle;
 
     public function __construct()

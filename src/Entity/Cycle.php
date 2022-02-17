@@ -25,13 +25,13 @@ class Cycle
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:niveauScolaire'])]
+    #[Groups(['read:niveauScolaire', 'read:cycle'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:niveauScolaire'])]
+    #[Groups(['read:niveauScolaire', 'read:cycle'])]
     private $libelle;
 
     /**
