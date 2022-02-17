@@ -15,7 +15,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 #[ApiResource(
     normalizationContext: [
-        'groups' => ['read:ca'],
+        'groups' => ['read:champ_apprentissage'],
     ]
 )]
 class Apsa
@@ -25,25 +25,25 @@ class Apsa
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:apsa', 'read:ca', 'read:Apsa'])]
+    #[Groups(['read:apsa', 'read:champ_apprentissage', 'read:Apsa'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:apsa', 'read:ca', 'read:Apsa'])]
+    #[Groups(['read:apsa', 'read:champ_apprentissage', 'read:Apsa'])]
     private $libelle;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Ca::class, inversedBy="Apsa")
-     */
-    #[Groups(['read:ca'])]
-    private $ca;
 
     /**
      * @ORM\OneToMany(targetEntity=ApsaRetenu::class, mappedBy="Apsa")
      */
     private $apsaRetenus;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=ChampApprentissage::class, inversedBy="Apsa")
+     */
+    private $champApprentissage;
 
     public function __construct()
     {
@@ -67,17 +67,6 @@ class Apsa
         return $this;
     }
 
-    public function getCa(): ?Ca
-    {
-        return $this->ca;
-    }
-
-    public function setCa(?Ca $ca): self
-    {
-        $this->ca = $ca;
-
-        return $this;
-    }
 
     /**
      * @return Collection|ApsaRetenu[]
@@ -105,6 +94,18 @@ class Apsa
                 $apsaRetenu->setApsa(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getChampApprentissage(): ?ChampApprentissage
+    {
+        return $this->champApprentissage;
+    }
+
+    public function setChampApprentissage(?ChampApprentissage $champApprentissage): self
+    {
+        $this->champApprentissage = $champApprentissage;
 
         return $this;
     }

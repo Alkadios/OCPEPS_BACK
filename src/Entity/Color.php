@@ -22,10 +22,6 @@ class Color
      */
     private $libelle;
 
-    /**
-     * @ORM\OneToOne(targetEntity=Ca::class, cascade={"persist", "remove"})
-     */
-    private $Ca;
 
     public function getId(): ?int
     {
@@ -44,15 +40,5 @@ class Color
         return $this;
     }
 
-    public function getCa(): ?Ca
-    {
-        return $this->Ca;
-    }
 
-    public function setCa(?Ca $Ca): self
-    {
-        $this->Ca = $Ca;
-
-        return $this;
-    }
 }
