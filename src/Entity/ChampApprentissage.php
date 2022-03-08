@@ -42,6 +42,7 @@ class ChampApprentissage
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['read:apsa', 'read:champapprentissage'])]
     private $color;
 
     /**
