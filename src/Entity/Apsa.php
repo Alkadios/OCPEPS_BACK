@@ -41,16 +41,18 @@ class Apsa
     private $apsaRetenus;
 
     /**
-     * @ORM\ManyToMany(targetEntity=ChampApprentissage::class, inversedBy="apsas")
+     * @ORM\OneToMany(targetEntity=ChampsApprentissageApsa::class, mappedBy="Apsa")
      */
-    private $ChampsApprentissage;
+    private $champsApprentissageApsas;
+
 
 
 
     public function __construct()
     {
         $this->apsaRetenus = new ArrayCollection();
-        $this->ChampsApprentissage = new ArrayCollection();
+        $this->champsApprentissageApsas = new ArrayCollection();
+
     }
 
     public function getId(): ?int
@@ -102,25 +104,31 @@ class Apsa
     }
 
     /**
-     * @return Collection|ChampApprentissage[]
+     * @return Collection|ChampsApprentissageApsa[]
      */
-    public function getChampsApprentissage(): Collection
+    public function getChampsApprentissageApsas(): Collection
     {
-        return $this->ChampsApprentissage;
+        return $this->champsApprentissageApsas;
     }
 
-    public function addChampsApprentissage(ChampApprentissage $champsApprentissage): self
+    public function addChampsApprentissageApsa(ChampsApprentissageApsa $champsApprentissageApsa): self
     {
-        if (!$this->ChampsApprentissage->contains($champsApprentissage)) {
-            $this->ChampsApprentissage[] = $champsApprentissage;
+        if (!$this->champsApprentissageApsas->contains($champsApprentissageApsa)) {
+            $this->champsApprentissageApsas[] = $champsApprentissageApsa;
+            $champsApprentissageApsa->setApsa($this);
         }
 
         return $this;
     }
 
-    public function removeChampsApprentissage(ChampApprentissage $champsApprentissage): self
+    public function removeChampsApprentissageApsa(ChampsApprentissageApsa $champsApprentissageApsa): self
     {
-        $this->ChampsApprentissage->removeElement($champsApprentissage);
+        if ($this->champsApprentissageApsas->removeElement($champsApprentissageApsa)) {
+            // set the owning side to null (unless already changed)
+            if ($champsApprentissageApsa->getApsa() === $this) {
+                $champsApprentissageApsa->setApsa(null);
+            }
+        }
 
         return $this;
     }

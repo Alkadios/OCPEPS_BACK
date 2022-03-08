@@ -40,20 +40,22 @@ class ChampApprentissage
 
 
     /**
-     * @ORM\ManyToMany(targetEntity=Apsa::class, mappedBy="ChampsApprentissage")
-     */
-    private $apsas;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $color;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ChampsApprentissageApsa::class, mappedBy="ChampApprentissage")
+     */
+    private $champsApprentissageApsas;
+
 
     public function __construct()
     {
         $this->ChoixAnnee = new ArrayCollection();
         $this->Apsa = new ArrayCollection();
         $this->apsas = new ArrayCollection();
+        $this->champsApprentissageApsas = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -105,33 +107,6 @@ class ChampApprentissage
 
 
 
-    /**
-     * @return Collection|Apsa[]
-     */
-    public function getApsas(): Collection
-    {
-        return $this->apsas;
-    }
-
-    public function addApsa(Apsa $apsa): self
-    {
-        if (!$this->apsas->contains($apsa)) {
-            $this->apsas[] = $apsa;
-            $apsa->addChampsApprentissage($this);
-        }
-
-        return $this;
-    }
-
-    public function removeApsa(Apsa $apsa): self
-    {
-        if ($this->apsas->removeElement($apsa)) {
-            $apsa->removeChampsApprentissage($this);
-        }
-
-        return $this;
-    }
-
     public function getColor(): ?string
     {
         return $this->color;
@@ -143,4 +118,35 @@ class ChampApprentissage
 
         return $this;
     }
+
+    /**
+     * @return Collection|ChampsApprentissageApsa[]
+     */
+    public function getChampsApprentissageApsas(): Collection
+    {
+        return $this->champsApprentissageApsas;
+    }
+
+    public function addChampsApprentissageApsa(ChampsApprentissageApsa $champsApprentissageApsa): self
+    {
+        if (!$this->champsApprentissageApsas->contains($champsApprentissageApsa)) {
+            $this->champsApprentissageApsas[] = $champsApprentissageApsa;
+            $champsApprentissageApsa->setChampApprentissage($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChampsApprentissageApsa(ChampsApprentissageApsa $champsApprentissageApsa): self
+    {
+        if ($this->champsApprentissageApsas->removeElement($champsApprentissageApsa)) {
+            // set the owning side to null (unless already changed)
+            if ($champsApprentissageApsa->getChampApprentissage() === $this) {
+                $champsApprentissageApsa->setChampApprentissage(null);
+            }
+        }
+
+        return $this;
+    }
+
 }
