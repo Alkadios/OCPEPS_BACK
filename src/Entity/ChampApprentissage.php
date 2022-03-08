@@ -3,56 +3,59 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Repository\ApsaRepository;
+use App\Repository\ChampApprentissageRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ORM\Entity(repositoryClass=ApsaRepository::class)
- * @ApiResource()
+ * @ORM\Entity(repositoryClass=ChampApprentissageRepository::class)
  */
 #[ApiResource(
     normalizationContext: [
-        'groups' => ['read:champ_apprentissage'],
+        'groups' => ['read:apsa'],
     ]
 )]
-class Apsa
+class ChampApprentissage
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:apsa', 'read:champ_apprentissage', 'read:Apsa'])]
+    #[Groups(['read:apsa', 'read:champapprentissage'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:apsa', 'read:champ_apprentissage', 'read:Apsa'])]
+    #[Groups(['read:apsa', 'read:champapprentissage'])]
     private $libelle;
 
-
     /**
-     * @ORM\OneToMany(targetEntity=ApsaRetenu::class, mappedBy="Apsa")
+     * @ORM\OneToMany(targetEntity=ChoixAnnee::class, mappedBy="champApprentissage")
      */
-    private $apsaRetenus;
+    private $ChoixAnnee;
+
 
     /**
-     * @ORM\OneToMany(targetEntity=ChampsApprentissageApsa::class, mappedBy="Apsa")
+     * @ORM\Column(type="string", length=255)
+     */
+    private $color;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ChampsApprentissageApsa::class, mappedBy="ChampApprentissage")
      */
     private $champsApprentissageApsas;
 
 
-
-
     public function __construct()
     {
-        $this->apsaRetenus = new ArrayCollection();
+        $this->ChoixAnnee = new ArrayCollection();
+        $this->Apsa = new ArrayCollection();
+        $this->apsas = new ArrayCollection();
         $this->champsApprentissageApsas = new ArrayCollection();
-
     }
 
     public function getId(): ?int
@@ -72,33 +75,46 @@ class Apsa
         return $this;
     }
 
-
     /**
-     * @return Collection|ApsaRetenu[]
+     * @return Collection|ChoixAnnee[]
      */
-    public function getApsaRetenus(): Collection
+    public function getChoixAnnee(): Collection
     {
-        return $this->apsaRetenus;
+        return $this->ChoixAnnee;
     }
 
-    public function addApsaRetenu(ApsaRetenu $apsaRetenu): self
+    public function addChoixAnnee(ChoixAnnee $choixAnnee): self
     {
-        if (!$this->apsaRetenus->contains($apsaRetenu)) {
-            $this->apsaRetenus[] = $apsaRetenu;
-            $apsaRetenu->setApsa($this);
+        if (!$this->ChoixAnnee->contains($choixAnnee)) {
+            $this->ChoixAnnee[] = $choixAnnee;
+            $choixAnnee->setChampApprentissage($this);
         }
 
         return $this;
     }
 
-    public function removeApsaRetenu(ApsaRetenu $apsaRetenu): self
+    public function removeChoixAnnee(ChoixAnnee $choixAnnee): self
     {
-        if ($this->apsaRetenus->removeElement($apsaRetenu)) {
+        if ($this->ChoixAnnee->removeElement($choixAnnee)) {
             // set the owning side to null (unless already changed)
-            if ($apsaRetenu->getApsa() === $this) {
-                $apsaRetenu->setApsa(null);
+            if ($choixAnnee->getChampApprentissage() === $this) {
+                $choixAnnee->setChampApprentissage(null);
             }
         }
+
+        return $this;
+    }
+
+
+
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
+
+    public function setColor(string $color): self
+    {
+        $this->color = $color;
 
         return $this;
     }
@@ -115,7 +131,7 @@ class Apsa
     {
         if (!$this->champsApprentissageApsas->contains($champsApprentissageApsa)) {
             $this->champsApprentissageApsas[] = $champsApprentissageApsa;
-            $champsApprentissageApsa->setApsa($this);
+            $champsApprentissageApsa->setChampApprentissage($this);
         }
 
         return $this;
@@ -125,8 +141,8 @@ class Apsa
     {
         if ($this->champsApprentissageApsas->removeElement($champsApprentissageApsa)) {
             // set the owning side to null (unless already changed)
-            if ($champsApprentissageApsa->getApsa() === $this) {
-                $champsApprentissageApsa->setApsa(null);
+            if ($champsApprentissageApsa->getChampApprentissage() === $this) {
+                $champsApprentissageApsa->setChampApprentissage(null);
             }
         }
 

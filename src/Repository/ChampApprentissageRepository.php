@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Ca;
+use App\Entity\ChampApprentissage;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Ca|null find($id, $lockMode = null, $lockVersion = null)
- * @method Ca|null findOneBy(array $criteria, array $orderBy = null)
- * @method Ca[]    findAll()
- * @method Ca[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method ChampApprentissage|null find($id, $lockMode = null, $lockVersion = null)
+ * @method ChampApprentissage|null findOneBy(array $criteria, array $orderBy = null)
+ * @method ChampApprentissage[]    findAll()
+ * @method ChampApprentissage[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CaRepository extends ServiceEntityRepository
+class ChampApprentissageRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Ca::class);
+        parent::__construct($registry, ChampApprentissage::class);
     }
 
     // /**
-    //  * @return Ca[] Returns an array of Ca objects
+    //  * @return ChampApprentissage[] Returns an array of ChampApprentissage objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class CaRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Ca
+    public function findOneBySomeField($value): ?ChampApprentissage
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.exampleField = :val')
