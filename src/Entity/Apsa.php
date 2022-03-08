@@ -41,13 +41,16 @@ class Apsa
     private $apsaRetenus;
 
     /**
-     * @ORM\ManyToOne(targetEntity=ChampApprentissage::class, inversedBy="Apsa")
+     * @ORM\ManyToMany(targetEntity=ChampApprentissage::class, inversedBy="apsas")
      */
-    private $champApprentissage;
+    private $ChampsApprentissage;
+
+
 
     public function __construct()
     {
         $this->apsaRetenus = new ArrayCollection();
+        $this->ChampsApprentissage = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -98,15 +101,28 @@ class Apsa
         return $this;
     }
 
-    public function getChampApprentissage(): ?ChampApprentissage
+    /**
+     * @return Collection|ChampApprentissage[]
+     */
+    public function getChampsApprentissage(): Collection
     {
-        return $this->champApprentissage;
+        return $this->ChampsApprentissage;
     }
 
-    public function setChampApprentissage(?ChampApprentissage $champApprentissage): self
+    public function addChampsApprentissage(ChampApprentissage $champsApprentissage): self
     {
-        $this->champApprentissage = $champApprentissage;
+        if (!$this->ChampsApprentissage->contains($champsApprentissage)) {
+            $this->ChampsApprentissage[] = $champsApprentissage;
+        }
 
         return $this;
     }
+
+    public function removeChampsApprentissage(ChampApprentissage $champsApprentissage): self
+    {
+        $this->ChampsApprentissage->removeElement($champsApprentissage);
+
+        return $this;
+    }
+
 }

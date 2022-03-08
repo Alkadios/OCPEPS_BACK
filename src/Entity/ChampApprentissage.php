@@ -38,14 +38,14 @@ class ChampApprentissage
      */
     private $ChoixAnnee;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Apsa::class, mappedBy="champApprentissage")
-     */
-    #[Groups(['read:apsa'])]
-    private $Apsa;
 
     /**
-     * @ORM\OneToOne(targetEntity=Color::class, cascade={"persist", "remove"})
+     * @ORM\ManyToMany(targetEntity=Apsa::class, mappedBy="ChampsApprentissage")
+     */
+    private $apsas;
+
+    /**
+     * @ORM\Column(type="string", length=255)
      */
     private $color;
 
@@ -53,6 +53,7 @@ class ChampApprentissage
     {
         $this->ChoixAnnee = new ArrayCollection();
         $this->Apsa = new ArrayCollection();
+        $this->apsas = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -102,19 +103,21 @@ class ChampApprentissage
         return $this;
     }
 
+
+
     /**
      * @return Collection|Apsa[]
      */
-    public function getApsa(): Collection
+    public function getApsas(): Collection
     {
-        return $this->Apsa;
+        return $this->apsas;
     }
 
     public function addApsa(Apsa $apsa): self
     {
-        if (!$this->Apsa->contains($apsa)) {
-            $this->Apsa[] = $apsa;
-            $apsa->setChampApprentissage($this);
+        if (!$this->apsas->contains($apsa)) {
+            $this->apsas[] = $apsa;
+            $apsa->addChampsApprentissage($this);
         }
 
         return $this;
@@ -122,22 +125,19 @@ class ChampApprentissage
 
     public function removeApsa(Apsa $apsa): self
     {
-        if ($this->Apsa->removeElement($apsa)) {
-            // set the owning side to null (unless already changed)
-            if ($apsa->getChampApprentissage() === $this) {
-                $apsa->setChampApprentissage(null);
-            }
+        if ($this->apsas->removeElement($apsa)) {
+            $apsa->removeChampsApprentissage($this);
         }
 
         return $this;
     }
 
-    public function getColor(): ?Color
+    public function getColor(): ?string
     {
         return $this->color;
     }
 
-    public function setColor(?Color $color): self
+    public function setColor(string $color): self
     {
         $this->color = $color;
 
