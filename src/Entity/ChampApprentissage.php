@@ -14,7 +14,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 #[ApiResource(
     normalizationContext: [
-        'groups' => ['read:apsa'],
+        'groups' => ['read:apsa', 'read:champapprentissage'],
     ]
 )]
 class ChampApprentissage
@@ -48,6 +48,7 @@ class ChampApprentissage
     /**
      * @ORM\OneToMany(targetEntity=ChampsApprentissageApsa::class, mappedBy="ChampApprentissage")
      */
+    #[Groups(['read:champapprentissage'])]
     private $champsApprentissageApsas;
 
 
