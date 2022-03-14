@@ -23,7 +23,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 #[ApiResource(
     normalizationContext: [
-        'groups' => ['read:AfRetenu', 'read:Af', 'read:ApsaRetenu', 'read:Apsa'],
+        'groups' => ['read:AfRetenu', 'read:Af', 'read:ApsaRetenu', 'read:Apsa', 'read:ca'],
     ]
 )]
 class AfRetenu
@@ -39,6 +39,7 @@ class AfRetenu
     /**
      * @ORM\ManyToOne(targetEntity=ChoixAnnee::class, inversedBy="afRetenus")
      */
+    #[Groups(['read:ca'])]
     private $ChoixAnnee;
 
     /**
