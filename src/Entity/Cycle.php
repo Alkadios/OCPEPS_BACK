@@ -37,7 +37,6 @@ class Cycle
     /**
      * @ORM\OneToMany(targetEntity=NiveauScolaire::class, mappedBy="cycle")
      */
-    #[Groups(['read:niveauScolaire'])]
     private $niveauScolaires;
 
     /**
