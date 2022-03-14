@@ -2,41 +2,42 @@
 
 namespace App\Repository;
 
-use App\Entity\ApsaRetenu;
+use App\Entity\ApsaSelectAnnee;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method ApsaRetenu|null find($id, $lockMode = null, $lockVersion = null)
- * @method ApsaRetenu|null findOneBy(array $criteria, array $orderBy = null)
- * @method ApsaRetenu[]    findAll()
- * @method ApsaRetenu[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method ApsaSelectAnnee|null find($id, $lockMode = null, $lockVersion = null)
+ * @method ApsaSelectAnnee|null findOneBy(array $criteria, array $orderBy = null)
+ * @method ApsaSelectAnnee[]    findAll()
+ * @method ApsaSelectAnnee[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ApsaRetenuRepository extends ServiceEntityRepository
+class ApsaSelectAnneeRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, ApsaRetenu::class);
+        parent::__construct($registry, ApsaSelectAnnee::class);
     }
 
     // /**
-    //  * @return ApsaRetenu[] Returns an array of ApsaRetenu objects
+    //  * @return ApsaSelectAnnee[] Returns an array of ApsaSelectAnnee objects
     //  */
-
+    /*
     public function findByExampleField($value)
     {
         return $this->createQueryBuilder('a')
-            ->Join('a.apsa', 'a')
             ->andWhere('a.exampleField = :val')
             ->setParameter('val', $value)
+            ->orderBy('a.id', 'ASC')
+            ->setMaxResults(10)
             ->getQuery()
             ->getResult()
         ;
     }
+    */
 
-
-
-    public function findOneBySomeField($value): ?ApsaRetenu
+    /*
+    public function findOneBySomeField($value): ?ApsaSelectAnnee
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.exampleField = :val')
@@ -45,5 +46,5 @@ class ApsaRetenuRepository extends ServiceEntityRepository
             ->getOneOrNullResult()
         ;
     }
-
+    */
 }
