@@ -24,7 +24,7 @@ class ChampApprentissage
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:apsa', 'read:champapprentissage'])]
+    #[Groups(['read:apsa', 'read:champapprentissage', 'read:ca'])]
     private $id;
 
     /**
@@ -51,6 +51,11 @@ class ChampApprentissage
     #[Groups(['read:champapprentissage'])]
     private $champsApprentissageApsas;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ApsaSelectAnnee::class, mappedBy="Ca")
+     */
+    private $apsaSelectAnnees;
+
 
     public function __construct()
     {
@@ -58,6 +63,7 @@ class ChampApprentissage
         $this->Apsa = new ArrayCollection();
         $this->apsas = new ArrayCollection();
         $this->champsApprentissageApsas = new ArrayCollection();
+        $this->apsaSelectAnnees = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -145,6 +151,36 @@ class ChampApprentissage
             // set the owning side to null (unless already changed)
             if ($champsApprentissageApsa->getChampApprentissage() === $this) {
                 $champsApprentissageApsa->setChampApprentissage(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ApsaSelectAnnee[]
+     */
+    public function getApsaSelectAnnees(): Collection
+    {
+        return $this->apsaSelectAnnees;
+    }
+
+    public function addApsaSelectAnnee(ApsaSelectAnnee $apsaSelectAnnee): self
+    {
+        if (!$this->apsaSelectAnnees->contains($apsaSelectAnnee)) {
+            $this->apsaSelectAnnees[] = $apsaSelectAnnee;
+            $apsaSelectAnnee->setCa($this);
+        }
+
+        return $this;
+    }
+
+    public function removeApsaSelectAnnee(ApsaSelectAnnee $apsaSelectAnnee): self
+    {
+        if ($this->apsaSelectAnnees->removeElement($apsaSelectAnnee)) {
+            // set the owning side to null (unless already changed)
+            if ($apsaSelectAnnee->getCa() === $this) {
+                $apsaSelectAnnee->setCa(null);
             }
         }
 

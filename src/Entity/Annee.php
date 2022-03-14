@@ -31,9 +31,15 @@ class Annee
      */
     private $choixAnnees;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ApsaSelectAnnee::class, mappedBy="Annee")
+     */
+    private $apsaSelectAnnees;
+
     public function __construct()
     {
         $this->choixAnnees = new ArrayCollection();
+        $this->apsaSelectAnnees = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -77,6 +83,36 @@ class Annee
             // set the owning side to null (unless already changed)
             if ($choixAnnee->getAnnee() === $this) {
                 $choixAnnee->setAnnee(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ApsaSelectAnnee[]
+     */
+    public function getApsaSelectAnnees(): Collection
+    {
+        return $this->apsaSelectAnnees;
+    }
+
+    public function addApsaSelectAnnee(ApsaSelectAnnee $apsaSelectAnnee): self
+    {
+        if (!$this->apsaSelectAnnees->contains($apsaSelectAnnee)) {
+            $this->apsaSelectAnnees[] = $apsaSelectAnnee;
+            $apsaSelectAnnee->setAnnee($this);
+        }
+
+        return $this;
+    }
+
+    public function removeApsaSelectAnnee(ApsaSelectAnnee $apsaSelectAnnee): self
+    {
+        if ($this->apsaSelectAnnees->removeElement($apsaSelectAnnee)) {
+            // set the owning side to null (unless already changed)
+            if ($apsaSelectAnnee->getAnnee() === $this) {
+                $apsaSelectAnnee->setAnnee(null);
             }
         }
 

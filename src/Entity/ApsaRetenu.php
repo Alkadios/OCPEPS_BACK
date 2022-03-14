@@ -54,6 +54,11 @@ class ApsaRetenu
     #[Groups(['read:Critere'])]
     private $criteres;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $SituationEvaluation;
+
     public function __construct()
     {
         $this->criteres = new ArrayCollection();
@@ -114,6 +119,18 @@ class ApsaRetenu
                 $critere->setApsaRetenu(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSituationEvaluation(): ?string
+    {
+        return $this->SituationEvaluation;
+    }
+
+    public function setSituationEvaluation(string $SituationEvaluation): self
+    {
+        $this->SituationEvaluation = $SituationEvaluation;
 
         return $this;
     }

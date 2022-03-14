@@ -22,7 +22,7 @@ class ChampsApprentissageApsaRepository extends ServiceEntityRepository
     // /**
     //  * @return ChampsApprentissageApsa[] Returns an array of ChampsApprentissageApsa objects
     //  */
-    /*
+
     public function findByExampleField($value)
     {
         return $this->createQueryBuilder('c')
@@ -34,17 +34,34 @@ class ChampsApprentissageApsaRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?ChampsApprentissageApsa
+
+
+    public function findChamp($value): ?ChampsApprentissageApsa
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
+            ->andWhere('c.champ_apprentissage_id = :val')
             ->setParameter('val', $value)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
     }
-    */
+
+    public function deleteapsa($value): ?ChampsApprentissageApsa
+    {
+        $em = $this->get('doctrine')->getEntityManager();
+
+        return $this->createQueryBuilder('c')
+                ->delete( 'c')
+                ->leftJoin('c.apsa', 'a')
+                ->leftJoin('c.champ_apprentissage', 'ca')
+                ->where('c.apsa == apsa')
+                ->setParameter(':ca', $value)
+                ->getQuery()
+                ->getSQL()
+                ->execute();
+
+    }
+
+
+
 }

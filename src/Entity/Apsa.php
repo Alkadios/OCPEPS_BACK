@@ -45,6 +45,11 @@ class Apsa
      */
     private $champsApprentissageApsas;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ApsaSelectAnnee::class, mappedBy="Apsa")
+     */
+    private $apsaSelectAnnees;
+
 
 
 
@@ -52,6 +57,7 @@ class Apsa
     {
         $this->apsaRetenus = new ArrayCollection();
         $this->champsApprentissageApsas = new ArrayCollection();
+        $this->apsaSelectAnnees = new ArrayCollection();
 
     }
 
@@ -127,6 +133,36 @@ class Apsa
             // set the owning side to null (unless already changed)
             if ($champsApprentissageApsa->getApsa() === $this) {
                 $champsApprentissageApsa->setApsa(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ApsaSelectAnnee[]
+     */
+    public function getApsaSelectAnnees(): Collection
+    {
+        return $this->apsaSelectAnnees;
+    }
+
+    public function addApsaSelectAnnee(ApsaSelectAnnee $apsaSelectAnnee): self
+    {
+        if (!$this->apsaSelectAnnees->contains($apsaSelectAnnee)) {
+            $this->apsaSelectAnnees[] = $apsaSelectAnnee;
+            $apsaSelectAnnee->setApsa($this);
+        }
+
+        return $this;
+    }
+
+    public function removeApsaSelectAnnee(ApsaSelectAnnee $apsaSelectAnnee): self
+    {
+        if ($this->apsaSelectAnnees->removeElement($apsaSelectAnnee)) {
+            // set the owning side to null (unless already changed)
+            if ($apsaSelectAnnee->getApsa() === $this) {
+                $apsaSelectAnnee->setApsa(null);
             }
         }
 

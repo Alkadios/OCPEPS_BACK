@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Apsa;
+use App\Entity\ApsaSelectAnnee;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Apsa|null find($id, $lockMode = null, $lockVersion = null)
- * @method Apsa|null findOneBy(array $criteria, array $orderBy = null)
- * @method Apsa[]    findAll()
- * @method Apsa[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method ApsaSelectAnnee|null find($id, $lockMode = null, $lockVersion = null)
+ * @method ApsaSelectAnnee|null findOneBy(array $criteria, array $orderBy = null)
+ * @method ApsaSelectAnnee[]    findAll()
+ * @method ApsaSelectAnnee[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ApsaRepository extends ServiceEntityRepository
+class ApsaSelectAnneeRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Apsa::class);
+        parent::__construct($registry, ApsaSelectAnnee::class);
     }
 
     // /**
-    //  * @return Apsa[] Returns an array of Apsa objects
+    //  * @return ApsaSelectAnnee[] Returns an array of ApsaSelectAnnee objects
     //  */
     /*
     public function findByExampleField($value)
@@ -36,15 +36,15 @@ class ApsaRepository extends ServiceEntityRepository
     }
     */
 
-
-    public function findapsa($value): ?Apsa
+    /*
+    public function findOneBySomeField($value): ?ApsaSelectAnnee
     {
         return $this->createQueryBuilder('a')
-            ->Where('a.id = :val')
+            ->andWhere('a.exampleField = :val')
             ->setParameter('val', $value)
             ->getQuery()
             ->getOneOrNullResult()
         ;
     }
-
+    */
 }

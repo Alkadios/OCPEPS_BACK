@@ -8,8 +8,8 @@ use App\Entity\Annee;
 use App\Entity\Apsa;
 use App\Entity\ApsaRetenu;
 use App\Entity\ChampApprentissage;
+use App\Entity\ChampsApprentissageApsa;
 use App\Entity\ChoixAnnee;
-use App\Entity\Color;
 use App\Entity\Cycle;
 use App\Entity\NiveauScolaire;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -42,12 +42,11 @@ class AppFixtures extends Fixture
         $annee1->setAnne(new \DateTime('now'));;
         $manager->persist($annee1);
 
-        $color1 = new Color();
-        $color1->setLibelle("Bleue");
+
 
         $ChampApprentissage1 = new ChampApprentissage();
         $ChampApprentissage1->setLibelle("Artistique");
-        $ChampApprentissage1->setColor($color1);
+        $ChampApprentissage1->setColor("bleue");
         $manager->persist($ChampApprentissage1);
 
         $ChoixAnnee1 = new ChoixAnnee();
@@ -57,38 +56,39 @@ class AppFixtures extends Fixture
 
         $manager->persist($ChoixAnnee1);
 
+
+
         $Apsa1 = new Apsa();
-        $Apsa1->setChampApprentissage($ChampApprentissage1);
         $Apsa1->setLibelle("Foot");
         $manager->persist($Apsa1);
 
+
         $Apsa2 = new Apsa();
-        $Apsa2->setChampApprentissage($ChampApprentissage1);
         $Apsa2->setLibelle("Basketball");
         $manager->persist($Apsa2);
 
         $Apsa3 = new Apsa();
-        $Apsa3->setChampApprentissage($ChampApprentissage1);
         $Apsa3->setLibelle("Rugby");
         $manager->persist($Apsa3);
 
         $Apsa4 = new Apsa();
-        $Apsa4->setChampApprentissage($ChampApprentissage1);
         $Apsa4->setLibelle("Quiditch");
         $manager->persist($Apsa4);
 
 
         $Apsa5 = new Apsa();
-        $Apsa5->setChampApprentissage($ChampApprentissage1);
         $Apsa5->setLibelle("Volley");
         $manager->persist($Apsa5);
 
         $Apsa6 = new Apsa();
-        $Apsa6->setChampApprentissage($ChampApprentissage1);
         $Apsa6->setLibelle("Sprint");
         $manager->persist($Apsa6);
 
 
+        $ChampsApprentissageApsa1 = new ChampsApprentissageApsa();
+        $ChampsApprentissageApsa1->setApsa($Apsa1);
+        $ChampsApprentissageApsa1->setChampApprentissage($ChampApprentissage1);
+        $manager->persist($ChampsApprentissageApsa1);
 
         $Af1 = new Af();
         $Af1->setLibelle("Produire des efforts");
