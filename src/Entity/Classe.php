@@ -7,11 +7,16 @@ use App\Repository\ClasseRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ClasseRepository::class)
- * @ApiResource()
  */
+#[ApiResource(
+    normalizationContext: [
+        'groups' => ['read:eleve', 'read:cycle']
+    ]
+)]
 class Classe
 {
     /**
@@ -19,21 +24,25 @@ class Classe
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    #[Groups(['read:classe'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['read:classe'])]
     private $libelleClasse;
 
     /**
      * @ORM\OneToMany(targetEntity=Eleve::class, mappedBy="classe")
      */
+    #[Groups(['read:eleve'])]
     private $Eleve;
 
     /**
      * @ORM\ManyToOne(targetEntity=Cycle::class, inversedBy="classes")
      */
+    #[Groups(['read:cycle'])]
     private $cycle;
 
     public function __construct()

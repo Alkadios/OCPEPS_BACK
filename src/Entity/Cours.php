@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\CoursRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=CoursRepository::class)
@@ -17,16 +18,19 @@ class Cours
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    #[Groups(['read:cours'])]
     private $id;
 
     /**
      * @ORM\Column(type="time")
      */
+    #[Groups(['read:cours'])]
     private $heureDebut;
 
     /**
      * @ORM\Column(type="time")
      */
+    #[Groups(['read:cours'])]
     private $heureFin;
 
     /**
@@ -37,6 +41,7 @@ class Cours
     /**
      * @ORM\ManyToOne(targetEntity=InstallationSportive::class, inversedBy="Cours")
      */
+    #[Groups(['read:cours'])]
     private $installationSportive;
 
     public function getId(): ?int

@@ -7,11 +7,17 @@ use App\Repository\CycleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=CycleRepository::class)
  * @ApiResource()
  */
+#[ApiResource(
+    normalizationContext: [
+        'groups' => ['read:niveauScolaire', 'read:classe']
+    ]
+)]
 class Cycle
 {
     /**
@@ -19,21 +25,25 @@ class Cycle
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    #[Groups(['read:niveauScolaire', 'read:cycle'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['read:niveauScolaire', 'read:cycle'])]
     private $libelle;
 
     /**
      * @ORM\OneToMany(targetEntity=NiveauScolaire::class, mappedBy="cycle")
      */
+    #[Groups(['read:niveauScolaire'])]
     private $niveauScolaires;
 
     /**
      * @ORM\OneToMany(targetEntity=Classe::class, mappedBy="cycle")
      */
+    #[Groups(['read:classe'])]
     private $classes;
 
     public function __construct()
