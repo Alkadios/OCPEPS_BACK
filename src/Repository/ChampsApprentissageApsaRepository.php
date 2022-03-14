@@ -36,15 +36,32 @@ class ChampsApprentissageApsaRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?ChampsApprentissageApsa
+
+    public function findChamp($value): ?ChampsApprentissageApsa
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
+            ->andWhere('c.champ_apprentissage_id = :val')
             ->setParameter('val', $value)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
     }
-    */
+
+    public function deletechampsApsa($value): ?ChampsApprentissageApsa
+    {
+        $champsApsa = array(...);
+
+        return $this->createQueryBuilder('c')
+                ->delete('AppBundle:ChampsApprentissageApsa', 'c')
+                ->join('c.apsa_id', 'a')
+                ->where('c.apsa_id == a.apsa_id')
+                ->andwhere('c.apsa in (:champsApsa)')
+                ->setParameter(':Ca', $champsApsa)
+                ->getQuery()
+                ->getSQL()
+                ->execute();
+
+    }
+
+
+
 }

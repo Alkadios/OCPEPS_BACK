@@ -22,19 +22,16 @@ class ChampApprentissageRepository extends ServiceEntityRepository
     // /**
     //  * @return ChampApprentissage[] Returns an array of ChampApprentissage objects
     //  */
-    /*
-    public function findByExampleField($value)
+
+    public function findChampsApp($value)
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
+            ->Where('c.id = :val')
             ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    */
+
 
     /*
     public function findOneBySomeField($value): ?ChampApprentissage

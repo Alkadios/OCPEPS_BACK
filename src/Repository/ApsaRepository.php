@@ -36,15 +36,15 @@ class ApsaRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?Apsa
+
+    public function findapsa($value): ?Apsa
     {
         return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
+            ->Where('a.id = :val')
             ->setParameter('val', $value)
             ->getQuery()
             ->getOneOrNullResult()
         ;
     }
-    */
+
 }
