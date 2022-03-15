@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Controller\ApsaChampApprentissageController;
 use App\Repository\ChampApprentissageRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -13,6 +14,16 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity(repositoryClass=ChampApprentissageRepository::class)
  */
 #[ApiResource(
+    collectionOperations: [
+        'getApsa' => [
+            'method' => 'GET',
+            'path' => '/posts/getApsa',
+            'controller' => ApsaChampApprentissageController::class,
+            'openapi_context' => [
+                'summary' => 'Get les APSA de ChampApprentissage'
+]
+        ]
+    ],
     normalizationContext: [
         'groups' => ['read:apsa', 'read:champapprentissage'],
     ]
