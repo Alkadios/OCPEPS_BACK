@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\NiveauScolaireRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -11,8 +13,15 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=NiveauScolaireRepository::class)
- * @ApiResource()
  */
+#[ApiResource(
+    normalizationContext: [
+        'groups' => ['read:niveauScolaire', 'read:cycle']
+    ],
+    paginationEnabled: false
+)]
+
+#[ApiFilter(SearchFilter::class, properties: ['cycle.id' => 'exact'])]
 class NiveauScolaire
 {
     /**
@@ -32,6 +41,7 @@ class NiveauScolaire
     /**
      * @ORM\ManyToOne(targetEntity=Cycle::class, inversedBy="niveauScolaires")
      */
+    #[Groups(['read:cycle'])]
     private $cycle;
 
     /**

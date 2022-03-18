@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\ChampApprentissage;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -30,6 +31,26 @@ class ChampApprentissageRepository extends ServiceEntityRepository
             ->setParameter('val', $value)
             ->getQuery()
             ->getResult();
+    }
+
+    public function findApsa()
+    {
+
+        $query = $this->getEntityManager()->createQuery("
+        SELECT apsa.libelle 
+        FROM App\Entity\ChampApprentissage as champ_apprentissage
+        JOIN App\Entity\ChampsApprentissageApsa as champsapprentissageapsa WITH champ_apprentissage.id = champsapprentissageapsa.ChampApprentissage 
+        JOIN App\Entity\Apsa as apsa WITH champsapprentissageapsa.Apsa = apsa.id
+        ");
+//        return $this->createQueryBuilder('apsa')
+//            ->select('*')
+//            ->from('ChampApprentissage', 'ca')
+//            ->innerJoin('ChampsApprentissageApsa', 'caapsa', 'ON', 'ca.id = caapsa.champ_apprentissage_id')
+//            ->innerJoin('Apsa', 'apsa', 'ON', 'caapsa.apsa_id = apsa.id')
+//            ->getQuery();
+        $query->execute();
+
+        return $query->getArrayResult();
     }
 
 

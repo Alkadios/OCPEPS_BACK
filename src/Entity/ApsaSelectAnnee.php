@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\ApsaSelectAnneeRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ApsaSelectAnneeRepository::class)
@@ -17,8 +18,12 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *      fields={"apsa_id", "ca_id" , "annee_id"},
  *      message="ApsaSelectAnnee for given country already exists in database."
  * )
- * @ApiResource()
  */
+#[ApiResource(
+    normalizationContext: [
+        'groups' => ['read:apsaSelectAnne', 'read:caId', 'read:apsaId', 'read:apsaLibelle']
+    ]
+)]
 class ApsaSelectAnnee
 {
     /**
@@ -31,11 +36,13 @@ class ApsaSelectAnnee
     /**
      * @ORM\ManyToOne(targetEntity=ChampApprentissage::class, inversedBy="apsaSelectAnnees")
      */
+    #[Groups(['read:caId'])]
     private $Ca;
 
     /**
      * @ORM\ManyToOne(targetEntity=Apsa::class, inversedBy="apsaSelectAnnees")
      */
+    #[Groups(['read:apsaSelectAnne'])]
     private $Apsa;
 
     /**
