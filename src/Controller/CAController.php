@@ -28,18 +28,16 @@ class CAController extends AbstractController
 
 
     /**
-     * @Route("api/retirerApsa/{id}", name="retirerApsa", methods={"DELETE"})
+     * @Route("api/deleteApsa/{id}", name="deleteApsa", methods={"DELETE"})
      */
-    public function Apsa( ChampsApprentissageApsaRepository $champsApprentissageApsaRepository ,ApsaRepository $apsarep, ChampApprentissage $ca,ChampApprentissageRepository $champrep): Response
+    public function Apsa(ChampsApprentissageApsaRepository $champsApprentissageApsaRepository, ChampApprentissage $ca): Response
     {
-
-        $champsApprentissageApsaRepository->deleteapsaQuery($ca);
+        $res = $champsApprentissageApsaRepository->deleteApsa($ca);
 
         $jsonres=  [];
                 array_push($jsonres, [ ]);
 
-
-        return new JsonResponse(array("ApsaSelectionner" => $jsonres), 200);
+        return new JsonResponse(array("ApsaSelectionner" => $jsonres, "res" => $res), 200);
 
     }
 

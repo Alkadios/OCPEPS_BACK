@@ -48,32 +48,29 @@ class ChampsApprentissageApsaRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
-    public function deleteapsa($value): ?ChampsApprentissageApsa
-    {
+//    public function deleteapsa($value): ?ChampsApprentissageApsa
+//    {
+//
+//        return $this->createQueryBuilder('c')
+//                ->delete( 'c')
+//                ->leftJoin('c.apsa', 'a')
+//                ->leftJoin('c.champ_apprentissage', 'ca')
+//                ->where('c.apsa == apsa')
+//                ->setParameter(':champs', $value)
+//                ->getQuery()
+//                ->getSQL()
+//                ->execute();
+//
+//    }
 
-        return $this->createQueryBuilder('c')
-                ->delete( 'c')
-                ->leftJoin('c.apsa', 'a')
-                ->leftJoin('c.champ_apprentissage', 'ca')
-                ->where('c.apsa == apsa')
-                ->setParameter(':champs', $value)
-                ->getQuery()
-                ->getSQL()
-                ->execute();
-
-    }
-
-
-    public function deleteapsaQuery($value): ?ChampsApprentissageApsa
+    public function deleteApsa($value): string|int
     {
         $query = $this->getEntityManager()->createQuery('
-            DELETE FROM App\Entity\ChampsApprentissageApsa
-            WHERE App\Entity\ChampApprentissage.id = :ca
-           ')->setParameter('ca', $value);;
+            DELETE FROM App\Entity\ChampsApprentissageApsa as champapprentissageapsa
+            WHERE champapprentissageapsa.id = :ca
+           ')->setParameter('ca', $value);
 
-        // returns an array of Product objects
-        return $query->getResult();
-
+        return $query->execute();
     }
 
 
