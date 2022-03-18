@@ -17,12 +17,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
     collectionOperations: [
         'getApsa' => [
             'method' => 'GET',
-            'path' => '/posts/getApsa',
+            'path' => '/getApsa',
             'controller' => ApsaChampApprentissageController::class,
             'openapi_context' => [
                 'summary' => 'Get les APSA de ChampApprentissage'
 ]
-        ]
+        ],
+        'get'
     ],
     normalizationContext: [
         'groups' => ['read:apsa', 'read:champapprentissage'],
