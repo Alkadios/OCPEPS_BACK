@@ -3,8 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\ChampsApprentissageApsa;
+use App\Entity\ChampApprentissage;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+
 
 /**
  * @method ChampsApprentissageApsa|null find($id, $lockMode = null, $lockVersion = null)
@@ -48,17 +50,29 @@ class ChampsApprentissageApsaRepository extends ServiceEntityRepository
 
     public function deleteapsa($value): ?ChampsApprentissageApsa
     {
-        $em = $this->get('doctrine')->getEntityManager();
 
         return $this->createQueryBuilder('c')
                 ->delete( 'c')
                 ->leftJoin('c.apsa', 'a')
                 ->leftJoin('c.champ_apprentissage', 'ca')
                 ->where('c.apsa == apsa')
-                ->setParameter(':ca', $value)
+                ->setParameter(':champs', $value)
                 ->getQuery()
                 ->getSQL()
                 ->execute();
+
+    }
+
+
+    public function deleteapsaQuery($value): ?ChampsApprentissageApsa
+    {
+        $query = $this->getEntityManager()->createQuery('
+            DELETE FROM App\Entity\ChampsApprentissageApsa
+            WHERE App\Entity\ChampApprentissage.id = :ca
+           ')->setParameter('ca', $value);;
+
+        // returns an array of Product objects
+        return $query->getResult();
 
     }
 

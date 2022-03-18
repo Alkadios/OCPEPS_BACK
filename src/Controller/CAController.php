@@ -33,7 +33,7 @@ class CAController extends AbstractController
     public function Apsa( ChampsApprentissageApsaRepository $champsApprentissageApsaRepository ,ApsaRepository $apsarep, ChampApprentissage $ca,ChampApprentissageRepository $champrep): Response
     {
 
-        $champsApprentissageApsaRepository->deleteapsa($ca);
+        $champsApprentissageApsaRepository->deleteapsaQuery($ca);
 
         $jsonres=  [];
                 array_push($jsonres, [ ]);

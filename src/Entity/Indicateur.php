@@ -20,13 +20,11 @@ class Indicateur
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:indicateurCritere'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:indicateurCritere'])]
     private $libelle;
 
     /**
@@ -35,14 +33,10 @@ class Indicateur
     private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity=IndicateurCritere::class, mappedBy="Indicateur")
+     * @ORM\ManyToOne(targetEntity=ApsaRetenu::class, inversedBy="indicateurs")
      */
-    private $indicateurCriteres;
+    private $ApsaRetenu;
 
-    public function __construct()
-    {
-        $this->indicateurCriteres = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -73,33 +67,17 @@ class Indicateur
         return $this;
     }
 
-    /**
-     * @return Collection|IndicateurCritere[]
-     */
-    public function getIndicateurCriteres(): Collection
+    public function getApsaRetenu(): ?ApsaRetenu
     {
-        return $this->indicateurCriteres;
+        return $this->ApsaRetenu;
     }
 
-    public function addIndicateurCritere(IndicateurCritere $indicateurCritere): self
+    public function setApsaRetenu(?ApsaRetenu $ApsaRetenu): self
     {
-        if (!$this->indicateurCriteres->contains($indicateurCritere)) {
-            $this->indicateurCriteres[] = $indicateurCritere;
-            $indicateurCritere->setIndicateur($this);
-        }
+        $this->ApsaRetenu = $ApsaRetenu;
 
         return $this;
     }
 
-    public function removeIndicateurCritere(IndicateurCritere $indicateurCritere): self
-    {
-        if ($this->indicateurCriteres->removeElement($indicateurCritere)) {
-            // set the owning side to null (unless already changed)
-            if ($indicateurCritere->getIndicateur() === $this) {
-                $indicateurCritere->setIndicateur(null);
-            }
-        }
 
-        return $this;
-    }
 }

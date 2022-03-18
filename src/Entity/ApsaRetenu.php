@@ -48,20 +48,22 @@ class ApsaRetenu
     #[Groups(['read:AfRetenu'])]
     private $AfRetenu;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Critere::class, mappedBy="ApsaRetenu")
-     */
-    #[Groups(['read:Critere'])]
-    private $criteres;
+
 
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $SituationEvaluation;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Indicateur::class, mappedBy="ApsaRetenu")
+     */
+    private $indicateurs;
+
     public function __construct()
     {
         $this->criteres = new ArrayCollection();
+        $this->indicateurs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -93,35 +95,6 @@ class ApsaRetenu
         return $this;
     }
 
-    /**
-     * @return Collection|Critere[]
-     */
-    public function getCriteres(): Collection
-    {
-        return $this->criteres;
-    }
-
-    public function addCritere(Critere $critere): self
-    {
-        if (!$this->criteres->contains($critere)) {
-            $this->criteres[] = $critere;
-            $critere->setApsaRetenu($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCritere(Critere $critere): self
-    {
-        if ($this->criteres->removeElement($critere)) {
-            // set the owning side to null (unless already changed)
-            if ($critere->getApsaRetenu() === $this) {
-                $critere->setApsaRetenu(null);
-            }
-        }
-
-        return $this;
-    }
 
     public function getSituationEvaluation(): ?string
     {
@@ -131,6 +104,36 @@ class ApsaRetenu
     public function setSituationEvaluation(string $SituationEvaluation): self
     {
         $this->SituationEvaluation = $SituationEvaluation;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Indicateur>
+     */
+    public function getIndicateurs(): Collection
+    {
+        return $this->indicateurs;
+    }
+
+    public function addIndicateur(Indicateur $indicateur): self
+    {
+        if (!$this->indicateurs->contains($indicateur)) {
+            $this->indicateurs[] = $indicateur;
+            $indicateur->setApsaRetenu($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIndicateur(Indicateur $indicateur): self
+    {
+        if ($this->indicateurs->removeElement($indicateur)) {
+            // set the owning side to null (unless already changed)
+            if ($indicateur->getApsaRetenu() === $this) {
+                $indicateur->setApsaRetenu(null);
+            }
+        }
 
         return $this;
     }
