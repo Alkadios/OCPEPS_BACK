@@ -20,9 +20,18 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * )
  */
 #[ApiResource(
-    normalizationContext: [
-        'groups' => ['read:apsaSelectAnne', 'read:caId', 'read:apsaId','write:caId','write:apsaId', 'write:annee','read:apsaLibelle']
-    ],
+    collectionOperations: [
+        'get' => [
+            'normalization_context' => [
+                'groups' => ['read:apsaSelectAnne', 'read:caId', 'read:apsaId', 'read:apsaLibelle']
+            ]
+        ],
+        'post' => [
+            'denormalization_context' => [
+                'groups' => ['post:apsaSelectAnnee']
+            ]
+        ]
+    ]
 )]
 class ApsaSelectAnnee
 {
@@ -36,19 +45,19 @@ class ApsaSelectAnnee
     /**
      * @ORM\ManyToOne(targetEntity=ChampApprentissage::class, inversedBy="apsaSelectAnnees")
      */
-    #[Groups(['read:caId' , 'write:caId'])]
+    #[Groups(['read:caId' , 'write:caId', 'post:apsaSelectAnnee'])]
     private $Ca;
 
     /**
      * @ORM\ManyToOne(targetEntity=Apsa::class, inversedBy="apsaSelectAnnees")
      */
-    #[Groups(['read:apsaSelectAnne', 'write:apsaId'])]
+    #[Groups(['read:apsaSelectAnne', 'write:apsaId', 'post:apsaSelectAnnee'])]
     private $Apsa;
 
     /**
      * @ORM\ManyToOne(targetEntity=Annee::class, inversedBy="apsaSelectAnnees")
      */
-    #[Groups(['write:annee'])]
+    #[Groups(['write:annee', 'post:apsaSelectAnnee'])]
     private $Annee;
 
     public function getId(): ?int

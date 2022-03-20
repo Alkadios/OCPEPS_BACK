@@ -36,7 +36,7 @@ class ChampApprentissage
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:apsa', 'read:champapprentissage', 'read:ca', 'read:caId'])]
+    #[Groups(['read:apsa', 'read:champapprentissage', 'read:ca', 'read:caId', 'post:apsaSelectAnnee'])]
     private $id;
 
     /**
