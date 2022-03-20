@@ -15,13 +15,16 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *      uniqueConstraints={@ORM\UniqueConstraint(columns={"apsa_id", "ca_id" ,"annee_id"})}
  * )
  * @UniqueEntity(
- *      fields={"apsa_id", "ca_id" , "annee_id"},
+ *      fields={"Apsa", "Ca" , "Annee"},
  *      message="ApsaSelectAnnee for given country already exists in database."
  * )
  */
 #[ApiResource(
     normalizationContext: [
-        'groups' => ['read:apsaSelectAnne', 'read:caId', 'read:apsaId', 'read:apsaLibelle']
+        'groups' => ['read:apsaSelectAnne', 'read:caId', 'read:apsaId','write:caId','write:apsaId', 'write:annee','read:apsaLibelle']
+    ],
+    denormalizationContext: [
+        'groups' => ['ApsaSelect'],
     ]
 )]
 class ApsaSelectAnnee
@@ -31,23 +34,25 @@ class ApsaSelectAnnee
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    #[Groups(['ApsaSelect'])]
     private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=ChampApprentissage::class, inversedBy="apsaSelectAnnees")
      */
-    #[Groups(['read:caId'])]
+    #[Groups(['read:caId' , 'write:caId', 'ApsaSelect'])]
     private $Ca;
 
     /**
      * @ORM\ManyToOne(targetEntity=Apsa::class, inversedBy="apsaSelectAnnees")
      */
-    #[Groups(['read:apsaSelectAnne'])]
+    #[Groups(['read:apsaSelectAnne', 'write:apsaId' , 'ApsaSelect'])]
     private $Apsa;
 
     /**
      * @ORM\ManyToOne(targetEntity=Annee::class, inversedBy="apsaSelectAnnees")
      */
+    #[Groups(['write:annee' , 'ApsaSelect'])]
     private $Annee;
 
     public function getId(): ?int

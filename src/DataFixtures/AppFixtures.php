@@ -176,22 +176,26 @@ class AppFixtures extends Fixture
         $ApsaRetenu1 = new ApsaRetenu();
         $ApsaRetenu1->setAfRetenu($AfRetenu2);
         $ApsaRetenu1->setApsa($Apsa3);
+        $ApsaRetenu1->setSituationEvaluation("t'es nul mec");
         $manager->persist($ApsaRetenu1);
 
-        $ApsaRetenu1 = new ApsaRetenu();
-        $ApsaRetenu1->setAfRetenu($AfRetenu2);
-        $ApsaRetenu1->setApsa($Apsa4);
-        $manager->persist($ApsaRetenu1);
+        $ApsaRetenu2 = new ApsaRetenu();
+        $ApsaRetenu2->setAfRetenu($AfRetenu2);
+        $ApsaRetenu2->setApsa($Apsa4);
+        $ApsaRetenu2->setSituationEvaluation("trop for");
+        $manager->persist($ApsaRetenu2);
 
-        $ApsaRetenu1 = new ApsaRetenu();
-        $ApsaRetenu1->setAfRetenu($AfRetenu2);
-        $ApsaRetenu1->setApsa($Apsa5);
-        $manager->persist($ApsaRetenu1);
+        $ApsaRetenu3 = new ApsaRetenu();
+        $ApsaRetenu3->setAfRetenu($AfRetenu2);
+        $ApsaRetenu3->setApsa($Apsa5);
+        $ApsaRetenu3->setSituationEvaluation("megachaud");
+        $manager->persist($ApsaRetenu3);
 
-        $ApsaRetenu1 = new ApsaRetenu();
-        $ApsaRetenu1->setAfRetenu($AfRetenu2);
-        $ApsaRetenu1->setApsa($Apsa6);
-        $manager->persist($ApsaRetenu1);
+        $ApsaRetenu4 = new ApsaRetenu();
+        $ApsaRetenu4->setAfRetenu($AfRetenu2);
+        $ApsaRetenu4->setApsa($Apsa6);
+        $ApsaRetenu4->setSituationEvaluation("GIGACHAD");
+        $manager->persist($ApsaRetenu4);
 
 
 

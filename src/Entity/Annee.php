@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=AnneeRepository::class)
- * @ApiResource()
  */
+#[ApiResource()]
 class Annee
 {
     /**

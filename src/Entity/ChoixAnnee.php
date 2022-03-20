@@ -17,7 +17,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *      uniqueConstraints={@ORM\UniqueConstraint(columns={"niveau_id", "annee_id","champ_apprentissage_id"})}
  * )
  * @UniqueEntity(
- *      fields={"niveau_id","annee_id","champ_apprentissage_id"},
+ *      fields={"Niveau","Annee","champApprentissage"},
  *      message="ChoixAnnee for given country already exists in database."
  * )
  * @ApiResource()
