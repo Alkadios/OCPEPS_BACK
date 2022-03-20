@@ -20,8 +20,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * )
  */
 #[ApiResource(
-    normalizationContext: [
-        'groups' => ['read:apsaSelectAnne', 'read:caId', 'read:apsaId', 'read:apsaLibelle']
+    collectionOperations: [
+        'get' => [
+            'normalization_context' => [
+                'groups' => ['read:apsaSelectAnne', 'read:caId', 'read:apsaId', 'read:apsaLibelle']
+            ]
+        ],
+        'post'
     ]
 )]
 class ApsaSelectAnnee
