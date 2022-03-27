@@ -21,8 +21,17 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * )
  */
 #[ApiResource(
-    normalizationContext: [
-        'groups' => ['read:apsa', 'read:champapprentissage'],
+    collectionOperations: [
+        'get' => [
+            'noarmalization_context' => [
+                'groups' => ['read:apsa', 'read:champapprentissage'],
+            ]
+        ],
+        'post' => [
+            'denormalization_context' => [
+                'groups' => ['post:ChampsApprentissageApsa']
+            ]
+        ]
     ]
 )]
 class ChampsApprentissageApsa
@@ -37,13 +46,13 @@ class ChampsApprentissageApsa
     /**
      * @ORM\ManyToOne(targetEntity=Apsa::class, inversedBy="champsApprentissageApsas")
      */
-    #[Groups('read:apsa')]
+    #[Groups(['read:apsa', 'post:ChampsApprentissageApsa'])]
     private $Apsa;
 
     /**
      * @ORM\ManyToOne(targetEntity=ChampApprentissage::class, inversedBy="champsApprentissageApsas")
      */
-    #[Groups('read:champapprentissage')]
+    #[Groups(['read:champapprentissage', 'post:ChampsApprentissageApsa'])]
     private $ChampApprentissage;
 
     public function getId(): ?int
