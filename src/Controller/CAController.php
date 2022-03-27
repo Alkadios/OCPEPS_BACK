@@ -11,6 +11,7 @@ use App\Entity\Utilisateur;
 use App\Repository\ApsaRepository;
 use App\Repository\ChampApprentissageRepository;
 use App\Repository\ChampsApprentissageApsaRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\UtilisateurRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -28,16 +29,46 @@ class CAController extends AbstractController
 
 
     /**
-     * @Route("api/deleteApsa/{id}", name="deleteApsa", methods={"DELETE"})
+     * @Route("api/deleteApsa/{id}", name="deleteApsa", methods={"POST"})
      */
-    public function Apsa(ChampsApprentissageApsaRepository $champsApprentissageApsaRepository, ChampApprentissage $ca): Response
+    public function Apsa(ChampsApprentissageApsaRepository $champsApprentissageApsaRepository, ApsaRepository $apsaRepository ,Request $request ,ChampApprentissage $ca ,  EntityManagerInterface $manager): Response
     {
-        $res = $champsApprentissageApsaRepository->deleteApsa($ca);
+
+
+        $champsapsa = $champsApprentissageApsaRepository->findBy(["ChampApprentissage" => $ca]);
+        $ListChampsApsa= $champsApprentissageApsaRepository->findAll();
 
         $jsonres=  [];
-                array_push($jsonres, [ ]);
 
-        return new JsonResponse(array("ApsaSelectionner" => $jsonres, "res" => $res), 200);
+
+        foreach ($champsapsa as $champs)
+        {
+            if ($ca) {
+                $manager->remove($champs);
+                $manager->flush($ca);
+            }
+        }
+
+
+            $donnees = json_decode($request->getContent());
+            $apsa_id = $donnees->Apsa;
+
+            if (
+                isset($apsa_id)
+            ) {
+                $apsa_id2 = $apsaRepository->find($apsa_id);
+                $ChampsApsa = new ChampsApprentissageApsa();
+                $ChampsApsa->setApsa($apsa_id2);
+                $ChampsApsa->setChampApprentissage($ca);
+                $manager->persist($ChampsApsa);
+                $manager->flush();
+
+
+         }
+
+
+
+        return new JsonResponse(array("Suppression" => $jsonres), 200);
 
     }
 
