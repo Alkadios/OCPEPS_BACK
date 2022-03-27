@@ -22,8 +22,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * )
  */
 #[ApiResource(
-    normalizationContext: [
-        'groups' => ['read:AfRetenu', 'read:Af', 'read:ApsaRetenu', 'read:Apsa', 'read:ca'],
+    collectionOperations: [
+        'get' => [
+            'normalization_context' => [
+                'groups' => ['read:AfRetenu', 'read:Af', 'read:ApsaRetenu', 'read:Apsa', 'read:ca']
+            ]
+        ],
+        'post'
     ]
 )]
 class AfRetenu
