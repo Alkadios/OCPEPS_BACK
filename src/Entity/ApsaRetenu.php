@@ -22,8 +22,17 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * )
  */
 #[ApiResource(
-    normalizationContext: [
-        'groups' => ['read:Apsa', 'read:AfRetenu', 'read:Critere']
+    collectionOperations: [
+        'get' => [
+            'normalization_context' => [
+                'groups' => ['read:Apsa', 'read:AfRetenu', 'read:Critere']
+            ]
+        ],
+        'post' => [
+            'denormalization_context' => [
+                'groups' => ['post:ApsaRetenu']
+            ]
+        ]
     ]
 )]
 class ApsaRetenu
@@ -39,13 +48,13 @@ class ApsaRetenu
     /**
      * @ORM\ManyToOne(targetEntity=Apsa::class, inversedBy="apsaRetenus")
      */
-    #[Groups(['read:ApsaRetenu', 'read:Apsa'])]
+    #[Groups(['read:ApsaRetenu', 'read:Apsa', 'post:ApsaRetenu'])]
     private $Apsa;
 
     /**
      * @ORM\ManyToOne(targetEntity=AfRetenu::class, inversedBy="apsaRetenus")
      */
-    #[Groups(['read:AfRetenu'])]
+    #[Groups(['read:AfRetenu', 'post:ApsaRetenu'])]
     private $AfRetenu;
 
 
@@ -53,6 +62,7 @@ class ApsaRetenu
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['post:ApsaRetenu'])]
     private $SituationEvaluation;
 
     /**
