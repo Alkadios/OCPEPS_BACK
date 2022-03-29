@@ -14,8 +14,17 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ApiResource()
  */
 #[ApiResource(
-    normalizationContext: [
-        'groups' => ['read:champ_apprentissage'],
+    collectionOperations: [
+        'get' => [
+            'normalization_context' => [
+                'groups' => ['read:champ_apprentissage']
+            ]
+        ],
+        'post' => [
+            'denormalization_context' => [
+                'groups' => ['post:Apsa']
+            ]
+        ]
     ]
 )]
 class Apsa
@@ -25,13 +34,13 @@ class Apsa
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:apsa', 'read:champ_apprentissage', 'read:Apsa', 'read:apsaId'])]
+    #[Groups(['read:apsa', 'read:champ_apprentissage', 'read:Apsa', 'read:apsaId', 'post:apsaSelectAnnee'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:apsa', 'read:champ_apprentissage', 'read:Apsa', 'read:apsaLibelle'])]
+    #[Groups(['read:apsa', 'read:champ_apprentissage', 'read:Apsa', 'read:apsaLibelle', 'post:Apsa'])]
     private $libelle;
 
 

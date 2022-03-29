@@ -7,6 +7,7 @@ use App\Repository\AnneeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=AnneeRepository::class)
@@ -19,6 +20,7 @@ class Annee
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    #[Groups(['post:apsaSelectAnnee'])]
     private $id;
 
     /**

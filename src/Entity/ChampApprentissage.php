@@ -23,10 +23,16 @@ use Symfony\Component\Serializer\Annotation\Groups;
                 'summary' => 'Get les APSA de ChampApprentissage'
 ]
         ],
-        'get'
-    ],
-    normalizationContext: [
-        'groups' => ['read:apsa', 'read:champapprentissage'],
+        'get' => [
+            'normalization_context' => [
+                'groups' => ['read:apsa', 'read:champapprentissage']
+            ]
+        ],
+        'post' => [
+            'denormalization_context' => [
+                'groups' => ['psot:ChampApprentissage']
+            ]
+        ]
     ]
 )]
 class ChampApprentissage
@@ -36,13 +42,13 @@ class ChampApprentissage
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:apsa', 'read:champapprentissage', 'read:ca', 'read:caId'])]
+    #[Groups(['read:apsa', 'read:champapprentissage', 'read:ca', 'read:caId', 'post:apsaSelectAnnee'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:apsa', 'read:champapprentissage'])]
+    #[Groups(['read:apsa', 'read:champapprentissage', 'psot:ChampApprentissage'])]
     private $libelle;
 
     /**
@@ -54,7 +60,7 @@ class ChampApprentissage
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:apsa', 'read:champapprentissage'])]
+    #[Groups(['read:apsa', 'read:champapprentissage', 'psot:ChampApprentissage'])]
     private $color;
 
     /**
