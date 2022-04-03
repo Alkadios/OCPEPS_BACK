@@ -29,46 +29,44 @@ class CAController extends AbstractController
 
 
     /**
-     * @Route("api/deleteApsa/{id}", name="deleteApsa", methods={"POST"})
+     * @Route("api/deleteApsaAndReplace/{id}", name="deleteApsa", methods={"POST"})
      */
     public function Apsa(ChampsApprentissageApsaRepository $champsApprentissageApsaRepository, ApsaRepository $apsaRepository ,Request $request ,ChampApprentissage $ca ,  EntityManagerInterface $manager): Response
     {
 
-
         $champsapsa = $champsApprentissageApsaRepository->findBy(["ChampApprentissage" => $ca]);
-        $ListChampsApsa= $champsApprentissageApsaRepository->findAll();
 
-        $jsonres=  [];
+        $jsonres = [];
 
 
-        foreach ($champsapsa as $champs)
-        {
+        foreach ($champsapsa as $champs) {
             if ($ca) {
                 $manager->remove($champs);
                 $manager->flush($ca);
+
             }
         }
 
+        $donnees = json_decode($request->getContent());
+        foreach ($donnees as $donnee) {
+            $apsa_id = $donnee->Apsa;
 
-            $donnees = json_decode($request->getContent());
-            $apsa_id = $donnees->Apsa;
+            $NewChampsApsa = new ChampsApprentissageApsa();
 
             if (
                 isset($apsa_id)
             ) {
                 $apsa_id2 = $apsaRepository->find($apsa_id);
-                $ChampsApsa = new ChampsApprentissageApsa();
-                $ChampsApsa->setApsa($apsa_id2);
-                $ChampsApsa->setChampApprentissage($ca);
-                $manager->persist($ChampsApsa);
+                $NewChampsApsa->setApsa($apsa_id2);
+                $NewChampsApsa->setChampApprentissage($ca);
+                $manager->persist($NewChampsApsa);
                 $manager->flush();
+                array_push($jsonres, ["id" => $NewChampsApsa->getId(), "caId" => $NewChampsApsa->getChampApprentissage()->getId(), "apsaId" => $NewChampsApsa->getApsa()->getId()]);
 
 
-         }
-
-
-
-        return new JsonResponse(array("Suppression" => $jsonres), 200);
+            }
+        }
+        return new JsonResponse(array("ApprentissageApsa" => $jsonres), 200);
 
     }
 
