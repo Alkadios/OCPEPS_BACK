@@ -37,6 +37,16 @@ class Indicateur
      */
     private $ApsaRetenu;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $url_video;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $image;
+
 
     public function getId(): ?int
     {
@@ -78,6 +88,32 @@ class Indicateur
 
         return $this;
     }
+
+    public function getUrlVideo(): ?string
+    {
+        return $this->url_video;
+    }
+
+    public function setUrlVideo(?string $url_video): self
+    {
+        $this->url_video = $url_video;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+
 
 
 }
