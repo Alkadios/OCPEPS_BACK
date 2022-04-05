@@ -13,7 +13,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity(repositoryClass=ApsaRetenuRepository::class)
  * @ORM\Table(
- *      name="apsaretenu",
+ *      name="apsa_retenu",
  *      uniqueConstraints={@ORM\UniqueConstraint(columns={"apsa_id", "af_retenu_id"})}
  * )
  * @UniqueEntity(
