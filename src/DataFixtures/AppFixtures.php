@@ -39,7 +39,7 @@ class AppFixtures extends Fixture
         $manager->persist($NiveauScolaire2);
 
         $annee1 = new Annee();
-        $annee1->setAnne(new \DateTime('now'));;
+        $annee1->setAnnee(new \DateTime('now'));;
         $manager->persist($annee1);
 
 

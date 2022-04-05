@@ -24,9 +24,9 @@ class Annee
     private $id;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="string", length=255)
      */
-    private $anne;
+    private $annee;
 
     /**
      * @ORM\OneToMany(targetEntity=ChoixAnnee::class, mappedBy="Annee")
@@ -49,14 +49,14 @@ class Annee
         return $this->id;
     }
 
-    public function getAnne(): ?\DateTimeInterface
+    public function getAnnee(): ?string
     {
-        return $this->anne;
+        return $this->annee;
     }
 
-    public function setAnne(\DateTimeInterface $anne): self
+    public function setAnnee(string $annee): self
     {
-        $this->anne = $anne;
+        $this->annee = $annee;
 
         return $this;
     }

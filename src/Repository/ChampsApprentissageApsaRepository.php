@@ -67,7 +67,7 @@ class ChampsApprentissageApsaRepository extends ServiceEntityRepository
     {
         $query = $this->getEntityManager()->createQuery('
             DELETE FROM App\Entity\ChampsApprentissageApsa as champapprentissageapsa
-            WHERE champapprentissageapsa.id = :ca
+            WHERE champapprentissageapsa = :ca
            ')->setParameter('ca', $value);
 
         return $query->execute();

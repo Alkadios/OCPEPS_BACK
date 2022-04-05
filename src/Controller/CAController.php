@@ -11,6 +11,7 @@ use App\Entity\Utilisateur;
 use App\Repository\ApsaRepository;
 use App\Repository\ChampApprentissageRepository;
 use App\Repository\ChampsApprentissageApsaRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\UtilisateurRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -28,16 +29,44 @@ class CAController extends AbstractController
 
 
     /**
-     * @Route("api/deleteApsa/{id}", name="deleteApsa", methods={"DELETE"})
+     * @Route("api/deleteApsaAndReplace/{id}", name="deleteApsa", methods={"POST"})
      */
-    public function Apsa(ChampsApprentissageApsaRepository $champsApprentissageApsaRepository, ChampApprentissage $ca): Response
+    public function Apsa(ChampsApprentissageApsaRepository $champsApprentissageApsaRepository, ApsaRepository $apsaRepository ,Request $request ,ChampApprentissage $ca ,  EntityManagerInterface $manager): Response
     {
-        $res = $champsApprentissageApsaRepository->deleteApsa($ca);
 
-        $jsonres=  [];
-                array_push($jsonres, [ ]);
+        $champsapsa = $champsApprentissageApsaRepository->findBy(["ChampApprentissage" => $ca]);
 
-        return new JsonResponse(array("ApsaSelectionner" => $jsonres, "res" => $res), 200);
+        $jsonres = [];
+
+
+        foreach ($champsapsa as $champs) {
+            if ($ca) {
+                $manager->remove($champs);
+                $manager->flush($ca);
+
+            }
+        }
+
+        $donnees = json_decode($request->getContent());
+        foreach ($donnees as $donnee) {
+            $apsa_id = $donnee->Apsa;
+
+            $NewChampsApsa = new ChampsApprentissageApsa();
+
+            if (
+                isset($apsa_id)
+            ) {
+                $apsa_id2 = $apsaRepository->find($apsa_id);
+                $NewChampsApsa->setApsa($apsa_id2);
+                $NewChampsApsa->setChampApprentissage($ca);
+                $manager->persist($NewChampsApsa);
+                $manager->flush();
+                array_push($jsonres, ["id" => $NewChampsApsa->getId(), "caId" => $NewChampsApsa->getChampApprentissage()->getId(), "apsaId" => $NewChampsApsa->getApsa()->getId()]);
+
+
+            }
+        }
+        return new JsonResponse(array("ApprentissageApsa" => $jsonres), 200);
 
     }
 
