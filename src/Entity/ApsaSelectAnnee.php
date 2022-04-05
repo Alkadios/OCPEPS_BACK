@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\ApsaSelectAnneeRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -33,6 +35,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
         ]
     ]
 )]
+
+#[ApiFilter(SearchFilter::class, properties: ['Annee.id' => 'exact'])]
 class ApsaSelectAnnee
 {
     /**
@@ -57,7 +61,7 @@ class ApsaSelectAnnee
     /**
      * @ORM\ManyToOne(targetEntity=Annee::class, inversedBy="apsaSelectAnnees")
      */
-    #[Groups(['write:annee', 'post:apsaSelectAnnee'])]
+    #[Groups(['read:Annee', 'write:Annee', 'post:apsaSelectAnnee'])]
     private $Annee;
 
     public function getId(): ?int
