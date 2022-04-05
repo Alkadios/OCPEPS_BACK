@@ -11,7 +11,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity(repositoryClass=ApsaSelectAnneeRepository::class)
  * @ORM\Table(
- *      name="Apsa_Select_Annee",
+ *      name="apsa_select_annee",
  *      uniqueConstraints={@ORM\UniqueConstraint(columns={"apsa_id", "ca_id" ,"annee_id"})}
  * )
  * @UniqueEntity(
