@@ -6,6 +6,8 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\ApsaSelectAnneeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -64,6 +66,16 @@ class ApsaSelectAnnee
     #[Groups(['read:Annee', 'write:Annee', 'post:apsaSelectAnnee'])]
     private $Annee;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ApsaRetenu::class, mappedBy="ApsaSelectAnnee")
+     */
+    private $apsaRetenus;
+
+    public function __construct()
+    {
+        $this->apsaRetenus = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -101,6 +113,36 @@ class ApsaSelectAnnee
     public function setAnnee(?Annee $Annee): self
     {
         $this->Annee = $Annee;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ApsaRetenu>
+     */
+    public function getApsaRetenus(): Collection
+    {
+        return $this->apsaRetenus;
+    }
+
+    public function addApsaRetenu(ApsaRetenu $apsaRetenu): self
+    {
+        if (!$this->apsaRetenus->contains($apsaRetenu)) {
+            $this->apsaRetenus[] = $apsaRetenu;
+            $apsaRetenu->setApsaSelectAnnee($this);
+        }
+
+        return $this;
+    }
+
+    public function removeApsaRetenu(ApsaRetenu $apsaRetenu): self
+    {
+        if ($this->apsaRetenus->removeElement($apsaRetenu)) {
+            // set the owning side to null (unless already changed)
+            if ($apsaRetenu->getApsaSelectAnnee() === $this) {
+                $apsaRetenu->setApsaSelectAnnee(null);
+            }
+        }
 
         return $this;
     }

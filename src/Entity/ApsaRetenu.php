@@ -14,10 +14,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity(repositoryClass=ApsaRetenuRepository::class)
  * @ORM\Table(
  *      name="apsa_retenu",
- *      uniqueConstraints={@ORM\UniqueConstraint(columns={"apsa_id", "af_retenu_id"})}
+ *      uniqueConstraints={@ORM\UniqueConstraint(columns={"apsa_select_annee_id","af_retenu_id"})}
  * )
  * @UniqueEntity(
- *      fields={"Apsa","AfRetenu"},
+ *      fields={"ApsaSelectAnee", "AfRetenu"},
  *      message="Apsaretenu for given country already exists in database."
  * )
  */
@@ -45,11 +45,7 @@ class ApsaRetenu
     #[Groups(['read:ApsaRetenu', 'read:Apsa'])]
     private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Apsa::class, inversedBy="apsaRetenus")
-     */
-    #[Groups(['read:ApsaRetenu', 'read:Apsa', 'post:ApsaRetenu'])]
-    private $Apsa;
+
 
     /**
      * @ORM\ManyToOne(targetEntity=AfRetenu::class, inversedBy="apsaRetenus")
@@ -70,6 +66,12 @@ class ApsaRetenu
      */
     private $indicateurs;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=ApsaSelectAnnee::class, inversedBy="apsaRetenus")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $ApsaSelectAnnee;
+
     public function __construct()
     {
         $this->criteres = new ArrayCollection();
@@ -81,17 +83,6 @@ class ApsaRetenu
         return $this->id;
     }
 
-    public function getApsa(): ?Apsa
-    {
-        return $this->Apsa;
-    }
-
-    public function setApsa(?Apsa $Apsa): self
-    {
-        $this->Apsa = $Apsa;
-
-        return $this;
-    }
 
     public function getAfRetenu(): ?AfRetenu
     {
@@ -144,6 +135,18 @@ class ApsaRetenu
                 $indicateur->setApsaRetenu(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getApsaSelectAnnee(): ?ApsaSelectAnnee
+    {
+        return $this->ApsaSelectAnnee;
+    }
+
+    public function setApsaSelectAnnee(?ApsaSelectAnnee $ApsaSelectAnnee): self
+    {
+        $this->ApsaSelectAnnee = $ApsaSelectAnnee;
 
         return $this;
     }

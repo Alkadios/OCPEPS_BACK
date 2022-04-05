@@ -44,10 +44,6 @@ class Apsa
     private $libelle;
 
 
-    /**
-     * @ORM\OneToMany(targetEntity=ApsaRetenu::class, mappedBy="Apsa")
-     */
-    private $apsaRetenus;
 
     /**
      * @ORM\OneToMany(targetEntity=ChampsApprentissageApsa::class, mappedBy="Apsa")
@@ -88,35 +84,6 @@ class Apsa
     }
 
 
-    /**
-     * @return Collection|ApsaRetenu[]
-     */
-    public function getApsaRetenus(): Collection
-    {
-        return $this->apsaRetenus;
-    }
-
-    public function addApsaRetenu(ApsaRetenu $apsaRetenu): self
-    {
-        if (!$this->apsaRetenus->contains($apsaRetenu)) {
-            $this->apsaRetenus[] = $apsaRetenu;
-            $apsaRetenu->setApsa($this);
-        }
-
-        return $this;
-    }
-
-    public function removeApsaRetenu(ApsaRetenu $apsaRetenu): self
-    {
-        if ($this->apsaRetenus->removeElement($apsaRetenu)) {
-            // set the owning side to null (unless already changed)
-            if ($apsaRetenu->getApsa() === $this) {
-                $apsaRetenu->setApsa(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection|ChampsApprentissageApsa[]
