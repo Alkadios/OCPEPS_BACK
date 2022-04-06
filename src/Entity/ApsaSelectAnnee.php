@@ -46,6 +46,7 @@ class ApsaSelectAnnee
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    #[Groups(['post:ApsaRetenu'])]
     private $id;
 
     /**
