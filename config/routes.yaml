@@ -2,6 +2,10 @@ controllers:
     resource: ../src/Controller/
     type: annotation
 
+api/login:
+    path: /api/login
+    methods: ['POST']
+
 kernel:
     resource: ../src/Kernel.php
     type: annotation
