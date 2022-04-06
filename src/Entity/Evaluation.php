@@ -13,10 +13,10 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity(repositoryClass=EvaluationRepository::class)
  * @ORM\Table(
  *      name="evaluation",
- *      uniqueConstraints={@ORM\UniqueConstraint(columns={"eleve_id","date_eval"})}
+ *      uniqueConstraints={@ORM\UniqueConstraint(columns={"apsa_retenu_id","date_eval"})}
  * )
  * @UniqueEntity(
- *      fields={"eleve_id","date_eval"},
+ *      fields={"ApsaRetenu","date_eval"},
  *      message="Evaluation for given country already exists in database."
  * )
  * @ApiResource()
@@ -30,10 +30,6 @@ class Evaluation
      */
     private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Eleve::class, inversedBy="evaluations")
-     */
-    private $ELeve;
 
     /**
      * @ORM\Column(type="date")
@@ -62,17 +58,6 @@ class Evaluation
         return $this->id;
     }
 
-    public function getELeve(): ?Eleve
-    {
-        return $this->ELeve;
-    }
-
-    public function setELeve(?Eleve $ELeve): self
-    {
-        $this->ELeve = $ELeve;
-
-        return $this;
-    }
 
 
     public function getDateEval(): ?\DateTimeInterface

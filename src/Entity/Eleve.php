@@ -71,13 +71,16 @@ class Eleve
     private $classe;
 
     /**
-     * @ORM\OneToMany(targetEntity=Evaluation::class, mappedBy="ELeve")
+     * @ORM\OneToMany(targetEntity=EvaluationIndicateur::class, mappedBy="Eleve")
      */
-    private $evaluations;
+    private $evaluationIndicateurs;
+
+
 
     public function __construct()
     {
         $this->evaluations = new ArrayCollection();
+        $this->evaluationIndicateurs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -194,32 +197,33 @@ class Eleve
     }
 
     /**
-     * @return Collection|Evaluation[]
+     * @return Collection<int, EvaluationIndicateur>
      */
-    public function getEvaluations(): Collection
+    public function getEvaluationIndicateurs(): Collection
     {
-        return $this->evaluations;
+        return $this->evaluationIndicateurs;
     }
 
-    public function addEvaluation(Evaluation $evaluation): self
+    public function addEvaluationIndicateur(EvaluationIndicateur $evaluationIndicateur): self
     {
-        if (!$this->evaluations->contains($evaluation)) {
-            $this->evaluations[] = $evaluation;
-            $evaluation->setELeve($this);
+        if (!$this->evaluationIndicateurs->contains($evaluationIndicateur)) {
+            $this->evaluationIndicateurs[] = $evaluationIndicateur;
+            $evaluationIndicateur->setEleve($this);
         }
 
         return $this;
     }
 
-    public function removeEvaluation(Evaluation $evaluation): self
+    public function removeEvaluationIndicateur(EvaluationIndicateur $evaluationIndicateur): self
     {
-        if ($this->evaluations->removeElement($evaluation)) {
+        if ($this->evaluationIndicateurs->removeElement($evaluationIndicateur)) {
             // set the owning side to null (unless already changed)
-            if ($evaluation->getELeve() === $this) {
-                $evaluation->setELeve(null);
+            if ($evaluationIndicateur->getEleve() === $this) {
+                $evaluationIndicateur->setEleve(null);
             }
         }
 
         return $this;
     }
+
 }

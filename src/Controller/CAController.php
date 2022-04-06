@@ -28,7 +28,7 @@ class CAController extends AbstractController
 {
 
     /**
-     * @Route("api/champ_apprentissages/{id}/deleteApsaAndReplace/", name="deleteApsa", methods={"POST"})
+     * @Route("api/champ_apprentissages/{id}/deleteApsaAndReplace", name="deleteApsa", methods={"POST"})
      */
     public function Apsa(ChampsApprentissageApsaRepository $champsApprentissageApsaRepository, ApsaRepository $apsaRepository ,Request $request ,ChampApprentissage $ca ,  EntityManagerInterface $manager): Response
     {

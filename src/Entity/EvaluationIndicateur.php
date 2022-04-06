@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\EvaluationIndicateurRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -11,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  *      name="Evaluation_Indicateur",
  *
  * )
+ * @ApiResource()
  */
 class EvaluationIndicateur
 {
@@ -35,6 +37,11 @@ class EvaluationIndicateur
      * @ORM\Column(type="integer", nullable=true)
      */
     private $note;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Eleve::class, inversedBy="evaluationIndicateurs")
+     */
+    private $Eleve;
 
     public function getId(): ?int
     {
@@ -73,6 +80,18 @@ class EvaluationIndicateur
     public function setNote(?int $note): self
     {
         $this->note = $note;
+
+        return $this;
+    }
+
+    public function getEleve(): ?Eleve
+    {
+        return $this->Eleve;
+    }
+
+    public function setEleve(?Eleve $Eleve): self
+    {
+        $this->Eleve = $Eleve;
 
         return $this;
     }
