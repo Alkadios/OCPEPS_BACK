@@ -70,6 +70,7 @@ class ApsaRetenu
      * @ORM\ManyToOne(targetEntity=ApsaSelectAnnee::class, inversedBy="apsaRetenus")
      * @ORM\JoinColumn(nullable=false)
      */
+    #[Groups(['post:ApsaRetenu'])]
     private $ApsaSelectAnnee;
 
     /**
