@@ -72,10 +72,16 @@ class ApsaRetenu
      */
     private $ApsaSelectAnnee;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Evaluation::class, mappedBy="ApsaRetenu")
+     */
+    private $evaluations;
+
     public function __construct()
     {
         $this->criteres = new ArrayCollection();
         $this->indicateurs = new ArrayCollection();
+        $this->evaluations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -147,6 +153,36 @@ class ApsaRetenu
     public function setApsaSelectAnnee(?ApsaSelectAnnee $ApsaSelectAnnee): self
     {
         $this->ApsaSelectAnnee = $ApsaSelectAnnee;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Evaluation>
+     */
+    public function getEvaluations(): Collection
+    {
+        return $this->evaluations;
+    }
+
+    public function addEvaluation(Evaluation $evaluation): self
+    {
+        if (!$this->evaluations->contains($evaluation)) {
+            $this->evaluations[] = $evaluation;
+            $evaluation->setApsaRetenu($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvaluation(Evaluation $evaluation): self
+    {
+        if ($this->evaluations->removeElement($evaluation)) {
+            // set the owning side to null (unless already changed)
+            if ($evaluation->getApsaRetenu() === $this) {
+                $evaluation->setApsaRetenu(null);
+            }
+        }
 
         return $this;
     }

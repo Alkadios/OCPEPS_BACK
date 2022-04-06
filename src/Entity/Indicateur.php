@@ -47,6 +47,16 @@ class Indicateur
      */
     private $image;
 
+    /**
+     * @ORM\OneToMany(targetEntity=EvaluationIndicateur::class, mappedBy="Indicateur")
+     */
+    private $evaluationIndicateurs;
+
+    public function __construct()
+    {
+        $this->evaluationIndicateurs = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -109,6 +119,36 @@ class Indicateur
     public function setImage(?string $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, EvaluationIndicateur>
+     */
+    public function getEvaluationIndicateurs(): Collection
+    {
+        return $this->evaluationIndicateurs;
+    }
+
+    public function addEvaluationIndicateur(EvaluationIndicateur $evaluationIndicateur): self
+    {
+        if (!$this->evaluationIndicateurs->contains($evaluationIndicateur)) {
+            $this->evaluationIndicateurs[] = $evaluationIndicateur;
+            $evaluationIndicateur->setIndicateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvaluationIndicateur(EvaluationIndicateur $evaluationIndicateur): self
+    {
+        if ($this->evaluationIndicateurs->removeElement($evaluationIndicateur)) {
+            // set the owning side to null (unless already changed)
+            if ($evaluationIndicateur->getIndicateur() === $this) {
+                $evaluationIndicateur->setIndicateur(null);
+            }
+        }
 
         return $this;
     }
