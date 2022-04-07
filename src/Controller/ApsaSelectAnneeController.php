@@ -21,12 +21,12 @@ class ApsaSelectAnneeController extends AbstractController
 
     private function searchInApsaSelectAnnee($ApsaSelectAnnees, $idCa, $idApsa, $idAnnee){
         $trouver=false;
+
         foreach ($ApsaSelectAnnees as $apsaSelectAnnee){
-            if($apsaSelectAnnee->getId() == $idCa && $apsaSelectAnnee->getCa()->getId() == $idApsa
+            if($apsaSelectAnnee->getApsa()->getId() == $idApsa && $apsaSelectAnnee->getCa()->getId() == $idCa
                 && $apsaSelectAnnee->getAnnee()->getId() == $idAnnee){
                 $trouver = true;
-            }else {
-                $trouver = false;
+                break;
             }
         }
         return $trouver;
@@ -37,7 +37,6 @@ class ApsaSelectAnneeController extends AbstractController
      */
     public function Apsa(ApsaSelectAnneeRepository $apsaSelectAnneeRepository, AnneeRepository $anneeRepository, ChampApprentissageRepository $champApprentissageRepository, ApsaRepository $apsaRepository, Request $request, EntityManagerInterface $manager): Response
     {
-
         $jsonres = [];
 
         $apsaSelectAnneeAlreadySaved = [];
@@ -58,21 +57,24 @@ class ApsaSelectAnneeController extends AbstractController
             if (
             isset($apsa_id)
             ) {
+                $apsa = $apsaRepository->find($apsa_id);
+                $ca = $champApprentissageRepository->find($ca_id);
+                $annee = $anneeRepository->find($annee_id);
                 if(!$this->searchInApsaSelectAnnee($ApsaSelectAnnees,$ca_id,$apsa_id,$annee_id)){
-                    $apsa_id2 = $apsaRepository->find($apsa_id);
-                    $ca_id2 = $champApprentissageRepository->find($ca_id);
-                    $annee_id2 = $anneeRepository->find($annee_id);
-                    $NewChampsApsaSelectAnnee->setApsa($apsa_id2);
-                    $NewChampsApsaSelectAnnee->setCa($ca_id2);
-                    $NewChampsApsaSelectAnnee->setAnnee($annee_id2);
+
+                    $NewChampsApsaSelectAnnee->setApsa($apsa);
+                    $NewChampsApsaSelectAnnee->setCa($ca);
+                    $NewChampsApsaSelectAnnee->setAnnee($annee);
                     $manager->persist($NewChampsApsaSelectAnnee);
                     $manager->flush();
+                    array_push($jsonres, ["id" => $NewChampsApsaSelectAnnee->getId(),
+                        "caId" => $NewChampsApsaSelectAnnee->getCa()->getId(),
+                        "apsaId" => $NewChampsApsaSelectAnnee->getApsa()->getId()]);
                 }else{
-                   array_push($apsaSelectAnneeAlreadySaved, $apsaSelectAnneeRepository->findOneBy(["ChampApprentissage" => $ca_id2 , "Apsa" => $apsa_id2 , "Annee" => $annee_id2]));
+                   array_push($apsaSelectAnneeAlreadySaved,
+                   $apsaSelectAnneeRepository->findOneBy(["Ca" => $ca , "Apsa" => $apsa ,
+                       "Annee" => $annee]));
                 }
-                array_push($jsonres, ["id" => $NewChampsApsaSelectAnnee->getId(),
-                    "caId" => $NewChampsApsaSelectAnnee->getCa()->getId(),
-                    "apsaId" => $NewChampsApsaSelectAnnee->getApsa()->getId()]);
             }
         }
 
@@ -87,7 +89,6 @@ class ApsaSelectAnneeController extends AbstractController
         }
 
         return new JsonResponse(array("ApsaSelectAnnee" => $jsonres), 200);
-
     }
 
 }
