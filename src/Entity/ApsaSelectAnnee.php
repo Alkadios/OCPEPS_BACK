@@ -20,7 +20,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * )
  * @UniqueEntity(
  *      fields={"Apsa", "Ca" , "Annee"},
- *      message="ApsaSelectAnnee for given country already exists in database."
+ *      message="ApsaSelectAnneeController for given country already exists in database."
  * )
  */
 #[ApiResource(
@@ -68,7 +68,7 @@ class ApsaSelectAnnee
     private $Annee;
 
     /**
-     * @ORM\OneToMany(targetEntity=ApsaRetenu::class, mappedBy="ApsaSelectAnnee")
+     * @ORM\OneToMany(targetEntity=ApsaRetenu::class, mappedBy="ApsaSelectAnneeController")
      */
     private $apsaRetenus;
 

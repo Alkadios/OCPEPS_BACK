@@ -38,7 +38,7 @@ class CAController extends AbstractController
         foreach ($champsapsa as $champs) {
             if ($ca) {
                 $manager->remove($champs);
-                $manager->flush($ca);
+                $manager->flush();
 
             }
         }
