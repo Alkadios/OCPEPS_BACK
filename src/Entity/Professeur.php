@@ -37,14 +37,14 @@ class Professeur
     private $telephone;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Utilisateur::class, inversedBy="professeurs")
-     */
-    private $utilisateur;
-
-    /**
      * @ORM\OneToMany(targetEntity=Cours::class, mappedBy="Professeur")
      */
     private $cours;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="professeurs")
+     */
+    private $user;
 
     public function __construct()
     {
@@ -92,18 +92,6 @@ class Professeur
         return $this;
     }
 
-    public function getUtilisateur(): ?Utilisateur
-    {
-        return $this->utilisateur;
-    }
-
-    public function setUtilisateur(?Utilisateur $utilisateur): self
-    {
-        $this->utilisateur = $utilisateur;
-
-        return $this;
-    }
-
     /**
      * @return Collection|Cours[]
      */
@@ -130,6 +118,18 @@ class Professeur
                 $cour->setProfesseur(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

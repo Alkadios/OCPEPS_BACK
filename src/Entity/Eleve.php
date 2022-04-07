@@ -61,11 +61,6 @@ class Eleve
     private $sexeEleve;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Utilisateur::class, inversedBy="eleves")
-     */
-    private $utilisateur;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Classe::class, inversedBy="Eleve")
      */
     private $classe;
@@ -75,7 +70,10 @@ class Eleve
      */
     private $evaluationIndicateurs;
 
-
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="eleves")
+     */
+    private $user;
 
     public function __construct()
     {
@@ -172,18 +170,6 @@ class Eleve
         return $this;
     }
 
-    public function getUtilisateur(): ?Utilisateur
-    {
-        return $this->utilisateur;
-    }
-
-    public function setUtilisateur(?Utilisateur $utilisateur): self
-    {
-        $this->utilisateur = $utilisateur;
-
-        return $this;
-    }
-
     public function getClasse(): ?Classe
     {
         return $this->classe;
@@ -222,6 +208,18 @@ class Eleve
                 $evaluationIndicateur->setEleve(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }
