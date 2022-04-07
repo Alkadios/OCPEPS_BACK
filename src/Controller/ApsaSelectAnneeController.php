@@ -33,7 +33,7 @@ class ApsaSelectAnneeController extends AbstractController
     }
 
     /**
-     * @Route("api/champ_apprentissages/deleteApsaSelectAnneeAndReplace", name="deleteApsaSelectAnneeAndReplace", methods={"POST"})
+     * @Route("api/apsa_select_annees/deleteAndReplace", name="deleteApsaSelectAnneeAndReplace", methods={"POST"})
      */
     public function Apsa(ApsaSelectAnneeRepository $apsaSelectAnneeRepository, AnneeRepository $anneeRepository, ChampApprentissageRepository $champApprentissageRepository, ApsaRepository $apsaRepository, Request $request, EntityManagerInterface $manager): Response
     {
