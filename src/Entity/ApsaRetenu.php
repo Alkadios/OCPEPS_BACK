@@ -46,7 +46,6 @@ class ApsaRetenu
     private $id;
 
 
-
     /**
      * @ORM\ManyToOne(targetEntity=AfRetenu::class, inversedBy="apsaRetenus")
      */
@@ -61,10 +60,6 @@ class ApsaRetenu
     #[Groups(['post:ApsaRetenu'])]
     private $SituationEvaluation;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Indicateur::class, mappedBy="ApsaRetenu")
-     */
-    private $indicateurs;
 
     /**
      * @ORM\ManyToOne(targetEntity=ApsaSelectAnnee::class, inversedBy="apsaRetenus")
@@ -74,16 +69,16 @@ class ApsaRetenu
     private $ApsaSelectAnnee;
 
     /**
-     * @ORM\OneToMany(targetEntity=Evaluation::class, mappedBy="ApsaRetenu")
+     * @ORM\OneToMany(targetEntity=Critere::class, mappedBy="ApsaRetenu", orphanRemoval=true)
      */
-    private $evaluations;
+    private $criteres;
 
     public function __construct()
     {
         $this->criteres = new ArrayCollection();
-        $this->indicateurs = new ArrayCollection();
-        $this->evaluations = new ArrayCollection();
     }
+
+
 
     public function getId(): ?int
     {
@@ -116,35 +111,6 @@ class ApsaRetenu
         return $this;
     }
 
-    /**
-     * @return Collection<int, Indicateur>
-     */
-    public function getIndicateurs(): Collection
-    {
-        return $this->indicateurs;
-    }
-
-    public function addIndicateur(Indicateur $indicateur): self
-    {
-        if (!$this->indicateurs->contains($indicateur)) {
-            $this->indicateurs[] = $indicateur;
-            $indicateur->setApsaRetenu($this);
-        }
-
-        return $this;
-    }
-
-    public function removeIndicateur(Indicateur $indicateur): self
-    {
-        if ($this->indicateurs->removeElement($indicateur)) {
-            // set the owning side to null (unless already changed)
-            if ($indicateur->getApsaRetenu() === $this) {
-                $indicateur->setApsaRetenu(null);
-            }
-        }
-
-        return $this;
-    }
 
     public function getApsaSelectAnnee(): ?ApsaSelectAnnee
     {
@@ -159,32 +125,34 @@ class ApsaRetenu
     }
 
     /**
-     * @return Collection<int, Evaluation>
+     * @return Collection<int, Critere>
      */
-    public function getEvaluations(): Collection
+    public function getCriteres(): Collection
     {
-        return $this->evaluations;
+        return $this->criteres;
     }
 
-    public function addEvaluation(Evaluation $evaluation): self
+    public function addCritere(Critere $critere): self
     {
-        if (!$this->evaluations->contains($evaluation)) {
-            $this->evaluations[] = $evaluation;
-            $evaluation->setApsaRetenu($this);
+        if (!$this->criteres->contains($critere)) {
+            $this->criteres[] = $critere;
+            $critere->setApsaRetenu($this);
         }
 
         return $this;
     }
 
-    public function removeEvaluation(Evaluation $evaluation): self
+    public function removeCritere(Critere $critere): self
     {
-        if ($this->evaluations->removeElement($evaluation)) {
+        if ($this->criteres->removeElement($critere)) {
             // set the owning side to null (unless already changed)
-            if ($evaluation->getApsaRetenu() === $this) {
-                $evaluation->setApsaRetenu(null);
+            if ($critere->getApsaRetenu() === $this) {
+                $critere->setApsaRetenu(null);
             }
         }
 
         return $this;
     }
+
+
 }
