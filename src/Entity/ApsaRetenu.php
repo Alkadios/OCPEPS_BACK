@@ -42,17 +42,14 @@ class ApsaRetenu
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:ApsaRetenu', 'read:Apsa'])]
+    #[Groups(['read:ApsaRetenu', 'read:Apsa', 'read:apsaRetenu'])]
     private $id;
-
 
     /**
      * @ORM\ManyToOne(targetEntity=AfRetenu::class, inversedBy="apsaRetenus")
      */
     #[Groups(['read:AfRetenu', 'post:ApsaRetenu'])]
     private $AfRetenu;
-
-
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -65,7 +62,7 @@ class ApsaRetenu
      * @ORM\ManyToOne(targetEntity=ApsaSelectAnnee::class, inversedBy="apsaRetenus")
      * @ORM\JoinColumn(nullable=false)
      */
-    #[Groups(['post:ApsaRetenu'])]
+    #[Groups(['post:ApsaRetenu', 'read:apsaRetenu'])]
     private $ApsaSelectAnnee;
 
     /**

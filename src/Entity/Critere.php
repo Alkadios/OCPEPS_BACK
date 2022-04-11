@@ -3,15 +3,26 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Controller\ApsaChampApprentissageController;
 use App\Repository\CritereRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=CritereRepository::class)
- * @ApiResource()
  */
+#[ApiResource(
+    collectionOperations: [
+        'get' => [
+            'normalization_context' => [
+                'groups' => ['read:critere', 'read:apsaRetenu']
+            ]
+        ],
+        'post'
+    ]
+)]
 class Critere
 {
     /**
@@ -19,32 +30,38 @@ class Critere
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    #[Groups(['read:critere'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['read:critere'])]
     private $titre;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['read:critere'])]
     private $description;
 
     /**
      * @ORM\Column(type="text")
      */
+    #[Groups(['read:critere'])]
     private $image;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
+    #[Groups(['read:critere'])]
     private $url_video;
 
     /**
      * @ORM\ManyToOne(targetEntity=ApsaRetenu::class, inversedBy="criteres")
      * @ORM\JoinColumn(nullable=false)
      */
+    #[Groups(['read:apsaRetenu'])]
     private $ApsaRetenu;
 
     /**

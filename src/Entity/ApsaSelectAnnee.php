@@ -58,7 +58,7 @@ class ApsaSelectAnnee
     /**
      * @ORM\ManyToOne(targetEntity=Apsa::class, inversedBy="apsaSelectAnnees")
      */
-    #[Groups(['read:apsaSelectAnne', 'write:apsaId', 'post:apsaSelectAnnee'])]
+    #[Groups(['read:apsaSelectAnne', 'write:apsaId', 'post:apsaSelectAnnee', 'read:apsaRetenu'])]
     private $Apsa;
 
     /**
