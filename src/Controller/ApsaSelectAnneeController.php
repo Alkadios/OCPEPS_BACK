@@ -62,11 +62,16 @@ class ApsaSelectAnneeController extends AbstractController
                 $apsa = $apsaRepository->find($apsa_id);
                 $ca = $champApprentissageRepository->find($ca_id);
                 $annee = $anneeRepository->find($annee_id);
-                if ($this->searchInApsaSelectAnnee($ApsaSelectAnnees, $ca_id, $apsa_id, $annee_id)) {
-                    if (count($ApsaSelectAnnees) != count($apsaSelectAnneeAlreadySaved)) {
-                        foreach ($ApsaSelectAnnees as $apsaBDD) {
-                            if (!$this->searchInApsaSelectAnnee($apsaSelectAnneeAlreadySaved, $apsaBDD->getCa()->getId(),
-                                $apsaBDD->getApsa()->getId(), $apsaBDD->getAnnee()->getId())) {
+                if($this->searchInApsaSelectAnnee($ApsaSelectAnnees,$ca_id,$apsa_id,$annee_id)){
+
+                    array_push($apsaSelectAnneeAlreadySaved,
+                        $apsaSelectAnneeRepository->findOneBy(["Ca" => $ca , "Apsa" => $apsa ,
+                            "Annee" => $annee]));
+
+                    if(count($ApsaSelectAnnees) != count($apsaSelectAnneeAlreadySaved)){
+                        foreach ($ApsaSelectAnnees as $apsaBDD){
+                            if(!$this->searchInApsaSelectAnnee($apsaSelectAnneeAlreadySaved,$apsaBDD->getCa()->getId(),
+                                $apsaBDD->getApsa()->getId(),$apsaBDD->getAnnee()->getId())){
                                 $manager->remove($apsaBDD);
                                 $manager->flush();
                             }
@@ -78,9 +83,7 @@ class ApsaSelectAnneeController extends AbstractController
                     $NewChampsApsaSelectAnnee->setAnnee($annee);
                     $manager->persist($NewChampsApsaSelectAnnee);
                     $manager->flush();
-                    array_push($jsonres, ["id" => $NewChampsApsaSelectAnnee->getId(),
-                        "caId" => $NewChampsApsaSelectAnnee->getCa()->getId(),
-                        "apsaId" => $NewChampsApsaSelectAnnee->getApsa()->getId()]);
+                    array_push($jsonres, []);
                 }
             }
         }
