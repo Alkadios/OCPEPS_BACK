@@ -65,20 +65,23 @@ class Eleve
      */
     private $classe;
 
-    /**
-     * @ORM\OneToMany(targetEntity=EvaluationIndicateur::class, mappedBy="Eleve")
-     */
-    private $evaluationIndicateurs;
+
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="eleves")
      */
     private $user;
 
+    /**
+     * @ORM\OneToMany(targetEntity=EvaluationEleve::class, mappedBy="Eleve", orphanRemoval=true)
+     */
+    private $evaluationEleves;
+
     public function __construct()
     {
         $this->evaluations = new ArrayCollection();
-        $this->evaluationIndicateurs = new ArrayCollection();
+        $this->evaluationEleves = new ArrayCollection();
+
     }
 
     public function getId(): ?int
@@ -182,35 +185,7 @@ class Eleve
         return $this;
     }
 
-    /**
-     * @return Collection<int, EvaluationIndicateur>
-     */
-    public function getEvaluationIndicateurs(): Collection
-    {
-        return $this->evaluationIndicateurs;
-    }
 
-    public function addEvaluationIndicateur(EvaluationIndicateur $evaluationIndicateur): self
-    {
-        if (!$this->evaluationIndicateurs->contains($evaluationIndicateur)) {
-            $this->evaluationIndicateurs[] = $evaluationIndicateur;
-            $evaluationIndicateur->setEleve($this);
-        }
-
-        return $this;
-    }
-
-    public function removeEvaluationIndicateur(EvaluationIndicateur $evaluationIndicateur): self
-    {
-        if ($this->evaluationIndicateurs->removeElement($evaluationIndicateur)) {
-            // set the owning side to null (unless already changed)
-            if ($evaluationIndicateur->getEleve() === $this) {
-                $evaluationIndicateur->setEleve(null);
-            }
-        }
-
-        return $this;
-    }
 
     public function getUser(): ?User
     {
@@ -220,6 +195,36 @@ class Eleve
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, EvaluationEleve>
+     */
+    public function getEvaluationEleves(): Collection
+    {
+        return $this->evaluationEleves;
+    }
+
+    public function addEvaluationElefe(EvaluationEleve $evaluationElefe): self
+    {
+        if (!$this->evaluationEleves->contains($evaluationElefe)) {
+            $this->evaluationEleves[] = $evaluationElefe;
+            $evaluationElefe->setEleve($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvaluationElefe(EvaluationEleve $evaluationElefe): self
+    {
+        if ($this->evaluationEleves->removeElement($evaluationElefe)) {
+            // set the owning side to null (unless already changed)
+            if ($evaluationElefe->getEleve() === $this) {
+                $evaluationElefe->setEleve(null);
+            }
+        }
 
         return $this;
     }

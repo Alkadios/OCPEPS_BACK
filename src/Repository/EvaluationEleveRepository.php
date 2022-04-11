@@ -2,30 +2,30 @@
 
 namespace App\Repository;
 
-use App\Entity\EvaluationIndicateur;
+use App\Entity\EvaluationEleve;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method EvaluationIndicateur|null find($id, $lockMode = null, $lockVersion = null)
- * @method EvaluationIndicateur|null findOneBy(array $criteria, array $orderBy = null)
- * @method EvaluationIndicateur[]    findAll()
- * @method EvaluationIndicateur[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method EvaluationEleve|null find($id, $lockMode = null, $lockVersion = null)
+ * @method EvaluationEleve|null findOneBy(array $criteria, array $orderBy = null)
+ * @method EvaluationEleve[]    findAll()
+ * @method EvaluationEleve[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class EvaluationIndicateurRepository extends ServiceEntityRepository
+class EvaluationEleveRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, EvaluationIndicateur::class);
+        parent::__construct($registry, EvaluationEleve::class);
     }
 
     /**
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function add(EvaluationIndicateur $entity, bool $flush = true): void
+    public function add(EvaluationEleve $entity, bool $flush = true): void
     {
         $this->_em->persist($entity);
         if ($flush) {
@@ -37,7 +37,7 @@ class EvaluationIndicateurRepository extends ServiceEntityRepository
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function remove(EvaluationIndicateur $entity, bool $flush = true): void
+    public function remove(EvaluationEleve $entity, bool $flush = true): void
     {
         $this->_em->remove($entity);
         if ($flush) {
@@ -46,7 +46,7 @@ class EvaluationIndicateurRepository extends ServiceEntityRepository
     }
 
     // /**
-    //  * @return EvaluationIndicateur[] Returns an array of EvaluationIndicateur objects
+    //  * @return EvaluationEleve[] Returns an array of EvaluationEleve objects
     //  */
     /*
     public function findByExampleField($value)
@@ -63,7 +63,7 @@ class EvaluationIndicateurRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?EvaluationIndicateur
+    public function findOneBySomeField($value): ?EvaluationEleve
     {
         return $this->createQueryBuilder('e')
             ->andWhere('e.exampleField = :val')

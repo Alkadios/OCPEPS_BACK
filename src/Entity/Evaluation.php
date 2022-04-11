@@ -12,12 +12,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity(repositoryClass=EvaluationRepository::class)
  * @ORM\Table(
- *      name="evaluation",
- *      uniqueConstraints={@ORM\UniqueConstraint(columns={"apsa_retenu_id","date_eval"})}
- * )
- * @UniqueEntity(
- *      fields={"ApsaRetenu","date_eval"},
- *      message="Evaluation for given country already exists in database."
+ *      name="evaluation"
  * )
  * @ApiResource()
  */
@@ -37,18 +32,13 @@ class Evaluation
     private $DateEval;
 
     /**
-     * @ORM\ManyToOne(targetEntity=ApsaRetenu::class, inversedBy="evaluations")
+     * @ORM\OneToMany(targetEntity=EvaluationEleve::class, mappedBy="Evaluation", orphanRemoval=true)
      */
-    private $ApsaRetenu;
-
-    /**
-     * @ORM\OneToMany(targetEntity=EvaluationIndicateur::class, mappedBy="Evaluation")
-     */
-    private $evaluationIndicateurs;
+    private $evaluationEleves;
 
     public function __construct()
     {
-        $this->evaluationIndicateurs = new ArrayCollection();
+        $this->evaluationEleves = new ArrayCollection();
     }
 
 
@@ -72,42 +62,30 @@ class Evaluation
         return $this;
     }
 
-    public function getApsaRetenu(): ?ApsaRetenu
-    {
-        return $this->ApsaRetenu;
-    }
-
-    public function setApsaRetenu(?ApsaRetenu $ApsaRetenu): self
-    {
-        $this->ApsaRetenu = $ApsaRetenu;
-
-        return $this;
-    }
-
     /**
-     * @return Collection<int, EvaluationIndicateur>
+     * @return Collection<int, EvaluationEleve>
      */
-    public function getEvaluationIndicateurs(): Collection
+    public function getEvaluationEleves(): Collection
     {
-        return $this->evaluationIndicateurs;
+        return $this->evaluationEleves;
     }
 
-    public function addEvaluationIndicateur(EvaluationIndicateur $evaluationIndicateur): self
+    public function addEvaluationElefe(EvaluationEleve $evaluationElefe): self
     {
-        if (!$this->evaluationIndicateurs->contains($evaluationIndicateur)) {
-            $this->evaluationIndicateurs[] = $evaluationIndicateur;
-            $evaluationIndicateur->setEvaluation($this);
+        if (!$this->evaluationEleves->contains($evaluationElefe)) {
+            $this->evaluationEleves[] = $evaluationElefe;
+            $evaluationElefe->setEvaluation($this);
         }
 
         return $this;
     }
 
-    public function removeEvaluationIndicateur(EvaluationIndicateur $evaluationIndicateur): self
+    public function removeEvaluationElefe(EvaluationEleve $evaluationElefe): self
     {
-        if ($this->evaluationIndicateurs->removeElement($evaluationIndicateur)) {
+        if ($this->evaluationEleves->removeElement($evaluationElefe)) {
             // set the owning side to null (unless already changed)
-            if ($evaluationIndicateur->getEvaluation() === $this) {
-                $evaluationIndicateur->setEvaluation(null);
+            if ($evaluationElefe->getEvaluation() === $this) {
+                $evaluationElefe->setEvaluation(null);
             }
         }
 

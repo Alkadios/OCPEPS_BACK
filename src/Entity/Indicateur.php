@@ -33,28 +33,23 @@ class Indicateur
     private $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity=ApsaRetenu::class, inversedBy="indicateurs")
+     * @ORM\OneToMany(targetEntity=EvaluationEleve::class, mappedBy="Indicateur", orphanRemoval=true)
      */
-    private $ApsaRetenu;
+    private $evaluationEleves;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\ManyToOne(targetEntity=Critere::class, inversedBy="Indicateur")
      */
-    private $url_video;
+    private $critere;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private $image;
-
-    /**
-     * @ORM\OneToMany(targetEntity=EvaluationIndicateur::class, mappedBy="Indicateur")
-     */
-    private $evaluationIndicateurs;
+    private $url_video;
 
     public function __construct()
     {
-        $this->evaluationIndicateurs = new ArrayCollection();
+        $this->evaluationEleves = new ArrayCollection();
     }
 
 
@@ -87,14 +82,44 @@ class Indicateur
         return $this;
     }
 
-    public function getApsaRetenu(): ?ApsaRetenu
+    /**
+     * @return Collection<int, EvaluationEleve>
+     */
+    public function getEvaluationEleves(): Collection
     {
-        return $this->ApsaRetenu;
+        return $this->evaluationEleves;
     }
 
-    public function setApsaRetenu(?ApsaRetenu $ApsaRetenu): self
+    public function addEvaluationElefe(EvaluationEleve $evaluationElefe): self
     {
-        $this->ApsaRetenu = $ApsaRetenu;
+        if (!$this->evaluationEleves->contains($evaluationElefe)) {
+            $this->evaluationEleves[] = $evaluationElefe;
+            $evaluationElefe->setIndicateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvaluationElefe(EvaluationEleve $evaluationElefe): self
+    {
+        if ($this->evaluationEleves->removeElement($evaluationElefe)) {
+            // set the owning side to null (unless already changed)
+            if ($evaluationElefe->getIndicateur() === $this) {
+                $evaluationElefe->setIndicateur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCritere(): ?Critere
+    {
+        return $this->critere;
+    }
+
+    public function setCritere(?Critere $critere): self
+    {
+        $this->critere = $critere;
 
         return $this;
     }
@@ -107,48 +132,6 @@ class Indicateur
     public function setUrlVideo(?string $url_video): self
     {
         $this->url_video = $url_video;
-
-        return $this;
-    }
-
-    public function getImage(): ?string
-    {
-        return $this->image;
-    }
-
-    public function setImage(?string $image): self
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, EvaluationIndicateur>
-     */
-    public function getEvaluationIndicateurs(): Collection
-    {
-        return $this->evaluationIndicateurs;
-    }
-
-    public function addEvaluationIndicateur(EvaluationIndicateur $evaluationIndicateur): self
-    {
-        if (!$this->evaluationIndicateurs->contains($evaluationIndicateur)) {
-            $this->evaluationIndicateurs[] = $evaluationIndicateur;
-            $evaluationIndicateur->setIndicateur($this);
-        }
-
-        return $this;
-    }
-
-    public function removeEvaluationIndicateur(EvaluationIndicateur $evaluationIndicateur): self
-    {
-        if ($this->evaluationIndicateurs->removeElement($evaluationIndicateur)) {
-            // set the owning side to null (unless already changed)
-            if ($evaluationIndicateur->getIndicateur() === $this) {
-                $evaluationIndicateur->setIndicateur(null);
-            }
-        }
 
         return $this;
     }
