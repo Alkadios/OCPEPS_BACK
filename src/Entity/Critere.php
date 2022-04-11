@@ -19,7 +19,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
             'normalization_context' => [
                 'groups' => ['read:critere', 'read:apsaRetenu']
             ]
-        ]
+        ],
+        'post'
     ]
 )]
 class Critere
