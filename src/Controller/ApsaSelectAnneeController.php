@@ -22,18 +22,18 @@ use function PHPUnit\Framework\isTrue;
 class ApsaSelectAnneeController extends AbstractController
 {
 
-    private function searchInApsaSelectAnnee($ApsaSelectAnnees, $idCa, $idApsa, $idAnnee){
-        $trouver=false;
+    private function searchInApsaSelectAnnee($ApsaSelectAnnees, $idCa, $idApsa, $idAnnee)
+    {
+        $trouver = false;
 
-        foreach ($ApsaSelectAnnees as $apsaSelectAnnee){
-            if($apsaSelectAnnee->getApsa()->getId() == $idApsa && $apsaSelectAnnee->getCa()->getId() == $idCa
-                && $apsaSelectAnnee->getAnnee()->getId() == $idAnnee){
+        foreach ($ApsaSelectAnnees as $apsaSelectAnnee) {
+            if ($apsaSelectAnnee->getApsa()->getId() == $idApsa && $apsaSelectAnnee->getCa()->getId() == $idCa
+                && $apsaSelectAnnee->getAnnee()->getId() == $idAnnee) {
                 $trouver = true;
                 break;
             }
         }
         return $trouver;
-
     }
 
     /**
@@ -47,7 +47,7 @@ class ApsaSelectAnneeController extends AbstractController
 
         $donnees = json_decode($request->getContent());
         $ApsaSelectAnnees = [];
-        if(count($donnees) > 0) {
+        if (count($donnees) > 0) {
             $ApsaSelectAnnees = $apsaSelectAnneeRepository->findBy(["Annee" => $donnees[0]->Annee]);
         }
 
@@ -58,25 +58,21 @@ class ApsaSelectAnneeController extends AbstractController
 
             $NewChampsApsaSelectAnnee = new ApsaSelectAnnee();
 
-            if (
-            isset($apsa_id)
-            ) {
+            if (isset($apsa_id)) {
                 $apsa = $apsaRepository->find($apsa_id);
                 $ca = $champApprentissageRepository->find($ca_id);
                 $annee = $anneeRepository->find($annee_id);
-                if($this->searchInApsaSelectAnnee($ApsaSelectAnnees,$ca_id,$apsa_id,$annee_id)){
-
-                    if(count($ApsaSelectAnnees) != count($apsaSelectAnneeAlreadySaved)){
-                        foreach ($ApsaSelectAnnees as $apsaBDD){
-                            if(!$this->searchInApsaSelectAnnee($apsaSelectAnneeAlreadySaved,$apsaBDD->getCa()->getId(),
-                                $apsaBDD->getApsa()->getId(),$apsaBDD->getAnnee()->getId())){
+                if ($this->searchInApsaSelectAnnee($ApsaSelectAnnees, $ca_id, $apsa_id, $annee_id)) {
+                    if (count($ApsaSelectAnnees) != count($apsaSelectAnneeAlreadySaved)) {
+                        foreach ($ApsaSelectAnnees as $apsaBDD) {
+                            if (!$this->searchInApsaSelectAnnee($apsaSelectAnneeAlreadySaved, $apsaBDD->getCa()->getId(),
+                                $apsaBDD->getApsa()->getId(), $apsaBDD->getAnnee()->getId())) {
                                 $manager->remove($apsaBDD);
                                 $manager->flush();
                             }
                         }
                     }
-
-                }else{
+                } else {
                     $NewChampsApsaSelectAnnee->setApsa($apsa);
                     $NewChampsApsaSelectAnnee->setCa($ca);
                     $NewChampsApsaSelectAnnee->setAnnee($annee);
@@ -88,9 +84,6 @@ class ApsaSelectAnneeController extends AbstractController
                 }
             }
         }
-
-
         return new JsonResponse(array("ApsaSelectAnnee" => $jsonres), 200);
     }
-
 }
