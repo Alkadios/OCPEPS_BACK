@@ -59,7 +59,7 @@ class Critere
 
     /**
      * @ORM\ManyToOne(targetEntity=ApsaRetenu::class, inversedBy="criteres")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(name="apsa_retenu_id", referencedColumnName="id",nullable=false, onDelete="CASCADE")
      */
     #[Groups(['read:apsaRetenu'])]
     private $ApsaRetenu;
