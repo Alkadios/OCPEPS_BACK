@@ -39,6 +39,7 @@ class Indicateur
 
     /**
      * @ORM\ManyToOne(targetEntity=Critere::class, inversedBy="Indicateur")
+     * @ORM\JoinColumn(name="critere_id", referencedColumnName="id",nullable=false, onDelete="CASCADE")
      */
     private $critere;
 
