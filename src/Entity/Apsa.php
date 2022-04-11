@@ -40,7 +40,7 @@ class Apsa
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:apsa', 'read:champ_apprentissage', 'read:Apsa', 'read:apsaLibelle', 'post:Apsa'])]
+    #[Groups(['read:apsa', 'read:champ_apprentissage', 'read:Apsa', 'read:apsaLibelle', 'post:Apsa', 'read:apsaRetenu'])]
     private $libelle;
 
 
