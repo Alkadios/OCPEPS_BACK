@@ -15,6 +15,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use function PHPUnit\Framework\isEmpty;
+use function PHPUnit\Framework\isFalse;
+use function PHPUnit\Framework\isTrue;
 
 class ApsaSelectAnneeController extends AbstractController
 {
@@ -30,6 +33,7 @@ class ApsaSelectAnneeController extends AbstractController
             }
         }
         return $trouver;
+
     }
 
     /**
@@ -60,8 +64,19 @@ class ApsaSelectAnneeController extends AbstractController
                 $apsa = $apsaRepository->find($apsa_id);
                 $ca = $champApprentissageRepository->find($ca_id);
                 $annee = $anneeRepository->find($annee_id);
-                if(!$this->searchInApsaSelectAnnee($ApsaSelectAnnees,$ca_id,$apsa_id,$annee_id)){
+                if($this->searchInApsaSelectAnnee($ApsaSelectAnnees,$ca_id,$apsa_id,$annee_id)){
 
+                    if(count($ApsaSelectAnnees) != count($apsaSelectAnneeAlreadySaved)){
+                        foreach ($ApsaSelectAnnees as $apsaBDD){
+                            if(!$this->searchInApsaSelectAnnee($apsaSelectAnneeAlreadySaved,$apsaBDD->getCa()->getId(),
+                                $apsaBDD->getApsa()->getId(),$apsaBDD->getAnnee()->getId())){
+                                $manager->remove($apsaBDD);
+                                $manager->flush();
+                            }
+                        }
+                    }
+
+                }else{
                     $NewChampsApsaSelectAnnee->setApsa($apsa);
                     $NewChampsApsaSelectAnnee->setCa($ca);
                     $NewChampsApsaSelectAnnee->setAnnee($annee);
@@ -70,23 +85,10 @@ class ApsaSelectAnneeController extends AbstractController
                     array_push($jsonres, ["id" => $NewChampsApsaSelectAnnee->getId(),
                         "caId" => $NewChampsApsaSelectAnnee->getCa()->getId(),
                         "apsaId" => $NewChampsApsaSelectAnnee->getApsa()->getId()]);
-                }else{
-                   array_push($apsaSelectAnneeAlreadySaved,
-                   $apsaSelectAnneeRepository->findOneBy(["Ca" => $ca , "Apsa" => $apsa ,
-                       "Annee" => $annee]));
                 }
             }
         }
 
-        if(count($ApsaSelectAnnees) != count($apsaSelectAnneeAlreadySaved)){
-            foreach ($ApsaSelectAnnees as $apsaBDD){
-                if(!$this->searchInApsaSelectAnnee($apsaSelectAnneeAlreadySaved,$apsaBDD->getCa()->getId(),
-                $apsaBDD->getApsa()->getId(),$apsaBDD->getAnnee()->getId())){
-                    $manager->remove($apsaBDD);
-                    $manager->flush();
-                }
-            }
-        }
 
         return new JsonResponse(array("ApsaSelectAnnee" => $jsonres), 200);
     }
