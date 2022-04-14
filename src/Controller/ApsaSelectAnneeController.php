@@ -41,11 +41,14 @@ class ApsaSelectAnneeController extends AbstractController
      */
     public function Apsa(ApsaSelectAnneeRepository $apsaSelectAnneeRepository, AnneeRepository $anneeRepository, ChampApprentissageRepository $champApprentissageRepository, ApsaRepository $apsaRepository, Request $request, EntityManagerInterface $manager): Response
     {
+        // Tableau contenant  la réponse lors de l'ajout
         $jsonres = [];
-
-        $apsaSelectAnneeAlreadySaved = [];
-
+        // Récuperation du contenu Json
         $donnees = json_decode($request->getContent());
+
+        // Tableau contenant les ApsaSelect à partir du JSON mais sous forme d'objet
+        $apsaSelectAnneeObjectByJson = [];
+        //Liste contenant tous les ApsaSelectAnne pour l'annee en cours (Grace à l'année du premier élément envoyer)
         $ApsaSelectAnnees = [];
         if (count($donnees) > 0) {
             $ApsaSelectAnnees = $apsaSelectAnneeRepository->findBy(["Annee" => $donnees[0]->Annee]);
@@ -56,26 +59,28 @@ class ApsaSelectAnneeController extends AbstractController
             $apsa_id = $donnee->Apsa;
             $annee_id = $donnee->Annee;
 
-            $NewChampsApsaSelectAnnee = new ApsaSelectAnnee();
-
-            if (isset($apsa_id)) {
+            if (isset($apsa_id) && isset($ca_id) && isset($annee_id)) {
                 $apsa = $apsaRepository->find($apsa_id);
                 $ca = $champApprentissageRepository->find($ca_id);
                 $annee = $anneeRepository->find($annee_id);
-                if ($this->searchInApsaSelectAnnee($ApsaSelectAnnees, $ca_id, $apsa_id, $annee_id)) {
-                    if (count($ApsaSelectAnnees) != count($apsaSelectAnneeAlreadySaved)) {
-                        foreach ($ApsaSelectAnnees as $apsaBDD) {
-                            if (!$this->searchInApsaSelectAnnee($apsaSelectAnneeAlreadySaved, $apsaBDD->getCa()->getId(),
-                                $apsaBDD->getApsa()->getId(), $apsaBDD->getAnnee()->getId())) {
-                                $manager->remove($apsaBDD);
-                                $manager->flush();
-                            }
-                        }
-                    }
-                } else {
-                    $NewChampsApsaSelectAnnee->setApsa($apsa);
-                    $NewChampsApsaSelectAnnee->setCa($ca);
-                    $NewChampsApsaSelectAnnee->setAnnee($annee);
+
+                //Création de l'ApsaSelectAnnee
+                $NewChampsApsaSelectAnnee = new ApsaSelectAnnee();
+                $NewChampsApsaSelectAnnee->setApsa($apsa);
+                $NewChampsApsaSelectAnnee->setCa($ca);
+                $NewChampsApsaSelectAnnee->setAnnee($annee);
+
+                array_push($apsaSelectAnneeObjectByJson,
+                    $NewChampsApsaSelectAnnee);
+
+
+                //Ajout dans la liste si l'apsaSelectAnnee existe déjà dans la BDD
+                //array_push($apsaSelectAnneeAlreadySaved,
+                //$apsaSelectAnneeRepository->findOneBy(["Ca" => $ca , "Apsa" => $apsa ,
+                //   "Annee" => $annee]));
+                //Vérifie si ApsaSelectAnnee envoyer (JSON) n'est pas dans la BDD
+                if (!$this->searchInApsaSelectAnnee($ApsaSelectAnnees, $ca_id, $apsa_id, $annee_id)) {
+
                     $manager->persist($NewChampsApsaSelectAnnee);
                     $manager->flush();
                     array_push($jsonres, ["id" => $NewChampsApsaSelectAnnee->getId(),
@@ -83,6 +88,35 @@ class ApsaSelectAnneeController extends AbstractController
                         "apsaId" => $NewChampsApsaSelectAnnee->getApsa()->getId()]);
                 }
             }
+        }
+
+        /**
+         * else{
+         * if(count($ApsaSelectAnnees) != count($apsaSelectAnneeAlreadySaved)){
+         * foreach ($ApsaSelectAnnees as $apsaBDD){
+         * if(!$this->searchInApsaSelectAnnee($apsaSelectAnneeAlreadySaved,$apsaBDD->getCa()->getId(),$apsaBDD->getApsa()->getId(),$apsaBDD->getAnnee()->getId())){
+         * $manager->remove($apsaBDD);
+         * $manager->flush();
+         * }
+         * }
+         * }
+         *
+         * } * */
+        $ApsaSelectAnneesAfterInsert = [];
+        array_push($ApsaSelectAnneesAfterInsert,
+            $apsaSelectAnneeRepository->findBy([
+                "Annee" => $donnees[0]->Annee]));
+
+        //Si le nombre de données est différent entre le JSON et la BDD
+        if (count($donnees) != count($ApsaSelectAnneesAfterInsert[0])) {
+            foreach ($ApsaSelectAnneesAfterInsert[0] as $apsaBDD) {
+                if (!$this->searchInApsaSelectAnnee($apsaSelectAnneeObjectByJson, $apsaBDD->getCa()->getId(), $apsaBDD->getApsa()->getId(), $apsaBDD->getAnnee()->getId())) {
+                    $manager->remove($apsaBDD);
+                    $manager->flush();
+                }
+            }
+
+
         }
         return new JsonResponse(array("ApsaSelectAnnee" => $jsonres), 200);
     }
