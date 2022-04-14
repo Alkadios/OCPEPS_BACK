@@ -15,7 +15,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 #[ApiResource(
     normalizationContext: [
-        'groups' => ['read:niveauScolaire', 'read:classe']
+        'groups' => ['read:niveauScolaire']
     ]
 )]
 class Cycle
@@ -39,11 +39,7 @@ class Cycle
      */
     private $niveauScolaires;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Classe::class, mappedBy="cycle")
-     */
-    #[Groups(['read:classe'])]
-    private $classes;
+
 
     public function __construct()
     {
@@ -98,33 +94,4 @@ class Cycle
         return $this;
     }
 
-    /**
-     * @return Collection|Classe[]
-     */
-    public function getClasses(): Collection
-    {
-        return $this->classes;
-    }
-
-    public function addClass(Classe $class): self
-    {
-        if (!$this->classes->contains($class)) {
-            $this->classes[] = $class;
-            $class->setCycle($this);
-        }
-
-        return $this;
-    }
-
-    public function removeClass(Classe $class): self
-    {
-        if ($this->classes->removeElement($class)) {
-            // set the owning side to null (unless already changed)
-            if ($class->getCycle() === $this) {
-                $class->setCycle(null);
-            }
-        }
-
-        return $this;
-    }
 }

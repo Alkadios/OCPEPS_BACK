@@ -72,6 +72,11 @@ class ApsaSelectAnnee
      */
     private $apsaRetenus;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Etablissement::class, inversedBy="ApsaSelectAnnee")
+     */
+    private $etablissement;
+
     public function __construct()
     {
         $this->apsaRetenus = new ArrayCollection();
@@ -144,6 +149,18 @@ class ApsaSelectAnnee
                 $apsaRetenu->setApsaSelectAnnee(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getEtablissement(): ?Etablissement
+    {
+        return $this->etablissement;
+    }
+
+    public function setEtablissement(?Etablissement $etablissement): self
+    {
+        $this->etablissement = $etablissement;
 
         return $this;
     }

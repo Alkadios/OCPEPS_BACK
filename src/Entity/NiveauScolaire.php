@@ -49,9 +49,15 @@ class NiveauScolaire
      */
     private $choixAnnees;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Classe::class, mappedBy="NiveauScolaire", orphanRemoval=true)
+     */
+    private $classes;
+
     public function __construct()
     {
         $this->choixAnnees = new ArrayCollection();
+        $this->classes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -107,6 +113,36 @@ class NiveauScolaire
             // set the owning side to null (unless already changed)
             if ($choixAnnee->getNiveau() === $this) {
                 $choixAnnee->setNiveau(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Classe>
+     */
+    public function getClasses(): Collection
+    {
+        return $this->classes;
+    }
+
+    public function addClass(Classe $class): self
+    {
+        if (!$this->classes->contains($class)) {
+            $this->classes[] = $class;
+            $class->setNiveauScolaire($this);
+        }
+
+        return $this;
+    }
+
+    public function removeClass(Classe $class): self
+    {
+        if ($this->classes->removeElement($class)) {
+            // set the owning side to null (unless already changed)
+            if ($class->getNiveauScolaire() === $this) {
+                $class->setNiveauScolaire(null);
             }
         }
 

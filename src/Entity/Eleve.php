@@ -60,11 +60,6 @@ class Eleve
      */
     private $sexeEleve;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Classe::class, inversedBy="Eleve")
-     */
-    private $classe;
-
 
 
     /**
@@ -77,10 +72,22 @@ class Eleve
      */
     private $evaluationEleves;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Classe::class, mappedBy="Eleve")
+     */
+    private $classes;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Etablissement::class, inversedBy="Eleve")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $etablissement;
+
     public function __construct()
     {
         $this->evaluations = new ArrayCollection();
         $this->evaluationEleves = new ArrayCollection();
+        $this->classes = new ArrayCollection();
 
     }
 
@@ -173,18 +180,6 @@ class Eleve
         return $this;
     }
 
-    public function getClasse(): ?Classe
-    {
-        return $this->classe;
-    }
-
-    public function setClasse(?Classe $classe): self
-    {
-        $this->classe = $classe;
-
-        return $this;
-    }
-
 
 
     public function getUser(): ?User
@@ -225,6 +220,45 @@ class Eleve
                 $evaluationElefe->setEleve(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Classe>
+     */
+    public function getClasses(): Collection
+    {
+        return $this->classes;
+    }
+
+    public function addClass(Classe $class): self
+    {
+        if (!$this->classes->contains($class)) {
+            $this->classes[] = $class;
+            $class->addEleve($this);
+        }
+
+        return $this;
+    }
+
+    public function removeClass(Classe $class): self
+    {
+        if ($this->classes->removeElement($class)) {
+            $class->removeEleve($this);
+        }
+
+        return $this;
+    }
+
+    public function getEtablissement(): ?Etablissement
+    {
+        return $this->etablissement;
+    }
+
+    public function setEtablissement(?Etablissement $etablissement): self
+    {
+        $this->etablissement = $etablissement;
 
         return $this;
     }

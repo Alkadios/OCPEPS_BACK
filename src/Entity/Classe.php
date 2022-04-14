@@ -14,7 +14,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 #[ApiResource(
     normalizationContext: [
-        'groups' => ['read:eleve', 'read:cycle']
+        'groups' => ['read:eleve']
     ]
 )]
 class Classe
@@ -33,17 +33,32 @@ class Classe
     #[Groups(['read:classe'])]
     private $libelleClasse;
 
+
+
     /**
-     * @ORM\OneToMany(targetEntity=Eleve::class, mappedBy="classe")
+     * @ORM\ManyToOne(targetEntity=NiveauScolaire::class, inversedBy="classes")
+     * @ORM\JoinColumn(nullable=false)
      */
-    #[Groups(['read:eleve'])]
+    private $NiveauScolaire;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Annee::class, inversedBy="classes")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $Annee;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Eleve::class, inversedBy="classes")
+     */
     private $Eleve;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Cycle::class, inversedBy="classes")
+     * @ORM\ManyToOne(targetEntity=Etablissement::class, inversedBy="Classe")
+     * @ORM\JoinColumn(nullable=false)
      */
-    #[Groups(['read:cycle'])]
-    private $cycle;
+    private $etablissement;
+
+
 
     public function __construct()
     {
@@ -67,8 +82,32 @@ class Classe
         return $this;
     }
 
+    public function getNiveauScolaire(): ?NiveauScolaire
+    {
+        return $this->NiveauScolaire;
+    }
+
+    public function setNiveauScolaire(?NiveauScolaire $NiveauScolaire): self
+    {
+        $this->NiveauScolaire = $NiveauScolaire;
+
+        return $this;
+    }
+
+    public function getAnnee(): ?Annee
+    {
+        return $this->Annee;
+    }
+
+    public function setAnnee(?Annee $Annee): self
+    {
+        $this->Annee = $Annee;
+
+        return $this;
+    }
+
     /**
-     * @return Collection|Eleve[]
+     * @return Collection<int, Eleve>
      */
     public function getEleve(): Collection
     {
@@ -79,7 +118,6 @@ class Classe
     {
         if (!$this->Eleve->contains($eleve)) {
             $this->Eleve[] = $eleve;
-            $eleve->setClasse($this);
         }
 
         return $this;
@@ -87,25 +125,22 @@ class Classe
 
     public function removeEleve(Eleve $eleve): self
     {
-        if ($this->Eleve->removeElement($eleve)) {
-            // set the owning side to null (unless already changed)
-            if ($eleve->getClasse() === $this) {
-                $eleve->setClasse(null);
-            }
-        }
+        $this->Eleve->removeElement($eleve);
 
         return $this;
     }
 
-    public function getCycle(): ?Cycle
+    public function getEtablissement(): ?Etablissement
     {
-        return $this->cycle;
+        return $this->etablissement;
     }
 
-    public function setCycle(?Cycle $cycle): self
+    public function setEtablissement(?Etablissement $etablissement): self
     {
-        $this->cycle = $cycle;
+        $this->etablissement = $etablissement;
 
         return $this;
     }
+
+
 }

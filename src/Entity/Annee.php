@@ -38,10 +38,21 @@ class Annee
      */
     private $apsaSelectAnnees;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Classe::class, mappedBy="Annee")
+     */
+    private $classes;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $en_cours;
+
     public function __construct()
     {
         $this->choixAnnees = new ArrayCollection();
         $this->apsaSelectAnnees = new ArrayCollection();
+        $this->classes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -117,6 +128,48 @@ class Annee
                 $apsaSelectAnnee->setAnnee(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Classe>
+     */
+    public function getClasses(): Collection
+    {
+        return $this->classes;
+    }
+
+    public function addClass(Classe $class): self
+    {
+        if (!$this->classes->contains($class)) {
+            $this->classes[] = $class;
+            $class->setAnnee($this);
+        }
+
+        return $this;
+    }
+
+    public function removeClass(Classe $class): self
+    {
+        if ($this->classes->removeElement($class)) {
+            // set the owning side to null (unless already changed)
+            if ($class->getAnnee() === $this) {
+                $class->setAnnee(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getEnCours(): ?bool
+    {
+        return $this->en_cours;
+    }
+
+    public function setEnCours(?bool $en_cours): self
+    {
+        $this->en_cours = $en_cours;
 
         return $this;
     }
