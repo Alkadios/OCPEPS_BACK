@@ -20,20 +20,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 
-
 class CAController extends AbstractController
 {
 
     /**
      * @Route("api/champ_apprentissages/{id}/deleteApsaAndReplace", name="deleteApsa", methods={"POST"})
      */
-    public function Apsa(ChampsApprentissageApsaRepository $champsApprentissageApsaRepository, ApsaRepository $apsaRepository ,Request $request ,ChampApprentissage $ca ,  EntityManagerInterface $manager): Response
+    public function Apsa(ChampsApprentissageApsaRepository $champsApprentissageApsaRepository, ApsaRepository $apsaRepository, Request $request, ChampApprentissage $ca, EntityManagerInterface $manager): Response
     {
-
         $champsapsa = $champsApprentissageApsaRepository->findBy(["ChampApprentissage" => $ca]);
-
         $jsonres = [];
-
 
         foreach ($champsapsa as $champs) {
             if ($ca) {
@@ -58,15 +54,8 @@ class CAController extends AbstractController
                 $manager->persist($NewChampsApsa);
                 $manager->flush();
                 array_push($jsonres, ["id" => $NewChampsApsa->getId(), "caId" => $NewChampsApsa->getChampApprentissage()->getId(), "apsaId" => $NewChampsApsa->getApsa()->getId()]);
-
-
             }
         }
         return new JsonResponse(array("ApprentissageApsa" => $jsonres), 200);
-
     }
-
-
-
-
 }

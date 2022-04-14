@@ -34,7 +34,6 @@ class ApsaSelectAnneeController extends AbstractController
             }
         }
         return $trouver;
-
     }
 
     /**
