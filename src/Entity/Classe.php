@@ -53,7 +53,7 @@ class Classe
     private $Eleve;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Etablissement::class, inversedBy="Classe")
+     * @ORM\ManyToOne(targetEntity=Etablissement::class, inversedBy="Classe", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $etablissement;

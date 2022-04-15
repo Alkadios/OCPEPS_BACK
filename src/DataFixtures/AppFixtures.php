@@ -12,6 +12,7 @@ use App\Entity\ChampsApprentissageApsa;
 use App\Entity\ChoixAnnee;
 use App\Entity\Classe;
 use App\Entity\Cycle;
+use App\Entity\Etablissement;
 use App\Entity\NiveauScolaire;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -36,85 +37,7 @@ class AppFixtures extends Fixture
         $cycle4->setLibelle("Cycle 4");
         $manager->persist($cycle4);
 
-        $classe1 = new Classe();
-        $classe1->setLibelleClasse("CP");
-        $classe1->setCycle($cycle1);
-        $manager->persist($classe1);
 
-        $classe2 = new Classe();
-        $classe2->setLibelleClasse("CE1");
-        $classe2->setCycle($cycle1);
-        $manager->persist($classe2);
-
-        $classe3 = new Classe();
-        $classe3->setLibelleClasse("CE2");
-        $classe3->setCycle($cycle1);
-        $manager->persist($classe3);
-
-        $classe4 = new Classe();
-        $classe4->setLibelleClasse("CM1");
-        $classe4->setCycle($cycle2);
-        $manager->persist($classe4);
-
-        $classe5 = new Classe();
-        $classe5->setLibelleClasse("CM2");
-        $classe5->setCycle($cycle2);
-        $manager->persist($classe5);
-
-        $classe6 = new Classe();
-        $classe6->setLibelleClasse("6ème");
-        $classe6->setCycle($cycle2);
-        $manager->persist($classe6);
-
-        $classe7 = new Classe();
-        $classe7->setLibelleClasse("5ème");
-        $classe7->setCycle($cycle3);
-        $manager->persist($classe7);
-
-        $classe8 = new Classe();
-        $classe8->setLibelleClasse("4ème");
-        $classe8->setCycle($cycle3);
-        $manager->persist($classe8);
-
-        $classe9 = new Classe();
-        $classe9->setLibelleClasse("3ème");
-        $classe9->setCycle($cycle3);
-        $manager->persist($classe9);
-
-        $classe10 = new Classe();
-        $classe10->setLibelleClasse("2nd");
-        $classe10->setCycle($cycle3);
-        $manager->persist($classe10);
-
-        $classe11 = new Classe();
-        $classe11->setLibelleClasse("1ère");
-        $classe11->setCycle($cycle4);
-        $manager->persist($classe11);
-
-        $classe12 = new Classe();
-        $classe12->setLibelleClasse("Terminale");
-        $classe12->setCycle($cycle4);
-        $manager->persist($classe12);
-
-        $classe13 = new Classe();
-        $classe13->setLibelleClasse("CAP1");
-        $classe13->setCycle($cycle4);
-        $manager->persist($classe13);
-
-        $classe14 = new Classe();
-        $classe14->setLibelleClasse("CAP2");
-        $classe14->setCycle($cycle4);
-        $manager->persist($classe14);
-
-        $classe15 = new Classe();
-        $classe15->setLibelleClasse("BEP1");
-        $classe15->setCycle($cycle4);
-        $manager->persist($classe15);
-
-        $classe16 = new Classe();
-        $classe16->setLibelleClasse("BEP2");
-        $classe16->setCycle($cycle4);
-        $manager->persist($classe16);
 
         $niveauScolaire1 = new NiveauScolaire();
         $niveauScolaire1->setLibelle("CP");
@@ -199,6 +122,103 @@ class AppFixtures extends Fixture
         $annee1 = new Annee();
         $annee1->setAnnee("2020");
         $manager->persist($annee1);
+
+        $etablissement = new Etablissement();
+        $etablissement->setMail("saintjoseph@hotmail.fr");
+        $etablissement->setAdresse("rue saint joseph");
+        $etablissement->setCp(69120);
+        $etablissement->setNom("saint joseph");
+        $etablissement->setTel("0654956454");
+        $etablissement->setVille("Lyon");
+
+
+
+        $classe1 = new Classe();
+        $classe1->setLibelleClasse("CP");
+        $classe1->setNiveauScolaire($niveauScolaire2);
+        $classe1->setAnnee($annee1);
+        $classe1->setEtablissement($etablissement);
+        $manager->persist($classe1);
+
+        $classe2 = new Classe();
+        $classe2->setLibelleClasse("CE1");
+        $classe2->setNiveauScolaire($niveauScolaire3);
+        $classe2->setAnnee($annee1);
+        $classe2->setEtablissement($etablissement);
+        $manager->persist($classe2);
+
+        $classe3 = new Classe();
+        $classe3->setLibelleClasse("CE2");
+        $classe3->setNiveauScolaire($niveauScolaire1);
+        $classe3->setAnnee($annee1);
+        $classe3->setEtablissement($etablissement);
+        $manager->persist($classe3);
+
+        $classe4 = new Classe();
+        $classe4->setLibelleClasse("CM1");
+        $classe4->setNiveauScolaire($niveauScolaire4);
+        $classe4->setAnnee($annee1);
+        $classe4->setEtablissement($etablissement);
+        $manager->persist($classe4);
+
+        $classe5 = new Classe();
+        $classe5->setLibelleClasse("CM2");
+        $classe5->setNiveauScolaire($niveauScolaire5);
+        $classe5->setAnnee($annee1);
+        $classe5->setEtablissement($etablissement);
+        $manager->persist($classe5);
+
+        $classe6 = new Classe();
+        $classe6->setLibelleClasse("6ème");
+        $classe6->setNiveauScolaire($niveauScolaire6);
+        $classe6->setAnnee($annee1);
+        $classe6->setEtablissement($etablissement);
+        $manager->persist($classe6);
+
+        $classe7 = new Classe();
+        $classe7->setLibelleClasse("5ème");
+        $classe7->setNiveauScolaire($niveauScolaire7);
+        $classe7->setAnnee($annee1);
+        $classe7->setEtablissement($etablissement);
+        $manager->persist($classe7);
+
+        $classe8 = new Classe();
+        $classe8->setLibelleClasse("4ème");
+        $classe8->setNiveauScolaire($niveauScolaire8);
+        $classe8->setAnnee($annee1);
+        $classe8->setEtablissement($etablissement);
+        $manager->persist($classe8);
+
+        $classe9 = new Classe();
+        $classe9->setLibelleClasse("3ème");
+        $classe9->setNiveauScolaire($niveauScolaire9);
+        $classe9->setAnnee($annee1);
+        $classe9->setEtablissement($etablissement);
+        $manager->persist($classe9);
+
+        $classe10 = new Classe();
+        $classe10->setLibelleClasse("2nd");
+        $classe10->setNiveauScolaire($niveauScolaire10);
+        $classe10->setAnnee($annee1);
+        $classe10->setEtablissement($etablissement);
+        $manager->persist($classe10);
+
+        $classe11 = new Classe();
+        $classe11->setLibelleClasse("1ère");
+        $classe11->setNiveauScolaire($niveauScolaire11);
+        $classe11->setAnnee($annee1);
+        $classe11->setEtablissement($etablissement);
+        $manager->persist($classe11);
+
+        $classe12 = new Classe();
+        $classe12->setLibelleClasse("Terminale");
+        $classe12->setNiveauScolaire($niveauScolaire12);
+        $classe12->setAnnee($annee1);
+        $classe12->setEtablissement($etablissement);
+        $manager->persist($classe12);
+
+
+
 
         $ChampApprentissage1 = new ChampApprentissage();
         $ChampApprentissage1->setLibelle("Endurance");
@@ -366,6 +386,7 @@ class AppFixtures extends Fixture
         $champApprentissageApsa11->setApsa($Apsa6);
         $champApprentissageApsa11->setChampApprentissage($ChampApprentissage1);
         $manager->persist($champApprentissageApsa11);
+
 
         $Af1 = new Af();
         $Af1->setLibelle("Produire des efforts");
