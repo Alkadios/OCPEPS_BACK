@@ -120,7 +120,8 @@ class AppFixtures extends Fixture
         $manager->persist($niveauScolaire16);
 
         $annee1 = new Annee();
-        $annee1->setAnnee("2020");
+        $annee1->setAnnee("2020-2021");
+        $annee1->setEnCours(true);
         $manager->persist($annee1);
 
         $etablissement = new Etablissement();
