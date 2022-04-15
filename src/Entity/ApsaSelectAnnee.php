@@ -6,6 +6,8 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\ApsaSelectAnneeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -13,12 +15,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity(repositoryClass=ApsaSelectAnneeRepository::class)
  * @ORM\Table(
- *      name="Apsa_Select_Annee",
+ *      name="apsa_select_annee",
  *      uniqueConstraints={@ORM\UniqueConstraint(columns={"apsa_id", "ca_id" ,"annee_id"})}
  * )
  * @UniqueEntity(
  *      fields={"Apsa", "Ca" , "Annee"},
- *      message="ApsaSelectAnnee for given country already exists in database."
+ *      message="ApsaSelectAnneeController for given country already exists in database."
  * )
  */
 #[ApiResource(
@@ -44,6 +46,7 @@ class ApsaSelectAnnee
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    #[Groups(['post:ApsaRetenu'])]
     private $id;
 
     /**
@@ -55,7 +58,7 @@ class ApsaSelectAnnee
     /**
      * @ORM\ManyToOne(targetEntity=Apsa::class, inversedBy="apsaSelectAnnees")
      */
-    #[Groups(['read:apsaSelectAnne', 'write:apsaId', 'post:apsaSelectAnnee'])]
+    #[Groups(['read:apsaSelectAnne', 'write:apsaId', 'post:apsaSelectAnnee', 'read:apsaRetenu'])]
     private $Apsa;
 
     /**
@@ -63,6 +66,21 @@ class ApsaSelectAnnee
      */
     #[Groups(['read:Annee', 'write:Annee', 'post:apsaSelectAnnee'])]
     private $Annee;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ApsaRetenu::class, mappedBy="ApsaSelectAnneeController")
+     */
+    private $apsaRetenus;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Etablissement::class, inversedBy="ApsaSelectAnnee")
+     */
+    private $etablissement;
+
+    public function __construct()
+    {
+        $this->apsaRetenus = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -101,6 +119,48 @@ class ApsaSelectAnnee
     public function setAnnee(?Annee $Annee): self
     {
         $this->Annee = $Annee;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ApsaRetenu>
+     */
+    public function getApsaRetenus(): Collection
+    {
+        return $this->apsaRetenus;
+    }
+
+    public function addApsaRetenu(ApsaRetenu $apsaRetenu): self
+    {
+        if (!$this->apsaRetenus->contains($apsaRetenu)) {
+            $this->apsaRetenus[] = $apsaRetenu;
+            $apsaRetenu->setApsaSelectAnnee($this);
+        }
+
+        return $this;
+    }
+
+    public function removeApsaRetenu(ApsaRetenu $apsaRetenu): self
+    {
+        if ($this->apsaRetenus->removeElement($apsaRetenu)) {
+            // set the owning side to null (unless already changed)
+            if ($apsaRetenu->getApsaSelectAnnee() === $this) {
+                $apsaRetenu->setApsaSelectAnnee(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getEtablissement(): ?Etablissement
+    {
+        return $this->etablissement;
+    }
+
+    public function setEtablissement(?Etablissement $etablissement): self
+    {
+        $this->etablissement = $etablissement;
 
         return $this;
     }

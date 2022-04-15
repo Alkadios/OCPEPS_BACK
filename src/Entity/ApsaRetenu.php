@@ -13,11 +13,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity(repositoryClass=ApsaRetenuRepository::class)
  * @ORM\Table(
- *      name="apsaretenu",
- *      uniqueConstraints={@ORM\UniqueConstraint(columns={"apsa_id", "af_retenu_id"})}
+ *      name="apsa_retenu",
+ *      uniqueConstraints={@ORM\UniqueConstraint(columns={"apsa_select_annee_id","af_retenu_id"})}
  * )
  * @UniqueEntity(
- *      fields={"Apsa","AfRetenu"},
+ *      fields={"ApsaSelectAnnee", "AfRetenu"},
  *      message="Apsaretenu for given country already exists in database."
  * )
  */
@@ -42,14 +42,8 @@ class ApsaRetenu
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:ApsaRetenu', 'read:Apsa'])]
+    #[Groups(['read:ApsaRetenu', 'read:Apsa', 'read:apsaRetenu'])]
     private $id;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Apsa::class, inversedBy="apsaRetenus")
-     */
-    #[Groups(['read:ApsaRetenu', 'read:Apsa', 'post:ApsaRetenu'])]
-    private $Apsa;
 
     /**
      * @ORM\ManyToOne(targetEntity=AfRetenu::class, inversedBy="apsaRetenus")
@@ -57,41 +51,37 @@ class ApsaRetenu
     #[Groups(['read:AfRetenu', 'post:ApsaRetenu'])]
     private $AfRetenu;
 
-
-
     /**
      * @ORM\Column(type="string", length=255)
      */
     #[Groups(['post:ApsaRetenu'])]
     private $SituationEvaluation;
 
+
     /**
-     * @ORM\OneToMany(targetEntity=Indicateur::class, mappedBy="ApsaRetenu")
+     * @ORM\ManyToOne(targetEntity=ApsaSelectAnnee::class, inversedBy="apsaRetenus")
+     * @ORM\JoinColumn(name="apsa_select_annee_id", referencedColumnName="id",nullable=false, onDelete="CASCADE")
      */
-    private $indicateurs;
+    #[Groups(['post:ApsaRetenu', 'read:apsaRetenu'])]
+    private $ApsaSelectAnnee;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Critere::class, mappedBy="ApsaRetenu", orphanRemoval=true)
+     */
+    private $criteres;
 
     public function __construct()
     {
         $this->criteres = new ArrayCollection();
-        $this->indicateurs = new ArrayCollection();
     }
+
+
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getApsa(): ?Apsa
-    {
-        return $this->Apsa;
-    }
-
-    public function setApsa(?Apsa $Apsa): self
-    {
-        $this->Apsa = $Apsa;
-
-        return $this;
-    }
 
     public function getAfRetenu(): ?AfRetenu
     {
@@ -118,33 +108,48 @@ class ApsaRetenu
         return $this;
     }
 
-    /**
-     * @return Collection<int, Indicateur>
-     */
-    public function getIndicateurs(): Collection
+
+    public function getApsaSelectAnnee(): ?ApsaSelectAnnee
     {
-        return $this->indicateurs;
+        return $this->ApsaSelectAnnee;
     }
 
-    public function addIndicateur(Indicateur $indicateur): self
+    public function setApsaSelectAnnee(?ApsaSelectAnnee $ApsaSelectAnnee): self
     {
-        if (!$this->indicateurs->contains($indicateur)) {
-            $this->indicateurs[] = $indicateur;
-            $indicateur->setApsaRetenu($this);
+        $this->ApsaSelectAnnee = $ApsaSelectAnnee;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Critere>
+     */
+    public function getCriteres(): Collection
+    {
+        return $this->criteres;
+    }
+
+    public function addCritere(Critere $critere): self
+    {
+        if (!$this->criteres->contains($critere)) {
+            $this->criteres[] = $critere;
+            $critere->setApsaRetenu($this);
         }
 
         return $this;
     }
 
-    public function removeIndicateur(Indicateur $indicateur): self
+    public function removeCritere(Critere $critere): self
     {
-        if ($this->indicateurs->removeElement($indicateur)) {
+        if ($this->criteres->removeElement($critere)) {
             // set the owning side to null (unless already changed)
-            if ($indicateur->getApsaRetenu() === $this) {
-                $indicateur->setApsaRetenu(null);
+            if ($critere->getApsaRetenu() === $this) {
+                $critere->setApsaRetenu(null);
             }
         }
 
         return $this;
     }
+
+
 }

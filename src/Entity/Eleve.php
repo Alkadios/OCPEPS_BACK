@@ -60,24 +60,35 @@ class Eleve
      */
     private $sexeEleve;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Utilisateur::class, inversedBy="eleves")
-     */
-    private $utilisateur;
+
 
     /**
-     * @ORM\ManyToOne(targetEntity=Classe::class, inversedBy="Eleve")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="eleves")
      */
-    private $classe;
+    private $user;
 
     /**
-     * @ORM\OneToMany(targetEntity=Evaluation::class, mappedBy="ELeve")
+     * @ORM\OneToMany(targetEntity=EvaluationEleve::class, mappedBy="Eleve", orphanRemoval=true)
      */
-    private $evaluations;
+    private $evaluationEleves;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Classe::class, mappedBy="Eleve")
+     */
+    private $classes;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Etablissement::class, inversedBy="Eleve")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $etablissement;
 
     public function __construct()
     {
         $this->evaluations = new ArrayCollection();
+        $this->evaluationEleves = new ArrayCollection();
+        $this->classes = new ArrayCollection();
+
     }
 
     public function getId(): ?int
@@ -169,57 +180,87 @@ class Eleve
         return $this;
     }
 
-    public function getUtilisateur(): ?Utilisateur
+
+
+    public function getUser(): ?User
     {
-        return $this->utilisateur;
+        return $this->user;
     }
 
-    public function setUtilisateur(?Utilisateur $utilisateur): self
+    public function setUser(?User $user): self
     {
-        $this->utilisateur = $utilisateur;
-
-        return $this;
-    }
-
-    public function getClasse(): ?Classe
-    {
-        return $this->classe;
-    }
-
-    public function setClasse(?Classe $classe): self
-    {
-        $this->classe = $classe;
+        $this->user = $user;
 
         return $this;
     }
 
     /**
-     * @return Collection|Evaluation[]
+     * @return Collection<int, EvaluationEleve>
      */
-    public function getEvaluations(): Collection
+    public function getEvaluationEleves(): Collection
     {
-        return $this->evaluations;
+        return $this->evaluationEleves;
     }
 
-    public function addEvaluation(Evaluation $evaluation): self
+    public function addEvaluationElefe(EvaluationEleve $evaluationElefe): self
     {
-        if (!$this->evaluations->contains($evaluation)) {
-            $this->evaluations[] = $evaluation;
-            $evaluation->setELeve($this);
+        if (!$this->evaluationEleves->contains($evaluationElefe)) {
+            $this->evaluationEleves[] = $evaluationElefe;
+            $evaluationElefe->setEleve($this);
         }
 
         return $this;
     }
 
-    public function removeEvaluation(Evaluation $evaluation): self
+    public function removeEvaluationElefe(EvaluationEleve $evaluationElefe): self
     {
-        if ($this->evaluations->removeElement($evaluation)) {
+        if ($this->evaluationEleves->removeElement($evaluationElefe)) {
             // set the owning side to null (unless already changed)
-            if ($evaluation->getELeve() === $this) {
-                $evaluation->setELeve(null);
+            if ($evaluationElefe->getEleve() === $this) {
+                $evaluationElefe->setEleve(null);
             }
         }
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Classe>
+     */
+    public function getClasses(): Collection
+    {
+        return $this->classes;
+    }
+
+    public function addClass(Classe $class): self
+    {
+        if (!$this->classes->contains($class)) {
+            $this->classes[] = $class;
+            $class->addEleve($this);
+        }
+
+        return $this;
+    }
+
+    public function removeClass(Classe $class): self
+    {
+        if ($this->classes->removeElement($class)) {
+            $class->removeEleve($this);
+        }
+
+        return $this;
+    }
+
+    public function getEtablissement(): ?Etablissement
+    {
+        return $this->etablissement;
+    }
+
+    public function setEtablissement(?Etablissement $etablissement): self
+    {
+        $this->etablissement = $etablissement;
+
+        return $this;
+    }
+
 }

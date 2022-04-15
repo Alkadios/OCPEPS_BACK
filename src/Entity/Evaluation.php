@@ -4,18 +4,15 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\EvaluationRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=EvaluationRepository::class)
  * @ORM\Table(
- *      name="evaluation",
- *      uniqueConstraints={@ORM\UniqueConstraint(columns={"eleve_id","date_eval"})}
- * )
- * @UniqueEntity(
- *      fields={"eleve_id","date_eval"},
- *      message="Evaluation for given country already exists in database."
+ *      name="evaluation"
  * )
  * @ApiResource()
  */
@@ -28,32 +25,29 @@ class Evaluation
      */
     private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Eleve::class, inversedBy="evaluations")
-     */
-    private $ELeve;
 
     /**
      * @ORM\Column(type="date")
      */
     private $DateEval;
 
+    /**
+     * @ORM\OneToMany(targetEntity=EvaluationEleve::class, mappedBy="Evaluation", orphanRemoval=true)
+     */
+    private $evaluationEleves;
+
+    public function __construct()
+    {
+        $this->evaluationEleves = new ArrayCollection();
+    }
+
+
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getELeve(): ?Eleve
-    {
-        return $this->ELeve;
-    }
-
-    public function setELeve(?Eleve $ELeve): self
-    {
-        $this->ELeve = $ELeve;
-
-        return $this;
-    }
 
 
     public function getDateEval(): ?\DateTimeInterface
@@ -67,4 +61,36 @@ class Evaluation
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, EvaluationEleve>
+     */
+    public function getEvaluationEleves(): Collection
+    {
+        return $this->evaluationEleves;
+    }
+
+    public function addEvaluationElefe(EvaluationEleve $evaluationElefe): self
+    {
+        if (!$this->evaluationEleves->contains($evaluationElefe)) {
+            $this->evaluationEleves[] = $evaluationElefe;
+            $evaluationElefe->setEvaluation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvaluationElefe(EvaluationEleve $evaluationElefe): self
+    {
+        if ($this->evaluationEleves->removeElement($evaluationElefe)) {
+            // set the owning side to null (unless already changed)
+            if ($evaluationElefe->getEvaluation() === $this) {
+                $evaluationElefe->setEvaluation(null);
+            }
+        }
+
+        return $this;
+    }
+
+
 }

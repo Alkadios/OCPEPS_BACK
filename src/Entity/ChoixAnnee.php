@@ -13,7 +13,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity(repositoryClass=ChoixAnneeRepository::class)
  * @ORM\Table(
- *      name="choixannee",
+ *      name="choix_annee",
  *      uniqueConstraints={@ORM\UniqueConstraint(columns={"niveau_id", "annee_id","champ_apprentissage_id"})}
  * )
  * @UniqueEntity(

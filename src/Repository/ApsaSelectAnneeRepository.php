@@ -20,7 +20,7 @@ class ApsaSelectAnneeRepository extends ServiceEntityRepository
     }
 
     // /**
-    //  * @return ApsaSelectAnnee[] Returns an array of ApsaSelectAnnee objects
+    //  * @return ApsaSelectAnneeController[] Returns an array of ApsaSelectAnneeController objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class ApsaSelectAnneeRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?ApsaSelectAnnee
+    public function findOneBySomeField($value): ?ApsaSelectAnneeController
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.exampleField = :val')

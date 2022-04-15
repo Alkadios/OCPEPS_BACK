@@ -37,18 +37,24 @@ class Professeur
     private $telephone;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Utilisateur::class, inversedBy="professeurs")
-     */
-    private $utilisateur;
-
-    /**
      * @ORM\OneToMany(targetEntity=Cours::class, mappedBy="Professeur")
      */
     private $cours;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="professeurs")
+     */
+    private $user;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Etablissement::class, mappedBy="Professeur")
+     */
+    private $etablissements;
+
     public function __construct()
     {
         $this->cours = new ArrayCollection();
+        $this->etablissements = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -92,18 +98,6 @@ class Professeur
         return $this;
     }
 
-    public function getUtilisateur(): ?Utilisateur
-    {
-        return $this->utilisateur;
-    }
-
-    public function setUtilisateur(?Utilisateur $utilisateur): self
-    {
-        $this->utilisateur = $utilisateur;
-
-        return $this;
-    }
-
     /**
      * @return Collection|Cours[]
      */
@@ -129,6 +123,45 @@ class Professeur
             if ($cour->getProfesseur() === $this) {
                 $cour->setProfesseur(null);
             }
+        }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Etablissement>
+     */
+    public function getEtablissements(): Collection
+    {
+        return $this->etablissements;
+    }
+
+    public function addEtablissement(Etablissement $etablissement): self
+    {
+        if (!$this->etablissements->contains($etablissement)) {
+            $this->etablissements[] = $etablissement;
+            $etablissement->addProfesseur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEtablissement(Etablissement $etablissement): self
+    {
+        if ($this->etablissements->removeElement($etablissement)) {
+            $etablissement->removeProfesseur($this);
         }
 
         return $this;

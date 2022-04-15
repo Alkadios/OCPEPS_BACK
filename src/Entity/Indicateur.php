@@ -33,9 +33,30 @@ class Indicateur
     private $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity=ApsaRetenu::class, inversedBy="indicateurs")
+     * @ORM\OneToMany(targetEntity=EvaluationEleve::class, mappedBy="Indicateur", orphanRemoval=true)
      */
-    private $ApsaRetenu;
+    private $evaluationEleves;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Critere::class, inversedBy="Indicateur")
+     * @ORM\JoinColumn(name="critere_id", referencedColumnName="id",nullable=false, onDelete="CASCADE")
+     */
+    private $critere;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $url_video;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $image;
+
+    public function __construct()
+    {
+        $this->evaluationEleves = new ArrayCollection();
+    }
 
 
     public function getId(): ?int
@@ -67,17 +88,73 @@ class Indicateur
         return $this;
     }
 
-    public function getApsaRetenu(): ?ApsaRetenu
+    /**
+     * @return Collection<int, EvaluationEleve>
+     */
+    public function getEvaluationEleves(): Collection
     {
-        return $this->ApsaRetenu;
+        return $this->evaluationEleves;
     }
 
-    public function setApsaRetenu(?ApsaRetenu $ApsaRetenu): self
+    public function addEvaluationElefe(EvaluationEleve $evaluationElefe): self
     {
-        $this->ApsaRetenu = $ApsaRetenu;
+        if (!$this->evaluationEleves->contains($evaluationElefe)) {
+            $this->evaluationEleves[] = $evaluationElefe;
+            $evaluationElefe->setIndicateur($this);
+        }
 
         return $this;
     }
+
+    public function removeEvaluationElefe(EvaluationEleve $evaluationElefe): self
+    {
+        if ($this->evaluationEleves->removeElement($evaluationElefe)) {
+            // set the owning side to null (unless already changed)
+            if ($evaluationElefe->getIndicateur() === $this) {
+                $evaluationElefe->setIndicateur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCritere(): ?Critere
+    {
+        return $this->critere;
+    }
+
+    public function setCritere(?Critere $critere): self
+    {
+        $this->critere = $critere;
+
+        return $this;
+    }
+
+    public function getUrlVideo(): ?string
+    {
+        return $this->url_video;
+    }
+
+    public function setUrlVideo(?string $url_video): self
+    {
+        $this->url_video = $url_video;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+
 
 
 }
