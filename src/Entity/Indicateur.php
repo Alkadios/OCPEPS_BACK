@@ -48,6 +48,11 @@ class Indicateur
      */
     private $url_video;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $image;
+
     public function __construct()
     {
         $this->evaluationEleves = new ArrayCollection();
@@ -133,6 +138,18 @@ class Indicateur
     public function setUrlVideo(?string $url_video): self
     {
         $this->url_video = $url_video;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
 
         return $this;
     }
