@@ -28,7 +28,7 @@ class AfController extends AbstractController
         $trouver = false;
 
         foreach ($AfRetenus as $AfRetenu) {
-            if ($AfRetenu->getAf() == $idAf  && $AfRetenu->getChoixAnnee()->getId() == $choixAnneeId){
+            if ($AfRetenu->getAf()->getId() == $idAf  && $AfRetenu->getChoixAnnee()->getId() == $choixAnneeId){
                 $trouver = true;
                 break;
             }
@@ -67,7 +67,7 @@ class AfController extends AbstractController
               array_push($AfRetenuByJson,$NewAfRetenu);
 
 
-              if (!$this->searchInAfRetenu($AfRetenus, $afEntry ,$choixAnnee)) {
+              if (!$this->searchInAfRetenu($AfRetenus, $afEntry ,$choixAnnee->getId())) {
 
               $manager->persist($NewAfRetenu);
               $manager->flush();
