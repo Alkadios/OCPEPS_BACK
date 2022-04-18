@@ -33,7 +33,7 @@ class EvaluationEleve
 
     /**
      * @ORM\ManyToOne(targetEntity=Indicateur::class, inversedBy="evaluationEleves")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(name="indicateur_id", referencedColumnName="id",nullable=false, onDelete="CASCADE")
      */
     private $Indicateur;
 
