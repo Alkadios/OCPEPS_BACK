@@ -15,7 +15,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity(repositoryClass=EleveRepository::class)
  * @ApiResource()
  */
-#[ApiFilter(SearchFilter::class, properties: ['eleveClasses.id' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['eleveClasses.classe.id' => 'exact'])]
 class Eleve
 {
     /**
