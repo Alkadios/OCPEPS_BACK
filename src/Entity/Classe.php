@@ -13,8 +13,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity(repositoryClass=ClasseRepository::class)
  */
 #[ApiResource(
-    normalizationContext: [
-        'groups' => ['read:eleve']
+    collectionOperations: [
+        'get' => [
+            'normalization_context' => [
+                'groups' => ['read:classe']
+            ]
+        ]
     ]
 )]
 class Classe
@@ -38,12 +42,14 @@ class Classe
      * @ORM\ManyToOne(targetEntity=NiveauScolaire::class, inversedBy="classes")
      * @ORM\JoinColumn(nullable=false)
      */
+    #[Groups(['read:classe', 'read:professeurClasse'])]
     private $NiveauScolaire;
 
     /**
      * @ORM\ManyToOne(targetEntity=Annee::class, inversedBy="classes")
      * @ORM\JoinColumn(nullable=false)
      */
+    #[Groups(['read:classe'])]
     private $Annee;
 
 
@@ -51,11 +57,13 @@ class Classe
      * @ORM\ManyToOne(targetEntity=Etablissement::class, inversedBy="Classe", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
+    #[Groups(['read:classe'])]
     private $etablissement;
 
     /**
      * @ORM\OneToMany(targetEntity=EleveClasse::class, mappedBy="classe", orphanRemoval=true)
      */
+    #[Groups(['read:classe'])]
     private $eleveClasses;
 
     /**

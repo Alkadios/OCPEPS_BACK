@@ -28,13 +28,13 @@ class NiveauScolaire
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:niveauScolaire'])]
+    #[Groups(['read:niveauScolaire', 'read:professeurClasse'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:niveauScolaire'])]
+    #[Groups(['read:niveauScolaire', 'read:professeurClasse'])]
     private $libelle;
 
     /**
