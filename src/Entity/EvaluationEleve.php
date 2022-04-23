@@ -8,8 +8,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=EvaluationEleveRepository::class)
- * @ApiResource()
  */
+
+#[ApiResource()]
 class EvaluationEleve
 {
     /**
@@ -33,7 +34,7 @@ class EvaluationEleve
 
     /**
      * @ORM\ManyToOne(targetEntity=Indicateur::class, inversedBy="evaluationEleves")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(name="indicateur_id", referencedColumnName="id",nullable=false, onDelete="CASCADE")
      */
     private $Indicateur;
 

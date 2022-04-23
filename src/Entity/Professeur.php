@@ -7,11 +7,12 @@ use App\Repository\ProfesseurRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ProfesseurRepository::class)
- * @ApiResource()
  */
+#[ApiResource()]
 class Professeur
 {
     /**
@@ -19,21 +20,25 @@ class Professeur
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    #[Groups(['read:professeurClasse'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['read:professeurClasse'])]
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['read:professeurClasse'])]
     private $prenom;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['read:professeurClasse'])]
     private $telephone;
 
     /**
@@ -51,10 +56,17 @@ class Professeur
      */
     private $etablissements;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ProfesseurClasse::class, mappedBy="professeur", orphanRemoval=true)
+     */
+    private $professeurClasses;
+
+
     public function __construct()
     {
         $this->cours = new ArrayCollection();
         $this->etablissements = new ArrayCollection();
+        $this->professeurClasses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -166,4 +178,36 @@ class Professeur
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, ProfesseurClasse>
+     */
+    public function getProfesseurClasses(): Collection
+    {
+        return $this->professeurClasses;
+    }
+
+    public function addProfesseurClass(ProfesseurClasse $professeurClass): self
+    {
+        if (!$this->professeurClasses->contains($professeurClass)) {
+            $this->professeurClasses[] = $professeurClass;
+            $professeurClass->setProfesseur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProfesseurClass(ProfesseurClasse $professeurClass): self
+    {
+        if ($this->professeurClasses->removeElement($professeurClass)) {
+            // set the owning side to null (unless already changed)
+            if ($professeurClass->getProfesseur() === $this) {
+                $professeurClass->setProfesseur(null);
+            }
+        }
+
+        return $this;
+    }
+
+
 }

@@ -47,6 +47,7 @@ class ApsaRetenu
 
     /**
      * @ORM\ManyToOne(targetEntity=AfRetenu::class, inversedBy="apsaRetenus")
+     * @ORM\JoinColumn(name="af_retenu_id", referencedColumnName="id", onDelete="CASCADE")
      */
     #[Groups(['read:AfRetenu', 'post:ApsaRetenu'])]
     private $AfRetenu;
