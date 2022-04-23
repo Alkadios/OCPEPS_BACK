@@ -38,7 +38,6 @@ class AppFixtures extends Fixture
         $manager->persist($cycle4);
 
 
-
         $niveauScolaire1 = new NiveauScolaire();
         $niveauScolaire1->setLibelle("CP");
         $niveauScolaire1->setCycle($cycle1);
@@ -133,7 +132,6 @@ class AppFixtures extends Fixture
         $etablissement->setVille("Lyon");
 
 
-
         $classe1 = new Classe();
         $classe1->setLibelleClasse("CP");
         $classe1->setNiveauScolaire($niveauScolaire2);
@@ -217,8 +215,6 @@ class AppFixtures extends Fixture
         $classe12->setAnnee($annee1);
         $classe12->setEtablissement($etablissement);
         $manager->persist($classe12);
-
-
 
 
         $ChampApprentissage1 = new ChampApprentissage();

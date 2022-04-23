@@ -44,7 +44,6 @@ class Apsa
     private $libelle;
 
 
-
     /**
      * @ORM\OneToMany(targetEntity=ChampsApprentissageApsa::class, mappedBy="Apsa")
      */
@@ -54,8 +53,6 @@ class Apsa
      * @ORM\OneToMany(targetEntity=ApsaSelectAnnee::class, mappedBy="Apsa")
      */
     private $apsaSelectAnnees;
-
-
 
 
     public function __construct()
@@ -82,7 +79,6 @@ class Apsa
 
         return $this;
     }
-
 
 
     /**

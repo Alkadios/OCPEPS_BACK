@@ -43,8 +43,7 @@ class ApsaRepository extends ServiceEntityRepository
             ->Where('a.id = :val')
             ->setParameter('val', $value)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
     }
 
 }

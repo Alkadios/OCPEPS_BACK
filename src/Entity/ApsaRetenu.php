@@ -77,7 +77,6 @@ class ApsaRetenu
     }
 
 
-
     public function getId(): ?int
     {
         return $this->id;

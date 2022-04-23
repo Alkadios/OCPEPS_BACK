@@ -30,10 +30,8 @@ class ApsaRetenuRepository extends ServiceEntityRepository
             ->andWhere('a.exampleField = :val')
             ->setParameter('val', $value)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-
 
 
     public function findOneBySomeField($value): ?ApsaRetenu
@@ -42,8 +40,7 @@ class ApsaRetenuRepository extends ServiceEntityRepository
             ->andWhere('a.exampleField = :val')
             ->setParameter('val', $value)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
     }
 
 }
