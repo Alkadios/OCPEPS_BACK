@@ -40,7 +40,6 @@ class Cycle
     private $niveauScolaires;
 
 
-
     public function __construct()
     {
         $this->niveauScolaires = new ArrayCollection();
