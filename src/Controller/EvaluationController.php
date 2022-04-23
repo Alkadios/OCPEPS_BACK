@@ -23,7 +23,7 @@ class EvaluationController extends AbstractController
     /**
      * @Route("api/evaluation_eleve/create", name="CreateEvaluations", methods={"POST"})
      */
-    public function CreateEvaluations(EntityManagerInterface $manager , EleveRepository $eleveRepository ,IndicateurRepository $indicateurRepository, Request $request ): Response
+    public function CreateEvaluations(EntityManagerInterface $manager, EleveRepository $eleveRepository, IndicateurRepository $indicateurRepository, Request $request): Response
     {
         //Tableau contenant la réponse
         $jsonres = [];
@@ -64,7 +64,7 @@ class EvaluationController extends AbstractController
 
 
             //On récupère notre tableau contenant la réponse
-            array_push($jsonres, ["id" => $NewEvaluations->getId(), "DateEval" => $NewEvaluations->getDateEval() , "idNewEval" => $NewEvaluationsEleve->getId(), "IdElev" => $NewEvaluationsEleve->getEleve()->getId() , "IdIndic" => $NewEvaluationsEleve->getIndicateur()->getId(), "IdEval" => $NewEvaluationsEleve->getEvaluation()->getId() ]);
+            array_push($jsonres, ["id" => $NewEvaluations->getId(), "DateEval" => $NewEvaluations->getDateEval(), "idNewEval" => $NewEvaluationsEleve->getId(), "IdElev" => $NewEvaluationsEleve->getEleve()->getId(), "IdIndic" => $NewEvaluationsEleve->getIndicateur()->getId(), "IdEval" => $NewEvaluationsEleve->getEvaluation()->getId()]);
         }
         return new JsonResponse(array("Evaluations" => $jsonres), 201);
     }

@@ -26,7 +26,6 @@ class UtilisateurController extends AbstractController
         $JsonContent = json_decode($request->getContent());
 
 
-        
         $email = $JsonContent->email;
         $roles = $JsonContent->roles;
         $password = $JsonContent->password;
@@ -53,7 +52,7 @@ class UtilisateurController extends AbstractController
 
             $jsonres = [];
 
-            array_push($jsonres,["id" => $user->getId() , "roles" => $user->getRoles()]);
+            array_push($jsonres, ["id" => $user->getId(), "roles" => $user->getRoles()]);
 
             return new JsonResponse(array("message" => "Created", "utilisateur" => $jsonres), 201);
 

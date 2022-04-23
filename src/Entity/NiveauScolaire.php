@@ -20,7 +20,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
     ],
     paginationEnabled: false
 )]
-
 #[ApiFilter(SearchFilter::class, properties: ['cycle.id' => 'exact'])]
 class NiveauScolaire
 {

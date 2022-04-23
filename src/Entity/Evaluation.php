@@ -42,12 +42,10 @@ class Evaluation
     }
 
 
-
     public function getId(): ?int
     {
         return $this->id;
     }
-
 
 
     public function getDateEval(): ?\DateTimeInterface

@@ -21,7 +21,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
             'controller' => ApsaChampApprentissageController::class,
             'openapi_context' => [
                 'summary' => 'Get les APSA de ChampApprentissage'
-]
+            ]
         ],
         'get' => [
             'normalization_context' => [
@@ -130,7 +130,6 @@ class ChampApprentissage
 
         return $this;
     }
-
 
 
     public function getColor(): ?string

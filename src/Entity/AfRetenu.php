@@ -33,7 +33,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         'post'
     ]
 )]
-#[ApiFilter(SearchFilter::class, properties: ['ChoixAnnee.Niveau.id' => 'exact','ChoixAnnee.Annee.id' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['ChoixAnnee.Niveau.id' => 'exact', 'ChoixAnnee.Annee.id' => 'exact'])]
 class AfRetenu
 {
     /**

@@ -61,7 +61,6 @@ class Eleve
     private $sexeEleve;
 
 
-
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="eleves")
      */
@@ -181,7 +180,6 @@ class Eleve
 
         return $this;
     }
-
 
 
     public function getUser(): ?User

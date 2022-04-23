@@ -37,7 +37,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
         ]
     ]
 )]
-
 #[ApiFilter(SearchFilter::class, properties: ['Annee.id' => 'exact'])]
 class ApsaSelectAnnee
 {
@@ -52,7 +51,7 @@ class ApsaSelectAnnee
     /**
      * @ORM\ManyToOne(targetEntity=ChampApprentissage::class, inversedBy="apsaSelectAnnees")
      */
-    #[Groups(['read:caId' , 'write:caId', 'post:apsaSelectAnnee'])]
+    #[Groups(['read:caId', 'write:caId', 'post:apsaSelectAnnee'])]
     private $Ca;
 
     /**
