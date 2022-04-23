@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=ProfesseurRepository::class)
- * @ApiResource()
  */
+#[ApiResource()]
 class Professeur
 {
     /**
@@ -52,15 +52,16 @@ class Professeur
     private $etablissements;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Classe::class, inversedBy="professeurs")
+     * @ORM\OneToMany(targetEntity=ProfesseurClasse::class, mappedBy="professeur", orphanRemoval=true)
      */
-    private $Classe;
+    private $professeurClasses;
+
 
     public function __construct()
     {
         $this->cours = new ArrayCollection();
         $this->etablissements = new ArrayCollection();
-        $this->Classe = new ArrayCollection();
+        $this->professeurClasses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -174,26 +175,34 @@ class Professeur
     }
 
     /**
-     * @return Collection<int, Classe>
+     * @return Collection<int, ProfesseurClasse>
      */
-    public function getClasse(): Collection
+    public function getProfesseurClasses(): Collection
     {
-        return $this->Classe;
+        return $this->professeurClasses;
     }
 
-    public function addClasse(Classe $classe): self
+    public function addProfesseurClass(ProfesseurClasse $professeurClass): self
     {
-        if (!$this->Classe->contains($classe)) {
-            $this->Classe[] = $classe;
+        if (!$this->professeurClasses->contains($professeurClass)) {
+            $this->professeurClasses[] = $professeurClass;
+            $professeurClass->setProfesseur($this);
         }
 
         return $this;
     }
 
-    public function removeClasse(Classe $classe): self
+    public function removeProfesseurClass(ProfesseurClasse $professeurClass): self
     {
-        $this->Classe->removeElement($classe);
+        if ($this->professeurClasses->removeElement($professeurClass)) {
+            // set the owning side to null (unless already changed)
+            if ($professeurClass->getProfesseur() === $this) {
+                $professeurClass->setProfesseur(null);
+            }
+        }
 
         return $this;
     }
+
+
 }

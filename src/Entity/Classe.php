@@ -34,7 +34,6 @@ class Classe
     private $libelleClasse;
 
 
-
     /**
      * @ORM\ManyToOne(targetEntity=NiveauScolaire::class, inversedBy="classes")
      * @ORM\JoinColumn(nullable=false)
@@ -47,10 +46,6 @@ class Classe
      */
     private $Annee;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=Eleve::class, inversedBy="classes")
-     */
-    private $Eleve;
 
     /**
      * @ORM\ManyToOne(targetEntity=Etablissement::class, inversedBy="Classe", cascade={"persist"})
@@ -59,17 +54,22 @@ class Classe
     private $etablissement;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Professeur::class, mappedBy="Classe")
+     * @ORM\OneToMany(targetEntity=EleveClasse::class, mappedBy="classe", orphanRemoval=true)
      */
-    private $professeurs;
+    private $eleveClasses;
 
-
+    /**
+     * @ORM\OneToMany(targetEntity=ProfesseurClasse::class, mappedBy="classe", orphanRemoval=true)
+     */
+    private $professeurClasses;
 
     public function __construct()
     {
-        $this->Eleve = new ArrayCollection();
-        $this->professeurs = new ArrayCollection();
+        $this->eleveClasses = new ArrayCollection();
+        $this->professeurClasses = new ArrayCollection();
     }
+
+
 
     public function getId(): ?int
     {
@@ -112,30 +112,6 @@ class Classe
         return $this;
     }
 
-    /**
-     * @return Collection<int, Eleve>
-     */
-    public function getEleve(): Collection
-    {
-        return $this->Eleve;
-    }
-
-    public function addEleve(Eleve $eleve): self
-    {
-        if (!$this->Eleve->contains($eleve)) {
-            $this->Eleve[] = $eleve;
-        }
-
-        return $this;
-    }
-
-    public function removeEleve(Eleve $eleve): self
-    {
-        $this->Eleve->removeElement($eleve);
-
-        return $this;
-    }
-
     public function getEtablissement(): ?Etablissement
     {
         return $this->etablissement;
@@ -149,27 +125,60 @@ class Classe
     }
 
     /**
-     * @return Collection<int, Professeur>
+     * @return Collection<int, EleveClasse>
      */
-    public function getProfesseurs(): Collection
+    public function getEleveClasses(): Collection
     {
-        return $this->professeurs;
+        return $this->eleveClasses;
     }
 
-    public function addProfesseur(Professeur $professeur): self
+    public function addEleveClass(EleveClasse $eleveClass): self
     {
-        if (!$this->professeurs->contains($professeur)) {
-            $this->professeurs[] = $professeur;
-            $professeur->addClasse($this);
+        if (!$this->eleveClasses->contains($eleveClass)) {
+            $this->eleveClasses[] = $eleveClass;
+            $eleveClass->setClasse($this);
         }
 
         return $this;
     }
 
-    public function removeProfesseur(Professeur $professeur): self
+    public function removeEleveClass(EleveClasse $eleveClass): self
     {
-        if ($this->professeurs->removeElement($professeur)) {
-            $professeur->removeClasse($this);
+        if ($this->eleveClasses->removeElement($eleveClass)) {
+            // set the owning side to null (unless already changed)
+            if ($eleveClass->getClasse() === $this) {
+                $eleveClass->setClasse(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProfesseurClasse>
+     */
+    public function getProfesseurClasses(): Collection
+    {
+        return $this->professeurClasses;
+    }
+
+    public function addProfesseurClass(ProfesseurClasse $professeurClass): self
+    {
+        if (!$this->professeurClasses->contains($professeurClass)) {
+            $this->professeurClasses[] = $professeurClass;
+            $professeurClass->setClasse($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProfesseurClass(ProfesseurClasse $professeurClass): self
+    {
+        if ($this->professeurClasses->removeElement($professeurClass)) {
+            // set the owning side to null (unless already changed)
+            if ($professeurClass->getClasse() === $this) {
+                $professeurClass->setClasse(null);
+            }
         }
 
         return $this;

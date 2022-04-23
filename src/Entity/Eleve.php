@@ -72,10 +72,6 @@ class Eleve
      */
     private $evaluationEleves;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=Classe::class, mappedBy="Eleve")
-     */
-    private $classes;
 
     /**
      * @ORM\ManyToOne(targetEntity=Etablissement::class, inversedBy="Eleve")
@@ -83,11 +79,17 @@ class Eleve
      */
     private $etablissement;
 
+    /**
+     * @ORM\OneToMany(targetEntity=EleveClasse::class, mappedBy="eleve", orphanRemoval=true)
+     */
+    private $eleveClasses;
+
     public function __construct()
     {
         $this->evaluations = new ArrayCollection();
         $this->evaluationEleves = new ArrayCollection();
         $this->classes = new ArrayCollection();
+        $this->eleveClasses = new ArrayCollection();
 
     }
 
@@ -224,33 +226,6 @@ class Eleve
         return $this;
     }
 
-    /**
-     * @return Collection<int, Classe>
-     */
-    public function getClasses(): Collection
-    {
-        return $this->classes;
-    }
-
-    public function addClass(Classe $class): self
-    {
-        if (!$this->classes->contains($class)) {
-            $this->classes[] = $class;
-            $class->addEleve($this);
-        }
-
-        return $this;
-    }
-
-    public function removeClass(Classe $class): self
-    {
-        if ($this->classes->removeElement($class)) {
-            $class->removeEleve($this);
-        }
-
-        return $this;
-    }
-
     public function getEtablissement(): ?Etablissement
     {
         return $this->etablissement;
@@ -259,6 +234,36 @@ class Eleve
     public function setEtablissement(?Etablissement $etablissement): self
     {
         $this->etablissement = $etablissement;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, EleveClasse>
+     */
+    public function getEleveClasses(): Collection
+    {
+        return $this->eleveClasses;
+    }
+
+    public function addEleveClass(EleveClasse $eleveClass): self
+    {
+        if (!$this->eleveClasses->contains($eleveClass)) {
+            $this->eleveClasses[] = $eleveClass;
+            $eleveClass->setEleve($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEleveClass(EleveClasse $eleveClass): self
+    {
+        if ($this->eleveClasses->removeElement($eleveClass)) {
+            // set the owning side to null (unless already changed)
+            if ($eleveClass->getEleve() === $this) {
+                $eleveClass->setEleve(null);
+            }
+        }
 
         return $this;
     }
