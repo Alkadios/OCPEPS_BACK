@@ -24,13 +24,13 @@ class Classe
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:classe'])]
+    #[Groups(['read:classe', 'read:professeurClasse'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:classe'])]
+    #[Groups(['read:classe', 'read:professeurClasse'])]
     private $libelleClasse;
 
 

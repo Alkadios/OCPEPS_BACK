@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\ProfesseurClasseRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ProfesseurClasseRepository::class)
@@ -18,7 +19,15 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *      message="ProfesseurClasse for given entry already exists in database."
  * )
  */
-#[ApiResource()]
+#[ApiResource(
+    collectionOperations: [
+        'get' => [
+            'normalization_context' => [
+                'groups' => ['read:professeurClasse']
+            ]
+        ]
+    ]
+)]
 class ProfesseurClasse
 {
     /**
@@ -26,18 +35,21 @@ class ProfesseurClasse
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    #[Groups(['read:professeurClasse'])]
     private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=Professeur::class, inversedBy="professeurClasses")
      * @ORM\JoinColumn(nullable=false)
      */
+    #[Groups(['read:professeurClasse'])]
     private $professeur;
 
     /**
      * @ORM\ManyToOne(targetEntity=Classe::class, inversedBy="professeurClasses")
      * @ORM\JoinColumn(nullable=false)
      */
+    #[Groups(['read:professeurClasse'])]
     private $classe;
 
     public function getId(): ?int
