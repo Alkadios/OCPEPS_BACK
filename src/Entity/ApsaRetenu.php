@@ -27,7 +27,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     collectionOperations: [
         'get' => [
             'normalization_context' => [
-                'groups' => ['read:Apsa', 'read:AfRetenu', 'read:Critere']
+                'groups' => ['read:Apsa', 'read:AfRetenu', 'read:Critere', 'read:apsaSelectAnnee']
             ]
         ],
         'post' => [
@@ -66,7 +66,7 @@ class ApsaRetenu
      * @ORM\ManyToOne(targetEntity=ApsaSelectAnnee::class, inversedBy="apsaRetenus")
      * @ORM\JoinColumn(name="apsa_select_annee_id", referencedColumnName="id",nullable=false, onDelete="CASCADE")
      */
-    #[Groups(['post:ApsaRetenu', 'read:apsaRetenu'])]
+    #[Groups(['post:ApsaRetenu', 'read:apsaRetenu', 'read:apsaSelectAnnee'])]
     private $ApsaSelectAnnee;
 
     /**
