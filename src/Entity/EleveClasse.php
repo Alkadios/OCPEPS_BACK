@@ -43,7 +43,7 @@ class EleveClasse
      * @ORM\ManyToOne(targetEntity=Eleve::class, inversedBy="eleveClasses")
      * @ORM\JoinColumn(nullable=false)
      */
-    #[Groups(['read:eleveClasse', 'read:professeurClasse'])]
+    #[Groups(['read:classe','read:eleveClasse', 'read:professeurClasse'])]
     private $eleve;
 
     /**

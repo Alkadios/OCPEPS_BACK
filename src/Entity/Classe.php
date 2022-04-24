@@ -16,7 +16,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     collectionOperations: [
         'get' => [
             'normalization_context' => [
-                'groups' => ['read:classe','read:eleve']
+                'groups' => ['read:classe','read:eleveClasse','read:eleve']
             ]
         ],
         'post' => [
@@ -33,7 +33,11 @@ class Classe
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+<<<<<<< Updated upstream
     #[Groups(['read:classe', 'read:professeurClasse', 'read:eleveClasse'])]
+=======
+    #[Groups(['read:professeurClasse', 'read:classe'])]
+>>>>>>> Stashed changes
     private $id;
 
     /**
@@ -68,7 +72,7 @@ class Classe
     /**
      * @ORM\OneToMany(targetEntity=EleveClasse::class, mappedBy="classe", orphanRemoval=true)
      */
-    #[Groups(['read:classe'])]
+    #[Groups(['read:classe', 'read:professeurClasse'])]
     private $eleveClasses;
 
     /**

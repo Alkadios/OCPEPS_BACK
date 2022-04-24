@@ -37,19 +37,19 @@ class Eleve
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:eleve'])]
+    #[Groups(['read:eleve', 'read:professeurClasse'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:eleve'])]
+    #[Groups(['read:eleve', 'read:professeurClasse'])]
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:eleve'])]
+    #[Groups(['read:eleve', 'read:professeurClasse'])]
     private $prenom;
 
     /**
