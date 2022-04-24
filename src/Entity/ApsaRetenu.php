@@ -37,7 +37,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         ]
     ]
 )]
-#[ApiFilter(SearchFilter::class, properties: ['ApsaSelectAnnee.Annee.id' => 'exact', 'AfRetenu.ChoixAnnee.Niveau.classes.id' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['ApsaSelectAnnee.Annee.id' => 'exact', 'ApsaSelectAnnee.etablissement.id' => 'exact', 'AfRetenu.ChoixAnnee.Niveau.id' => 'exact'])]
 class ApsaRetenu
 {
     /**
@@ -58,7 +58,7 @@ class ApsaRetenu
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['post:ApsaRetenu'])]
+    #[Groups(['read:AfRetenu', 'post:ApsaRetenu'])]
     private $SituationEvaluation;
 
 
