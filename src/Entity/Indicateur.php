@@ -13,6 +13,16 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity(repositoryClass=IndicateurRepository::class)
  * @ApiResource()
  */
+#[ApiResource(
+    collectionOperations: [
+        'get' => [
+            'normalization_context' => [
+                'groups' => ['read:indicateur', 'read:critere']
+            ]
+        ],
+        'post'
+    ]
+)]
 class Indicateur
 {
     /**
@@ -20,16 +30,19 @@ class Indicateur
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    #[Groups('read:indicateur')]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups('read:indicateur')]
     private $libelle;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups('read:indicateur')]
     private $description;
 
     /**
@@ -41,16 +54,19 @@ class Indicateur
      * @ORM\ManyToOne(targetEntity=Critere::class, inversedBy="Indicateur")
      * @ORM\JoinColumn(name="critere_id", referencedColumnName="id",nullable=false, onDelete="CASCADE")
      */
+    #[Groups('read:critere')]
     private $critere;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
+    #[Groups('read:indicateur')]
     private $url_video;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
+    #[Groups('read:indicateur')]
     private $image;
 
     public function __construct()
