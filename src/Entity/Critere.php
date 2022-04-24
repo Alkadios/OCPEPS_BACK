@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Controller\ApsaChampApprentissageController;
 use App\Repository\CritereRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -23,6 +25,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
         'post'
     ]
 )]
+#[ApiFilter(SearchFilter::class, properties: ['ApsaRetenu.id' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['ApsaRetenu.ApsaSelectAnnee.Apsa.id' => 'exact', 'ApsaRetenu.ApsaSelectAnnee.Annee.id' => 'exact', 'ApsaRetenu.AfRetenu.id' => 'exact'])]
 class Critere
 {
     /**

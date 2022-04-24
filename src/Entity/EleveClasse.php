@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\EleveClasseRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=EleveClasseRepository::class)
@@ -18,7 +19,16 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *      message="ClasseEleve for given entry already exists in database."
  * )
  */
-#[ApiResource()]
+
+#[ApiResource(
+    collectionOperations: [
+        'get' => [
+            'normalization_context' => [
+                'groups' => ['read:eleveClasse']
+            ]
+        ]
+    ]
+)]
 class EleveClasse
 {
     /**
@@ -26,18 +36,21 @@ class EleveClasse
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    #[Groups(['read:eleveClasse', 'read:professeurClasse'])]
     private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=Eleve::class, inversedBy="eleveClasses")
      * @ORM\JoinColumn(nullable=false)
      */
+    #[Groups(['read:eleveClasse', 'read:professeurClasse'])]
     private $eleve;
 
     /**
      * @ORM\ManyToOne(targetEntity=Classe::class, inversedBy="eleveClasses")
      * @ORM\JoinColumn(nullable=false)
      */
+    #[Groups(['read:eleveClasse'])]
     private $classe;
 
     public function getId(): ?int

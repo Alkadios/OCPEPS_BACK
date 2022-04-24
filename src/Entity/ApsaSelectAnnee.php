@@ -37,7 +37,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
         ]
     ]
 )]
-
 #[ApiFilter(SearchFilter::class, properties: ['Annee.id' => 'exact'])]
 class ApsaSelectAnnee
 {
@@ -46,19 +45,19 @@ class ApsaSelectAnnee
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['post:ApsaRetenu'])]
+    #[Groups(['post:ApsaRetenu', 'read:apsaSelectAnnee'])]
     private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=ChampApprentissage::class, inversedBy="apsaSelectAnnees")
      */
-    #[Groups(['read:caId' , 'write:caId', 'post:apsaSelectAnnee'])]
+    #[Groups(['read:caId', 'write:caId', 'post:apsaSelectAnnee'])]
     private $Ca;
 
     /**
      * @ORM\ManyToOne(targetEntity=Apsa::class, inversedBy="apsaSelectAnnees")
      */
-    #[Groups(['read:apsaSelectAnne', 'write:apsaId', 'post:apsaSelectAnnee', 'read:apsaRetenu'])]
+    #[Groups(['read:apsaSelectAnne', 'write:apsaId', 'post:apsaSelectAnnee', 'read:apsaRetenu', 'read:apsaSelectAnnee'])]
     private $Apsa;
 
     /**

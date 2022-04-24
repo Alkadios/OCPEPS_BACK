@@ -40,7 +40,6 @@ class Af
     private $afRetenus;
 
 
-
     public function __construct()
     {
         $this->AfRetenu = new ArrayCollection();
@@ -105,10 +104,6 @@ class Af
 
         return $this;
     }
-
-
-
-
 
 
 }

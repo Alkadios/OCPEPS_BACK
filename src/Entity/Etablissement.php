@@ -7,12 +7,21 @@ use App\Repository\EtablissementRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=EtablissementRepository::class)
  */
-
-#[ApiResource()]
+#[ApiResource(
+    collectionOperations: [
+        'get' => [
+            'normalization_context' => [
+                'groups' => ['read:niveauScolaire', 'read:etablissement']
+            ]
+        ],
+        'post'
+    ]
+)]
 class Etablissement
 {
     /**
@@ -20,41 +29,49 @@ class Etablissement
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    #[Groups(['read:etablissement'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['read:etablissement'])]
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['read:etablissement'])]
     private $adresse;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['read:etablissement'])]
     private $cp;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['read:etablissement'])]
     private $ville;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
+    #[Groups(['read:etablissement'])]
     private $tel;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
+    #[Groups(['read:etablissement'])]
     private $mail;
 
     /**
      * @ORM\OneToMany(targetEntity=Classe::class, mappedBy="etablissement")
      */
+    #[Groups(['read:classe'])]
     private $Classe;
 
     /**
@@ -72,12 +89,19 @@ class Etablissement
      */
     private $ApsaSelectAnnee;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=NiveauScolaire::class, inversedBy="etablissements")
+     */
+    #[Groups(['read:niveauScolaire'])]
+    private $niveauScolaire;
+
     public function __construct()
     {
         $this->Classe = new ArrayCollection();
         $this->Eleve = new ArrayCollection();
         $this->Professeur = new ArrayCollection();
         $this->ApsaSelectAnnee = new ArrayCollection();
+        $this->niveauScolaire = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -267,6 +291,30 @@ class Etablissement
                 $apsaSelectAnnee->setEtablissement(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, NiveauScolaire>
+     */
+    public function getNiveauScolaire(): Collection
+    {
+        return $this->niveauScolaire;
+    }
+
+    public function addNiveauScolaire(NiveauScolaire $niveauScolaire): self
+    {
+        if (!$this->niveauScolaire->contains($niveauScolaire)) {
+            $this->niveauScolaire[] = $niveauScolaire;
+        }
+
+        return $this;
+    }
+
+    public function removeNiveauScolaire(NiveauScolaire $niveauScolaire): self
+    {
+        $this->niveauScolaire->removeElement($niveauScolaire);
 
         return $this;
     }

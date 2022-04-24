@@ -23,12 +23,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class AfController extends AbstractController
 {
 
-    private function searchInAfRetenu($AfRetenus, $idAf ,$choixAnneeId)
+    private function searchInAfRetenu($AfRetenus, $idAf, $choixAnneeId)
     {
         $trouver = false;
 
         foreach ($AfRetenus as $AfRetenu) {
-            if ($AfRetenu->getAf()->getId() == $idAf  && $AfRetenu->getChoixAnnee()->getId() == $choixAnneeId){
+            if ($AfRetenu->getAf()->getId() == $idAf && $AfRetenu->getChoixAnnee()->getId() == $choixAnneeId) {
                 $trouver = true;
                 break;
             }
@@ -37,11 +37,10 @@ class AfController extends AbstractController
     }
 
 
-
     /**
      * @Route("/api/choix_annees/{id}/deleteAndReplaceAF", name="deleteAndReplaceAF", methods={"POST"})
      */
-    public function deleteAndReplaceAF(Request $request, AfRepository $afRepository ,AfRetenuRepository $afRetenuRepository, EntityManagerInterface $manager, ChoixAnnee $choixAnnee): Response
+    public function deleteAndReplaceAF(Request $request, AfRepository $afRepository, AfRetenuRepository $afRetenuRepository, EntityManagerInterface $manager, ChoixAnnee $choixAnnee): Response
     {
         // Récuperation du contenu Json
         $JsonContent = json_decode($request->getContent());
@@ -51,35 +50,34 @@ class AfController extends AbstractController
         // Tableau contenant les ApsaSelect à partir du JSON mais sous forme d'objet
         $AfRetenuByJson = [];
 
-        $AfRetenus = $afRetenuRepository->findBy(["ChoixAnnee" => $choixAnnee ]);
-
+        $AfRetenus = $afRetenuRepository->findBy(["ChoixAnnee" => $choixAnnee]);
 
 
         foreach ($JsonContent as $JsonEntry) {
             $afEntry = $JsonEntry->Af;
 
-              $NewAfRetenu = new AfRetenu();
+            $NewAfRetenu = new AfRetenu();
 
-              $ObjectAf = $afRepository->find($afEntry);
+            $ObjectAf = $afRepository->find($afEntry);
 
-              $NewAfRetenu->setAf($ObjectAf);
-              $NewAfRetenu->setChoixAnnee($choixAnnee);
-              array_push($AfRetenuByJson,$NewAfRetenu);
+            $NewAfRetenu->setAf($ObjectAf);
+            $NewAfRetenu->setChoixAnnee($choixAnnee);
+            array_push($AfRetenuByJson, $NewAfRetenu);
 
 
-              if (!$this->searchInAfRetenu($AfRetenus, $afEntry ,$choixAnnee->getId())) {
+            if (!$this->searchInAfRetenu($AfRetenus, $afEntry, $choixAnnee->getId())) {
 
-              $manager->persist($NewAfRetenu);
-              $manager->flush();
-              array_push($jsonres, ["id" => $NewAfRetenu->getId(), "caId" => $NewAfRetenu->getAf()->getId(), "apsaId" => $NewAfRetenu->getChoixAnnee()->getId()]);
+                $manager->persist($NewAfRetenu);
+                $manager->flush();
+                array_push($jsonres, ["id" => $NewAfRetenu->getId(), "caId" => $NewAfRetenu->getAf()->getId(), "apsaId" => $NewAfRetenu->getChoixAnnee()->getId()]);
 
-              }
+            }
 
         }
 
 
         $AfRetenuAfterInsert = [];
-        array_push($AfRetenuAfterInsert,$afRetenuRepository->findBy(["ChoixAnnee" => $choixAnnee]));
+        array_push($AfRetenuAfterInsert, $afRetenuRepository->findBy(["ChoixAnnee" => $choixAnnee]));
 
         //Si le nombre de données est différent entre le JSON et la BDD
         if (count($JsonContent) != count($AfRetenuAfterInsert[0])) {

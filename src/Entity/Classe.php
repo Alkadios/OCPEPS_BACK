@@ -13,8 +13,17 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity(repositoryClass=ClasseRepository::class)
  */
 #[ApiResource(
-    normalizationContext: [
-        'groups' => ['read:eleve']
+    collectionOperations: [
+        'get' => [
+            'normalization_context' => [
+                'groups' => ['read:classe','read:eleve']
+            ]
+        ],
+        'post' => [
+            'denormalization_context' => [
+                'groups' => ['post:classe']
+            ]
+        ]
     ]
 )]
 class Classe
@@ -24,13 +33,13 @@ class Classe
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:classe'])]
+    #[Groups(['read:classe', 'read:professeurClasse', 'read:classe'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:classe'])]
+    #[Groups(['read:classe', 'read:professeurClasse'])]
     private $libelleClasse;
 
 
@@ -38,12 +47,14 @@ class Classe
      * @ORM\ManyToOne(targetEntity=NiveauScolaire::class, inversedBy="classes")
      * @ORM\JoinColumn(nullable=false)
      */
+    #[Groups(['read:classe', 'read:professeurClasse'])]
     private $NiveauScolaire;
 
     /**
      * @ORM\ManyToOne(targetEntity=Annee::class, inversedBy="classes")
      * @ORM\JoinColumn(nullable=false)
      */
+    #[Groups(['read:classe'])]
     private $Annee;
 
 
@@ -51,11 +62,13 @@ class Classe
      * @ORM\ManyToOne(targetEntity=Etablissement::class, inversedBy="Classe", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
+    #[Groups(['read:classe'])]
     private $etablissement;
 
     /**
      * @ORM\OneToMany(targetEntity=EleveClasse::class, mappedBy="classe", orphanRemoval=true)
      */
+    #[Groups(['read:classe'])]
     private $eleveClasses;
 
     /**
@@ -68,7 +81,6 @@ class Classe
         $this->eleveClasses = new ArrayCollection();
         $this->professeurClasses = new ArrayCollection();
     }
-
 
 
     public function getId(): ?int

@@ -20,7 +20,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
     ],
     paginationEnabled: false
 )]
-
 #[ApiFilter(SearchFilter::class, properties: ['cycle.id' => 'exact'])]
 class NiveauScolaire
 {
@@ -29,13 +28,13 @@ class NiveauScolaire
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:niveauScolaire'])]
+    #[Groups(['read:niveauScolaire', 'read:professeurClasse'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:niveauScolaire'])]
+    #[Groups(['read:niveauScolaire', 'read:professeurClasse'])]
     private $libelle;
 
     /**
@@ -54,10 +53,16 @@ class NiveauScolaire
      */
     private $classes;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Etablissement::class, mappedBy="niveau_scolaire")
+     */
+    private $etablissements;
+
     public function __construct()
     {
         $this->choixAnnees = new ArrayCollection();
         $this->classes = new ArrayCollection();
+        $this->etablissements = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -144,6 +149,33 @@ class NiveauScolaire
             if ($class->getNiveauScolaire() === $this) {
                 $class->setNiveauScolaire(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Etablissement>
+     */
+    public function getEtablissements(): Collection
+    {
+        return $this->etablissements;
+    }
+
+    public function addEtablissement(Etablissement $etablissement): self
+    {
+        if (!$this->etablissements->contains($etablissement)) {
+            $this->etablissements[] = $etablissement;
+            $etablissement->addNiveauScolaire($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEtablissement(Etablissement $etablissement): self
+    {
+        if ($this->etablissements->removeElement($etablissement)) {
+            $etablissement->removeNiveauScolaire($this);
         }
 
         return $this;
