@@ -28,7 +28,7 @@ class Classe
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:classe', 'read:professeurClasse'])]
+    #[Groups(['read:classe', 'read:professeurClasse', 'read:classe'])]
     private $id;
 
     /**
