@@ -18,7 +18,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     collectionOperations: [
         'get' => [
             'normalization_context' => [
-                'groups' => ['read:classe']
+                'groups' => ['read:classe','read:eleve']
             ]
         ],
         'post' => [
@@ -50,7 +50,7 @@ class Classe
      * @ORM\ManyToOne(targetEntity=NiveauScolaire::class, inversedBy="classes")
      * @ORM\JoinColumn(nullable=false)
      */
-    #[Groups(['read:classe', 'read:professeurClasse'])]
+    #[Groups(['read:classe'])]
     private $NiveauScolaire;
 
     /**
@@ -69,21 +69,24 @@ class Classe
     private $etablissement;
 
     /**
-     * @ORM\OneToMany(targetEntity=EleveClasse::class, mappedBy="classe", orphanRemoval=true)
+     * @ORM\ManyToMany(targetEntity=Professeur::class, mappedBy="classe")
      */
-    #[Groups(['read:classe', 'read:professeurClasse'])]
-    private $eleveClasses;
+    private $professeurs;
 
     /**
-     * @ORM\OneToMany(targetEntity=ProfesseurClasse::class, mappedBy="classe", orphanRemoval=true)
+     * @ORM\ManyToMany(targetEntity=Eleve::class, mappedBy="classe")
      */
     #[Groups(['read:classe'])]
     private $professeurClasses;
+
+
 
     public function __construct()
     {
         $this->eleveClasses = new ArrayCollection();
         $this->professeurClasses = new ArrayCollection();
+        $this->professeurs = new ArrayCollection();
+        $this->eleves = new ArrayCollection();
     }
 
 
@@ -141,60 +144,54 @@ class Classe
     }
 
     /**
-     * @return Collection<int, EleveClasse>
+     * @return Collection<int, Professeur>
      */
-    public function getEleveClasses(): Collection
+    public function getProfesseurs(): Collection
     {
-        return $this->eleveClasses;
+        return $this->professeurs;
     }
 
-    public function addEleveClass(EleveClasse $eleveClass): self
+    public function addProfesseur(Professeur $professeur): self
     {
-        if (!$this->eleveClasses->contains($eleveClass)) {
-            $this->eleveClasses[] = $eleveClass;
-            $eleveClass->setClasse($this);
+        if (!$this->professeurs->contains($professeur)) {
+            $this->professeurs[] = $professeur;
+            $professeur->addClasse($this);
         }
 
         return $this;
     }
 
-    public function removeEleveClass(EleveClasse $eleveClass): self
+    public function removeProfesseur(Professeur $professeur): self
     {
-        if ($this->eleveClasses->removeElement($eleveClass)) {
-            // set the owning side to null (unless already changed)
-            if ($eleveClass->getClasse() === $this) {
-                $eleveClass->setClasse(null);
-            }
+        if ($this->professeurs->removeElement($professeur)) {
+            $professeur->removeClasse($this);
         }
 
         return $this;
     }
 
     /**
-     * @return Collection<int, ProfesseurClasse>
+     * @return Collection<int, Eleve>
      */
-    public function getProfesseurClasses(): Collection
+    public function getEleves(): Collection
     {
-        return $this->professeurClasses;
+        return $this->eleves;
     }
 
-    public function addProfesseurClass(ProfesseurClasse $professeurClass): self
+    public function addElefe(Eleve $elefe): self
     {
-        if (!$this->professeurClasses->contains($professeurClass)) {
-            $this->professeurClasses[] = $professeurClass;
-            $professeurClass->setClasse($this);
+        if (!$this->eleves->contains($elefe)) {
+            $this->eleves[] = $elefe;
+            $elefe->addClasse($this);
         }
 
         return $this;
     }
 
-    public function removeProfesseurClass(ProfesseurClasse $professeurClass): self
+    public function removeElefe(Eleve $elefe): self
     {
-        if ($this->professeurClasses->removeElement($professeurClass)) {
-            // set the owning side to null (unless already changed)
-            if ($professeurClass->getClasse() === $this) {
-                $professeurClass->setClasse(null);
-            }
+        if ($this->eleves->removeElement($elefe)) {
+            $elefe->removeClasse($this);
         }
 
         return $this;

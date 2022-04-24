@@ -20,25 +20,21 @@ class Professeur
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:professeurClasse'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:professeurClasse'])]
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:professeurClasse'])]
     private $prenom;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:professeurClasse'])]
     private $telephone;
 
     /**
@@ -57,9 +53,9 @@ class Professeur
     private $etablissements;
 
     /**
-     * @ORM\OneToMany(targetEntity=ProfesseurClasse::class, mappedBy="professeur", orphanRemoval=true)
+     * @ORM\ManyToMany(targetEntity=Classe::class, inversedBy="professeurs")
      */
-    private $professeurClasses;
+    private $classe;
 
 
     public function __construct()
@@ -67,6 +63,7 @@ class Professeur
         $this->cours = new ArrayCollection();
         $this->etablissements = new ArrayCollection();
         $this->professeurClasses = new ArrayCollection();
+        $this->classe = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -180,34 +177,29 @@ class Professeur
     }
 
     /**
-     * @return Collection<int, ProfesseurClasse>
+     * @return Collection<int, Classe>
      */
-    public function getProfesseurClasses(): Collection
+    public function getClasse(): Collection
     {
-        return $this->professeurClasses;
+        return $this->classe;
     }
 
-    public function addProfesseurClass(ProfesseurClasse $professeurClass): self
+    public function addClasse(Classe $classe): self
     {
-        if (!$this->professeurClasses->contains($professeurClass)) {
-            $this->professeurClasses[] = $professeurClass;
-            $professeurClass->setProfesseur($this);
+        if (!$this->classe->contains($classe)) {
+            $this->classe[] = $classe;
         }
 
         return $this;
     }
 
-    public function removeProfesseurClass(ProfesseurClasse $professeurClass): self
+    public function removeClasse(Classe $classe): self
     {
-        if ($this->professeurClasses->removeElement($professeurClass)) {
-            // set the owning side to null (unless already changed)
-            if ($professeurClass->getProfesseur() === $this) {
-                $professeurClass->setProfesseur(null);
-            }
-        }
+        $this->classe->removeElement($classe);
 
         return $this;
     }
+
 
 
 }
