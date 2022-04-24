@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\ApsaRetenuRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -25,7 +27,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     collectionOperations: [
         'get' => [
             'normalization_context' => [
-                'groups' => ['read:Apsa', 'read:AfRetenu', 'read:Critere']
+                'groups' => ['read:Apsa', 'read:AfRetenu', 'read:Critere', 'read:apsaSelectAnnee']
             ]
         ],
         'post' => [
@@ -35,6 +37,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         ]
     ]
 )]
+#[ApiFilter(SearchFilter::class, properties: ['ApsaSelectAnnee.Annee.id' => 'exact', 'AfRetenu.ChoixAnnee.Niveau.classes.id' => 'exact'])]
 class ApsaRetenu
 {
     /**
@@ -63,7 +66,7 @@ class ApsaRetenu
      * @ORM\ManyToOne(targetEntity=ApsaSelectAnnee::class, inversedBy="apsaRetenus")
      * @ORM\JoinColumn(name="apsa_select_annee_id", referencedColumnName="id",nullable=false, onDelete="CASCADE")
      */
-    #[Groups(['post:ApsaRetenu', 'read:apsaRetenu'])]
+    #[Groups(['post:ApsaRetenu', 'read:apsaRetenu', 'read:apsaSelectAnnee'])]
     private $ApsaSelectAnnee;
 
     /**
