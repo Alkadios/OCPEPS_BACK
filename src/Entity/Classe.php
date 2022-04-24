@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\ClasseRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -16,7 +18,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     collectionOperations: [
         'get' => [
             'normalization_context' => [
-                'groups' => ['read:classe','read:eleveClasse','read:eleve']
+                'groups' => ['read:classe']
             ]
         ],
         'post' => [
@@ -26,6 +28,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         ]
     ]
 )]
+#[ApiFilter(SearchFilter::class, properties: ['professeurClasses.professeur.id' => 'exact','Annee.id' => 'exact'])]
 class Classe
 {
     /**
@@ -33,17 +36,13 @@ class Classe
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-<<<<<<< Updated upstream
-    #[Groups(['read:classe', 'read:professeurClasse', 'read:eleveClasse'])]
-=======
     #[Groups(['read:professeurClasse', 'read:classe'])]
->>>>>>> Stashed changes
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:classe', 'read:professeurClasse', 'read:eleveClasse'])]
+    #[Groups(['read:classe', 'read:professeurClasse'])]
     private $libelleClasse;
 
 
@@ -78,6 +77,7 @@ class Classe
     /**
      * @ORM\OneToMany(targetEntity=ProfesseurClasse::class, mappedBy="classe", orphanRemoval=true)
      */
+    #[Groups(['read:classe'])]
     private $professeurClasses;
 
     public function __construct()
