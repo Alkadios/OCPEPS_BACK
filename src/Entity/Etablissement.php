@@ -16,11 +16,16 @@ use Symfony\Component\Serializer\Annotation\Groups;
     collectionOperations: [
         'get' => [
             'normalization_context' => [
-                'groups' => ['read:niveauScolaire', 'read:etablissement']
+                'groups' => ['read:etablissement']
             ]
         ],
         'post'
+    ],itemOperations:['get' => [
+    'normalization_context' => [
+        'groups' => ['read:etablissement']
     ]
+],
+    'post']
 )]
 class Etablissement
 {
@@ -92,7 +97,7 @@ class Etablissement
     /**
      * @ORM\ManyToMany(targetEntity=NiveauScolaire::class, inversedBy="etablissements")
      */
-    #[Groups(['read:niveauScolaire'])]
+    #[Groups(['read:etablissement'])]
     private $niveauScolaire;
 
     public function __construct()
