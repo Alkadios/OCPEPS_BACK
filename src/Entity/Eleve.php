@@ -106,7 +106,7 @@ class Eleve
     /**
      * @ORM\OneToMany(targetEntity=EleveClasse::class, mappedBy="eleve", orphanRemoval=true)
      */
-    #[Groups(['read:eleve'])]
+    #[Groups(['read:eleve', 'read:eleveClasse'])]
     private $eleveClasses;
 
     public function __construct()
