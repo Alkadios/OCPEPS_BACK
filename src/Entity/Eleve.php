@@ -19,7 +19,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     collectionOperations: [
         'get' => [
             'normalization_context' => [
-                'groups' => ['read:eleve', 'read:eleveClasse', 'read:classe']
+                'groups' => ['read:eleve', 'read:classe']
             ]
         ],
         'post' => [
@@ -104,10 +104,11 @@ class Eleve
     private $etablissement;
 
     /**
-     * @ORM\OneToMany(targetEntity=EleveClasse::class, mappedBy="eleve", orphanRemoval=true)
+     * @ORM\ManyToMany(targetEntity=Classe::class, inversedBy="eleves")
      */
-    #[Groups(['read:eleve'])]
-    private $eleveClasses;
+    private $classe;
+
+
 
     public function __construct()
     {
@@ -115,6 +116,7 @@ class Eleve
         $this->evaluationEleves = new ArrayCollection();
         $this->classes = new ArrayCollection();
         $this->eleveClasses = new ArrayCollection();
+        $this->classe = new ArrayCollection();
 
     }
 
@@ -263,31 +265,25 @@ class Eleve
     }
 
     /**
-     * @return Collection<int, EleveClasse>
+     * @return Collection<int, Classe>
      */
-    public function getEleveClasses(): Collection
+    public function getClasse(): Collection
     {
-        return $this->eleveClasses;
+        return $this->classe;
     }
 
-    public function addEleveClass(EleveClasse $eleveClass): self
+    public function addClasse(Classe $classe): self
     {
-        if (!$this->eleveClasses->contains($eleveClass)) {
-            $this->eleveClasses[] = $eleveClass;
-            $eleveClass->setEleve($this);
+        if (!$this->classe->contains($classe)) {
+            $this->classe[] = $classe;
         }
 
         return $this;
     }
 
-    public function removeEleveClass(EleveClasse $eleveClass): self
+    public function removeClasse(Classe $classe): self
     {
-        if ($this->eleveClasses->removeElement($eleveClass)) {
-            // set the owning side to null (unless already changed)
-            if ($eleveClass->getEleve() === $this) {
-                $eleveClass->setEleve(null);
-            }
-        }
+        $this->classe->removeElement($classe);
 
         return $this;
     }
