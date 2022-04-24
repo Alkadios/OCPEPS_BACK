@@ -53,10 +53,16 @@ class NiveauScolaire
      */
     private $classes;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Etablissement::class, mappedBy="niveau_scolaire")
+     */
+    private $etablissements;
+
     public function __construct()
     {
         $this->choixAnnees = new ArrayCollection();
         $this->classes = new ArrayCollection();
+        $this->etablissements = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -143,6 +149,33 @@ class NiveauScolaire
             if ($class->getNiveauScolaire() === $this) {
                 $class->setNiveauScolaire(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Etablissement>
+     */
+    public function getEtablissements(): Collection
+    {
+        return $this->etablissements;
+    }
+
+    public function addEtablissement(Etablissement $etablissement): self
+    {
+        if (!$this->etablissements->contains($etablissement)) {
+            $this->etablissements[] = $etablissement;
+            $etablissement->addNiveauScolaire($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEtablissement(Etablissement $etablissement): self
+    {
+        if ($this->etablissements->removeElement($etablissement)) {
+            $etablissement->removeNiveauScolaire($this);
         }
 
         return $this;

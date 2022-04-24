@@ -15,6 +15,20 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity(repositoryClass=EleveRepository::class)
  * @ApiResource()
  */
+#[ApiResource(
+    collectionOperations: [
+        'get' => [
+            'normalization_context' => [
+                'groups' => ['read:eleve', 'read:classe']
+            ]
+        ],
+        'post' => [
+            'denormalization_context' => [
+                'groups' => ['post:eleve']
+            ]
+        ]
+    ]
+)]
 #[ApiFilter(SearchFilter::class, properties: ['eleveClasses.classe.id' => 'exact'])]
 class Eleve
 {
@@ -23,55 +37,62 @@ class Eleve
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:eleve'])]
+    #[Groups(['read:eleve', 'read:professeurClasse'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:eleve'])]
+    #[Groups(['read:eleve', 'read:professeurClasse'])]
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:eleve'])]
+    #[Groups(['read:eleve', 'read:professeurClasse'])]
     private $prenom;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['read:eleve'])]
     private $telephone;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['read:eleve'])]
     private $mailParent1;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['read:eleve'])]
     private $mailParent2;
 
     /**
      * @ORM\Column(type="date")
      */
+    #[Groups(['read:eleve'])]
     private $dateNaiss;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['read:eleve'])]
     private $sexeEleve;
 
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="eleves")
      */
+    #[Groups(['read:eleve'])]
     private $user;
 
     /**
      * @ORM\OneToMany(targetEntity=EvaluationEleve::class, mappedBy="Eleve", orphanRemoval=true)
      */
+    #[Groups(['read:eleve'])]
     private $evaluationEleves;
 
 
@@ -79,12 +100,15 @@ class Eleve
      * @ORM\ManyToOne(targetEntity=Etablissement::class, inversedBy="Eleve")
      * @ORM\JoinColumn(nullable=false)
      */
+    #[Groups(['read:eleve'])]
     private $etablissement;
 
     /**
-     * @ORM\OneToMany(targetEntity=EleveClasse::class, mappedBy="eleve", orphanRemoval=true)
+     * @ORM\ManyToMany(targetEntity=Classe::class, inversedBy="eleves")
      */
-    private $eleveClasses;
+    private $classe;
+
+
 
     public function __construct()
     {
@@ -92,6 +116,7 @@ class Eleve
         $this->evaluationEleves = new ArrayCollection();
         $this->classes = new ArrayCollection();
         $this->eleveClasses = new ArrayCollection();
+        $this->classe = new ArrayCollection();
 
     }
 
@@ -240,31 +265,25 @@ class Eleve
     }
 
     /**
-     * @return Collection<int, EleveClasse>
+     * @return Collection<int, Classe>
      */
-    public function getEleveClasses(): Collection
+    public function getClasse(): Collection
     {
-        return $this->eleveClasses;
+        return $this->classe;
     }
 
-    public function addEleveClass(EleveClasse $eleveClass): self
+    public function addClasse(Classe $classe): self
     {
-        if (!$this->eleveClasses->contains($eleveClass)) {
-            $this->eleveClasses[] = $eleveClass;
-            $eleveClass->setEleve($this);
+        if (!$this->classe->contains($classe)) {
+            $this->classe[] = $classe;
         }
 
         return $this;
     }
 
-    public function removeEleveClass(EleveClasse $eleveClass): self
+    public function removeClasse(Classe $classe): self
     {
-        if ($this->eleveClasses->removeElement($eleveClass)) {
-            // set the owning side to null (unless already changed)
-            if ($eleveClass->getEleve() === $this) {
-                $eleveClass->setEleve(null);
-            }
-        }
+        $this->classe->removeElement($classe);
 
         return $this;
     }
