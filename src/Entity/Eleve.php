@@ -15,6 +15,20 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity(repositoryClass=EleveRepository::class)
  * @ApiResource()
  */
+#[ApiResource(
+    collectionOperations: [
+        'get' => [
+            'normalization_context' => [
+                'groups' => ['read:eleve', 'read:eleveClasse', 'read:classe']
+            ]
+        ],
+        'post' => [
+            'denormalization_context' => [
+                'groups' => ['post:eleve']
+            ]
+        ]
+    ]
+)]
 #[ApiFilter(SearchFilter::class, properties: ['eleveClasses.classe.id' => 'exact'])]
 class Eleve
 {
@@ -41,37 +55,44 @@ class Eleve
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['read:eleve'])]
     private $telephone;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['read:eleve'])]
     private $mailParent1;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['read:eleve'])]
     private $mailParent2;
 
     /**
      * @ORM\Column(type="date")
      */
+    #[Groups(['read:eleve'])]
     private $dateNaiss;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['read:eleve'])]
     private $sexeEleve;
 
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="eleves")
      */
+    #[Groups(['read:eleve'])]
     private $user;
 
     /**
      * @ORM\OneToMany(targetEntity=EvaluationEleve::class, mappedBy="Eleve", orphanRemoval=true)
      */
+    #[Groups(['read:eleve'])]
     private $evaluationEleves;
 
 
@@ -79,11 +100,13 @@ class Eleve
      * @ORM\ManyToOne(targetEntity=Etablissement::class, inversedBy="Eleve")
      * @ORM\JoinColumn(nullable=false)
      */
+    #[Groups(['read:eleve'])]
     private $etablissement;
 
     /**
      * @ORM\OneToMany(targetEntity=EleveClasse::class, mappedBy="eleve", orphanRemoval=true)
      */
+    #[Groups(['read:eleve'])]
     private $eleveClasses;
 
     public function __construct()

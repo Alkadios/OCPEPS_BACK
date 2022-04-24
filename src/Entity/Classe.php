@@ -16,7 +16,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
     collectionOperations: [
         'get' => [
             'normalization_context' => [
-                'groups' => ['read:classe']
+                'groups' => ['read:classe','read:eleve']
+            ]
+        ],
+        'post' => [
+            'denormalization_context' => [
+                'groups' => ['post:classe']
             ]
         ]
     ]
