@@ -15,7 +15,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity(repositoryClass=AnneeRepository::class)
  */
 #[ApiResource()]
-#[ApiFilter(BooleanFilter::class, properties: ['en_cours' => 'exact'])]
+#[ApiFilter(BooleanFilter::class, properties: ['enCours' => 'exact'])]
 class Annee
 {
     /**
@@ -49,7 +49,7 @@ class Annee
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $en_cours;
+    private $enCours;
 
     public function __construct()
     {
@@ -167,12 +167,12 @@ class Annee
 
     public function getEnCours(): ?bool
     {
-        return $this->en_cours;
+        return $this->enCours;
     }
 
     public function setEnCours(?bool $en_cours): self
     {
-        $this->en_cours = $en_cours;
+        $this->enCours = $en_cours;
 
         return $this;
     }
