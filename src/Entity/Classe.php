@@ -18,7 +18,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     collectionOperations: [
         'get' => [
             'normalization_context' => [
-                'groups' => ['read:classe','read:eleve']
+                'groups' => ['read:classe', 'read:eleve']
             ]
         ],
         'post' => [
@@ -28,7 +28,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         ]
     ]
 )]
-#[ApiFilter(SearchFilter::class, properties: ['professeurClasses.professeur.id' => 'exact','Annee.id' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['professeurs.id' => 'exact','Annee.id' => 'exact'])]
 class Classe
 {
     /**
@@ -72,6 +72,12 @@ class Classe
      * @ORM\ManyToMany(targetEntity=Professeur::class, mappedBy="classe")
      */
     private $professeurs;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Eleve::class, mappedBy="classe")
+     */
+    #[Groups(['read:classe'])]
+    private $eleves;
 
     /**
      * @ORM\ManyToMany(targetEntity=Eleve::class, mappedBy="classe")

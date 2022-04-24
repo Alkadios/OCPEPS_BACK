@@ -19,7 +19,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     collectionOperations: [
         'get' => [
             'normalization_context' => [
-                'groups' => ['read:eleve', 'read:classe']
+                'groups' => ['read:eleve']
             ]
         ],
         'post' => [

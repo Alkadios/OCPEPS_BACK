@@ -71,7 +71,6 @@ class Etablissement
     /**
      * @ORM\OneToMany(targetEntity=Classe::class, mappedBy="etablissement")
      */
-    #[Groups(['read:classe'])]
     private $Classe;
 
     /**
