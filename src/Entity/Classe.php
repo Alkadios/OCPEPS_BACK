@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\ClasseRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -16,7 +18,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     collectionOperations: [
         'get' => [
             'normalization_context' => [
-                'groups' => ['read:classe','read:eleve']
+                'groups' => ['read:classe', 'read:eleve']
             ]
         ],
         'post' => [
@@ -26,6 +28,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         ]
     ]
 )]
+#[ApiFilter(SearchFilter::class, properties: ['professeurs.id' => 'exact','Annee.id' => 'exact'])]
 class Classe
 {
     /**
@@ -33,13 +36,13 @@ class Classe
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:classe'])]
+    #[Groups(['read:professeurClasse', 'read:classe'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:classe'])]
+    #[Groups(['read:classe', 'read:professeurClasse'])]
     private $libelleClasse;
 
 
@@ -73,7 +76,14 @@ class Classe
     /**
      * @ORM\ManyToMany(targetEntity=Eleve::class, mappedBy="classe")
      */
+    #[Groups(['read:classe'])]
     private $eleves;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Eleve::class, mappedBy="classe")
+     */
+    #[Groups(['read:classe'])]
+    private $professeurClasses;
 
 
 
