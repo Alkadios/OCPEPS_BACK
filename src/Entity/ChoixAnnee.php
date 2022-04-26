@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\ChoixAnneeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -22,6 +24,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * )
  * @ApiResource()
  */
+#[ApiFilter(SearchFilter::class, properties: ['etablissement.id' => 'exact', 'Annee.id' => 'exact'])]
 class ChoixAnnee
 {
     /**
@@ -52,6 +55,12 @@ class ChoixAnnee
      */
     #[Groups(['read:ca'])]
     private $champApprentissage;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Etablissement::class, inversedBy="choixAnnee")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $etablissement;
 
     public function __construct()
     {
@@ -127,6 +136,18 @@ class ChoixAnnee
     public function setChampApprentissage(?ChampApprentissage $champApprentissage): self
     {
         $this->champApprentissage = $champApprentissage;
+
+        return $this;
+    }
+
+    public function getEtablissement(): ?Etablissement
+    {
+        return $this->etablissement;
+    }
+
+    public function setEtablissement(?Etablissement $etablissement): self
+    {
+        $this->etablissement = $etablissement;
 
         return $this;
     }
