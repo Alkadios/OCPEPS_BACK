@@ -20,12 +20,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
             ]
         ],
         'post'
-    ],itemOperations:['get' => [
+    ], itemOperations: ['get' => [
     'normalization_context' => [
         'groups' => ['read:etablissement']
     ]
-],
-    'post']
+], 'put',
+    'patch',
+    'delete']
 )]
 class Etablissement
 {
@@ -99,6 +100,11 @@ class Etablissement
     #[Groups(['read:etablissement'])]
     private $niveauScolaire;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ChoixAnnee::class, mappedBy="etablissement", orphanRemoval=true)
+     */
+    private $choixAnnee;
+
     public function __construct()
     {
         $this->Classe = new ArrayCollection();
@@ -106,6 +112,7 @@ class Etablissement
         $this->Professeur = new ArrayCollection();
         $this->ApsaSelectAnnee = new ArrayCollection();
         $this->niveauScolaire = new ArrayCollection();
+        $this->choixAnnee = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -319,6 +326,36 @@ class Etablissement
     public function removeNiveauScolaire(NiveauScolaire $niveauScolaire): self
     {
         $this->niveauScolaire->removeElement($niveauScolaire);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ChoixAnnee>
+     */
+    public function getChoixAnnee(): Collection
+    {
+        return $this->choixAnnee;
+    }
+
+    public function addChoixAnnee(ChoixAnnee $choixAnnee): self
+    {
+        if (!$this->choixAnnee->contains($choixAnnee)) {
+            $this->choixAnnee[] = $choixAnnee;
+            $choixAnnee->setEtablissement($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChoixAnnee(ChoixAnnee $choixAnnee): self
+    {
+        if ($this->choixAnnee->removeElement($choixAnnee)) {
+            // set the owning side to null (unless already changed)
+            if ($choixAnnee->getEtablissement() === $this) {
+                $choixAnnee->setEtablissement(null);
+            }
+        }
 
         return $this;
     }
