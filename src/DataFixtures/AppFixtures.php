@@ -246,6 +246,7 @@ class AppFixtures extends Fixture
         $ChoixAnnee1->setAnnee($annee1);
         $ChoixAnnee1->setChampApprentissage($ChampApprentissage1);
         $ChoixAnnee1->setNiveau($niveauScolaire1);
+        $ChoixAnnee1->setEtablissement($etablissement);
 
         $manager->persist($ChoixAnnee1);
 
