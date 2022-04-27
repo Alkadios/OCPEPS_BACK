@@ -24,6 +24,16 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * )
  * @ApiResource()
  */
+#[ApiResource(
+    collectionOperations: [
+        'get' => [
+            'normalization_context' => [
+                'groups' => ['read:choixAnnee']
+            ]
+        ],
+        'post'
+    ]
+)]
 #[ApiFilter(SearchFilter::class, properties: ['etablissement.id' => 'exact', 'Annee.id' => 'exact'])]
 class ChoixAnnee
 {
@@ -32,16 +42,19 @@ class ChoixAnnee
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    #[Groups(['read:choixAnnee'])]
     private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=NiveauScolaire::class, inversedBy="choixAnnees")
      */
+    #[Groups(['read:choixAnnee'])]
     private $Niveau;
 
     /**
      * @ORM\ManyToOne(targetEntity=Annee::class, inversedBy="choixAnnees")
      */
+    #[Groups(['read:choixAnnee'])]
     private $Annee;
 
 

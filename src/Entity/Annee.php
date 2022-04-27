@@ -14,7 +14,16 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity(repositoryClass=AnneeRepository::class)
  */
-#[ApiResource()]
+#[ApiResource(
+    collectionOperations: [
+        'get' => [
+            'normalization_context' => [
+                'groups' => ['read:annee']
+            ]
+        ],
+        'post'
+    ]
+)]
 #[ApiFilter(BooleanFilter::class, properties: ['enCours' => 'exact'])]
 class Annee
 {
@@ -29,6 +38,7 @@ class Annee
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['read:annee'])]
     private $annee;
 
     /**
