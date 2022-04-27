@@ -27,7 +27,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     collectionOperations: [
         'get' => [
             'normalization_context' => [
-                'groups' => ['read:Apsa', 'read:AfRetenu', 'read:Critere', 'read:apsaSelectAnnee']
+                'groups' => ['read:critere', 'read:Apsa', 'read:AfRetenu', 'read:Critere', 'read:apsaSelectAnnee','read:choixAnnee']
             ]
         ],
         'post' => [
@@ -38,6 +38,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     ]
 )]
 #[ApiFilter(SearchFilter::class, properties: ['ApsaSelectAnnee.Annee.id' => 'exact', 'ApsaSelectAnnee.etablissement.id' => 'exact', 'AfRetenu.ChoixAnnee.Niveau.id' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['ApsaSelectAnnee.Annee.id' => 'exact', 'ApsaSelectAnnee.etablissement.id' => 'exact'])]
 class ApsaRetenu
 {
     /**
