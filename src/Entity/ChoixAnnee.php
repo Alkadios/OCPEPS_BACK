@@ -48,7 +48,7 @@ class ChoixAnnee
     /**
      * @ORM\ManyToOne(targetEntity=NiveauScolaire::class, inversedBy="choixAnnees")
      */
-    #[Groups(['read:choixAnnee'])]
+    #[Groups(['read:choixAnnee', 'read:AfRetenu'])]
     private $Niveau;
 
     /**
