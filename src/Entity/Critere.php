@@ -71,6 +71,7 @@ class Critere
     /**
      * @ORM\OneToMany(targetEntity=Indicateur::class, mappedBy="critere")
      */
+    #[Groups(['read:critere'])]
     private $Indicateur;
 
     public function __construct()
