@@ -32,7 +32,7 @@ class Annee
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['post:apsaSelectAnnee'])]
+    #[Groups(['post:apsaSelectAnnee', 'read:apsaSelectAnnee','read:caId'])]
     private $id;
 
     /**
@@ -44,6 +44,7 @@ class Annee
     /**
      * @ORM\OneToMany(targetEntity=ChoixAnnee::class, mappedBy="Annee")
      */
+    #[Groups(['read:apsaSelectAnnee', 'read:caId'])]
     private $choixAnnees;
 
     /**
