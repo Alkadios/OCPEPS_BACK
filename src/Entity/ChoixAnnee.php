@@ -61,12 +61,13 @@ class ChoixAnnee
     /**
      * @ORM\OneToMany(targetEntity=AfRetenu::class, mappedBy="ChoixAnnee")
      */
+    #[Groups(['read:choixAnnee'])]
     private $afRetenus;
 
     /**
      * @ORM\ManyToOne(targetEntity=ChampApprentissage::class, inversedBy="ChoixAnnee")
      */
-    #[Groups(['read:ca'])]
+    #[Groups(['read:ca','read:choixAnnee'])]
     private $champApprentissage;
 
     /**
