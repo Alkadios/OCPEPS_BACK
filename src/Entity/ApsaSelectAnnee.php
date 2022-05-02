@@ -67,7 +67,7 @@ class ApsaSelectAnnee
     private $Annee;
 
     /**
-     * @ORM\OneToMany(targetEntity=ApsaRetenu::class, mappedBy="ApsaSelectAnneeController")
+     * @ORM\OneToMany(targetEntity=ApsaRetenu::class, mappedBy="ApsaSelectAnnee")
      */
     private $apsaRetenus;
 

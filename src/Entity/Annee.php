@@ -14,7 +14,15 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity(repositoryClass=AnneeRepository::class)
  */
-#[ApiResource()]
+#[ApiResource(
+    collectionOperations: [
+        'get' => [
+            'normalization_context' => [
+                'groups' => ['read:apsaSelectAnnee']
+            ]
+        ],
+    ]
+)]
 #[ApiFilter(BooleanFilter::class, properties: ['enCours' => 'exact'])]
 class Annee
 {
@@ -23,32 +31,37 @@ class Annee
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['post:apsaSelectAnnee'])]
+    #[Groups(['post:apsaSelectAnnee' , 'read:apsaSelectAnnee'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['read:apsaSelectAnnee'])]
     private $annee;
 
     /**
      * @ORM\OneToMany(targetEntity=ChoixAnnee::class, mappedBy="Annee")
      */
+    #[Groups(['read:apsaSelectAnnee'])]
     private $choixAnnees;
 
     /**
      * @ORM\OneToMany(targetEntity=ApsaSelectAnnee::class, mappedBy="Annee")
      */
+    #[Groups(['read:apsaSelectAnnee'])]
     private $apsaSelectAnnees;
 
     /**
      * @ORM\OneToMany(targetEntity=Classe::class, mappedBy="Annee")
      */
+    #[Groups(['read:apsaSelectAnnee'])]
     private $classes;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
+    #[Groups(['read:apsaSelectAnnee'])]
     private $enCours;
 
     public function __construct()
