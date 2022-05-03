@@ -69,6 +69,11 @@ class Indicateur
     #[Groups('read:indicateur')]
     private $image;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $color;
+
     public function __construct()
     {
         $this->evaluationEleves = new ArrayCollection();
@@ -166,6 +171,18 @@ class Indicateur
     public function setImage(?string $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
+
+    public function setColor(string $color): self
+    {
+        $this->color = $color;
 
         return $this;
     }
