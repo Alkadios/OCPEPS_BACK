@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\ChoixAnneeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -22,6 +24,17 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * )
  * @ApiResource()
  */
+#[ApiResource(
+    collectionOperations: [
+        'get' => [
+            'normalization_context' => [
+                'groups' => ['read:choixAnnee']
+            ]
+        ],
+        'post'
+    ]
+)]
+#[ApiFilter(SearchFilter::class, properties: ['etablissement.id' => 'exact', 'Annee.id' => 'exact'])]
 class ChoixAnnee
 {
     /**
@@ -29,29 +42,39 @@ class ChoixAnnee
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    #[Groups(['read:choixAnnee', 'read:caId'])]
     private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=NiveauScolaire::class, inversedBy="choixAnnees")
      */
+    #[Groups(['read:choixAnnee', 'read:AfRetenu', 'read:caId'])]
     private $Niveau;
 
     /**
      * @ORM\ManyToOne(targetEntity=Annee::class, inversedBy="choixAnnees")
      */
+    #[Groups(['read:choixAnnee'])]
     private $Annee;
 
 
     /**
      * @ORM\OneToMany(targetEntity=AfRetenu::class, mappedBy="ChoixAnnee")
      */
+    #[Groups(['read:choixAnnee'])]
     private $afRetenus;
 
     /**
      * @ORM\ManyToOne(targetEntity=ChampApprentissage::class, inversedBy="ChoixAnnee")
      */
-    #[Groups(['read:ca'])]
+    #[Groups(['read:ca','read:choixAnnee'])]
     private $champApprentissage;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Etablissement::class, inversedBy="choixAnnee")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $etablissement;
 
     public function __construct()
     {
@@ -127,6 +150,18 @@ class ChoixAnnee
     public function setChampApprentissage(?ChampApprentissage $champApprentissage): self
     {
         $this->champApprentissage = $champApprentissage;
+
+        return $this;
+    }
+
+    public function getEtablissement(): ?Etablissement
+    {
+        return $this->etablissement;
+    }
+
+    public function setEtablissement(?Etablissement $etablissement): self
+    {
+        $this->etablissement = $etablissement;
 
         return $this;
     }

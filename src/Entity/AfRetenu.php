@@ -41,19 +41,19 @@ class AfRetenu
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:AfRetenu'])]
+    #[Groups(['read:AfRetenu', 'read:choixAnnee'])]
     private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=ChoixAnnee::class, inversedBy="afRetenus")
      */
-    #[Groups(['read:ca'])]
+    #[Groups(['read:ca', 'read:AfRetenu'])]
     private $ChoixAnnee;
 
     /**
      * @ORM\ManyToOne(targetEntity=Af::class, inversedBy="afRetenus")
      */
-    #[Groups(['read:Af', 'read:AfRetenu'])]
+    #[Groups(['read:Af', 'read:AfRetenu','read:choixAnnee'])]
     private $Af;
 
     /**

@@ -30,31 +30,31 @@ class Indicateur
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups('read:indicateur')]
+    #[Groups(['read:indicateur', 'read:critere'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups('read:indicateur')]
+    #[Groups(['read:indicateur', 'read:critere'])]
     private $libelle;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups('read:indicateur')]
+    #[Groups(['read:indicateur', 'read:critere'])]
     private $description;
 
     /**
      * @ORM\OneToMany(targetEntity=EvaluationEleve::class, mappedBy="Indicateur", orphanRemoval=true)
      */
+    #[Groups(['read:indicateur', 'read:critere'])]
     private $evaluationEleves;
 
     /**
      * @ORM\ManyToOne(targetEntity=Critere::class, inversedBy="Indicateur")
      * @ORM\JoinColumn(name="critere_id", referencedColumnName="id",nullable=false, onDelete="CASCADE")
      */
-    #[Groups('read:critere')]
     private $critere;
 
     /**
@@ -68,6 +68,11 @@ class Indicateur
      */
     #[Groups('read:indicateur')]
     private $image;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $color;
 
     public function __construct()
     {
@@ -166,6 +171,18 @@ class Indicateur
     public function setImage(?string $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
+
+    public function setColor(string $color): self
+    {
+        $this->color = $color;
 
         return $this;
     }

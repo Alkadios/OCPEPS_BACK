@@ -18,9 +18,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
     collectionOperations: [
         'get' => [
             'normalization_context' => [
-                'groups' => ['read:apsaSelectAnnee']
+                'groups' => ['read:annee']
             ]
         ],
+        'post'
     ]
 )]
 #[ApiFilter(BooleanFilter::class, properties: ['enCours' => 'exact'])]
@@ -31,19 +32,19 @@ class Annee
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['post:apsaSelectAnnee' , 'read:apsaSelectAnnee'])]
+    #[Groups(['post:apsaSelectAnnee', 'read:apsaSelectAnnee','read:caId', 'read:annee'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:apsaSelectAnnee'])]
+    #[Groups(['read:annee'])]
     private $annee;
 
     /**
      * @ORM\OneToMany(targetEntity=ChoixAnnee::class, mappedBy="Annee")
      */
-    #[Groups(['read:apsaSelectAnnee'])]
+    #[Groups(['read:apsaSelectAnnee', 'read:caId'])]
     private $choixAnnees;
 
     /**

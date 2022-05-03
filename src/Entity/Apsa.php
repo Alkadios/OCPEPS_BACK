@@ -17,7 +17,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     collectionOperations: [
         'get' => [
             'normalization_context' => [
-                'groups' => ['read:champ_apprentissage']
+                'groups' => ['read:champ_apprentissage', 'read:apsaRetenu']
             ]
         ],
         'post' => [
