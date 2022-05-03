@@ -27,7 +27,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     collectionOperations: [
         'get' => [
             'normalization_context' => [
-                'groups' => ['read:critere', 'read:Apsa', 'read:AfRetenu', 'read:Critere', 'read:apsaSelectAnnee','read:choixAnnee']
+                'groups' => ['read:apsaSelectAnnee','read:critere', 'read:Apsa', 'read:AfRetenu', 'read:Critere', 'read:apsaSelectAnnee','read:choixAnnee', 'read:apsaRetenu']
             ]
         ],
         'post' => [
@@ -38,7 +38,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
     ]
 )]
 #[ApiFilter(SearchFilter::class, properties: ['ApsaSelectAnnee.Annee.id' => 'exact', 'ApsaSelectAnnee.etablissement.id' => 'exact', 'AfRetenu.ChoixAnnee.Niveau.id' => 'exact'])]
-#[ApiFilter(SearchFilter::class, properties: ['ApsaSelectAnnee.Annee.id' => 'exact', 'ApsaSelectAnnee.etablissement.id' => 'exact'])]
 class ApsaRetenu
 {
     /**
@@ -46,7 +45,7 @@ class ApsaRetenu
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:ApsaRetenu', 'read:Apsa', 'read:apsaRetenu'])]
+    #[Groups(['read:ApsaRetenu', 'read:Apsa', 'read:apsaRetenu', 'read:caId'])]
     private $id;
 
     /**
@@ -59,7 +58,7 @@ class ApsaRetenu
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:AfRetenu', 'post:ApsaRetenu'])]
+    #[Groups(['read:AfRetenu', 'post:ApsaRetenu', 'read:caId'])]
     private $SituationEvaluation;
 
 
@@ -67,12 +66,13 @@ class ApsaRetenu
      * @ORM\ManyToOne(targetEntity=ApsaSelectAnnee::class, inversedBy="apsaRetenus")
      * @ORM\JoinColumn(name="apsa_select_annee_id", referencedColumnName="id",nullable=false, onDelete="CASCADE")
      */
-    #[Groups(['post:ApsaRetenu', 'read:apsaRetenu', 'read:apsaSelectAnnee'])]
+    #[Groups(['post:ApsaRetenu', 'read:apsaRetenu', 'read:apsaSelectAnnee', 'read:caId'])]
     private $ApsaSelectAnnee;
 
     /**
      * @ORM\OneToMany(targetEntity=Critere::class, mappedBy="ApsaRetenu", orphanRemoval=true)
      */
+    #[Groups(['read:apsaRetenu'])]
     private $criteres;
 
     public function __construct()
