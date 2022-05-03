@@ -33,10 +33,8 @@ class ChampsApprentissageApsaRepository extends ServiceEntityRepository
             ->orderBy('c.id', 'ASC')
             ->setMaxResults(10)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-
 
 
     public function findChamp($value): ?ChampsApprentissageApsa
@@ -72,7 +70,6 @@ class ChampsApprentissageApsaRepository extends ServiceEntityRepository
 
         return $query->execute();
     }
-
 
 
 }

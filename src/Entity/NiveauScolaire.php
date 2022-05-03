@@ -20,7 +20,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
     ],
     paginationEnabled: false
 )]
-
 #[ApiFilter(SearchFilter::class, properties: ['cycle.id' => 'exact'])]
 class NiveauScolaire
 {
@@ -29,13 +28,13 @@ class NiveauScolaire
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:niveauScolaire'])]
+    #[Groups(['read:niveauScolaire', 'read:professeurClasse', 'read:etablissement', 'read:choixAnnee'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:niveauScolaire'])]
+    #[Groups(['read:niveauScolaire', 'read:professeurClasse', 'read:etablissement', 'read:choixAnnee'])]
     private $libelle;
 
     /**
@@ -49,9 +48,21 @@ class NiveauScolaire
      */
     private $choixAnnees;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Classe::class, mappedBy="NiveauScolaire", orphanRemoval=true)
+     */
+    private $classes;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Etablissement::class, mappedBy="niveau_scolaire")
+     */
+    private $etablissements;
+
     public function __construct()
     {
         $this->choixAnnees = new ArrayCollection();
+        $this->classes = new ArrayCollection();
+        $this->etablissements = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -108,6 +119,63 @@ class NiveauScolaire
             if ($choixAnnee->getNiveau() === $this) {
                 $choixAnnee->setNiveau(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Classe>
+     */
+    public function getClasses(): Collection
+    {
+        return $this->classes;
+    }
+
+    public function addClass(Classe $class): self
+    {
+        if (!$this->classes->contains($class)) {
+            $this->classes[] = $class;
+            $class->setNiveauScolaire($this);
+        }
+
+        return $this;
+    }
+
+    public function removeClass(Classe $class): self
+    {
+        if ($this->classes->removeElement($class)) {
+            // set the owning side to null (unless already changed)
+            if ($class->getNiveauScolaire() === $this) {
+                $class->setNiveauScolaire(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Etablissement>
+     */
+    public function getEtablissements(): Collection
+    {
+        return $this->etablissements;
+    }
+
+    public function addEtablissement(Etablissement $etablissement): self
+    {
+        if (!$this->etablissements->contains($etablissement)) {
+            $this->etablissements[] = $etablissement;
+            $etablissement->addNiveauScolaire($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEtablissement(Etablissement $etablissement): self
+    {
+        if ($this->etablissements->removeElement($etablissement)) {
+            $etablissement->removeNiveauScolaire($this);
         }
 
         return $this;

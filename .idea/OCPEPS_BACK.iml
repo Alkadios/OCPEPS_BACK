@@ -55,7 +55,6 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/var-dumper" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/translation" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/string" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/twig-bridge" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/translation-contracts" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/serializer" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/security-http" />
@@ -64,7 +63,6 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/security-bundle" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/runtime" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/security-csrf" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/security-core" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/property-info" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/property-access" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/routing" />
@@ -86,10 +84,8 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/monolog-bridge" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/mime" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/http-foundation" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/http-client-contracts" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/intl" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/http-kernel" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/form" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/flex" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/http-client" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/framework-bundle" />
@@ -143,6 +139,10 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/phpdocumentor/reflection-docblock" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/phpdocumentor/reflection-common" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/phpdocumentor/type-resolver" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/twig-bridge" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/security-core" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/form" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/http-client-contracts" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

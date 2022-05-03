@@ -7,11 +7,12 @@ use App\Repository\ProfesseurRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ProfesseurRepository::class)
- * @ApiResource()
  */
+#[ApiResource()]
 class Professeur
 {
     /**
@@ -46,9 +47,23 @@ class Professeur
      */
     private $user;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Etablissement::class, mappedBy="Professeur")
+     */
+    private $etablissements;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Classe::class, inversedBy="professeurs")
+     */
+    private $classe;
+
+
     public function __construct()
     {
         $this->cours = new ArrayCollection();
+        $this->etablissements = new ArrayCollection();
+        $this->professeurClasses = new ArrayCollection();
+        $this->classe = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -133,4 +148,58 @@ class Professeur
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Etablissement>
+     */
+    public function getEtablissements(): Collection
+    {
+        return $this->etablissements;
+    }
+
+    public function addEtablissement(Etablissement $etablissement): self
+    {
+        if (!$this->etablissements->contains($etablissement)) {
+            $this->etablissements[] = $etablissement;
+            $etablissement->addProfesseur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEtablissement(Etablissement $etablissement): self
+    {
+        if ($this->etablissements->removeElement($etablissement)) {
+            $etablissement->removeProfesseur($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Classe>
+     */
+    public function getClasse(): Collection
+    {
+        return $this->classe;
+    }
+
+    public function addClasse(Classe $classe): self
+    {
+        if (!$this->classe->contains($classe)) {
+            $this->classe[] = $classe;
+        }
+
+        return $this;
+    }
+
+    public function removeClasse(Classe $classe): self
+    {
+        $this->classe->removeElement($classe);
+
+        return $this;
+    }
+
+
+
 }

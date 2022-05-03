@@ -17,7 +17,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     collectionOperations: [
         'get' => [
             'normalization_context' => [
-                'groups' => ['read:champ_apprentissage']
+                'groups' => ['read:champ_apprentissage', 'read:apsaRetenu']
             ]
         ],
         'post' => [
@@ -34,15 +34,14 @@ class Apsa
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:apsa', 'read:champ_apprentissage', 'read:Apsa', 'read:apsaId', 'post:apsaSelectAnnee'])]
+    #[Groups(['read:apsa', 'read:champ_apprentissage', 'read:Apsa', 'read:apsaId', 'post:apsaSelectAnnee', 'read:apsaRetenu', 'read:apsaSelectAnnee'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:apsa', 'read:champ_apprentissage', 'read:Apsa', 'read:apsaLibelle', 'post:Apsa', 'read:apsaRetenu'])]
+    #[Groups(['read:apsa', 'read:champ_apprentissage', 'read:Apsa', 'read:apsaLibelle', 'post:Apsa', 'read:apsaRetenu', 'read:professeurClasse', 'read:apsaSelectAnnee'])]
     private $libelle;
-
 
 
     /**
@@ -54,8 +53,6 @@ class Apsa
      * @ORM\OneToMany(targetEntity=ApsaSelectAnnee::class, mappedBy="Apsa")
      */
     private $apsaSelectAnnees;
-
-
 
 
     public function __construct()
@@ -82,7 +79,6 @@ class Apsa
 
         return $this;
     }
-
 
 
     /**

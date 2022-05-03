@@ -20,13 +20,13 @@ class Af
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:Af'])]
+    #[Groups(['read:Af','read:choixAnnee'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:Af', 'read:AfRetenu'])]
+    #[Groups(['read:Af', 'read:AfRetenu','read:choixAnnee'])]
     private $libelle;
 
     /**
@@ -38,7 +38,6 @@ class Af
      * @ORM\OneToMany(targetEntity=AfRetenu::class, mappedBy="Af")
      */
     private $afRetenus;
-
 
 
     public function __construct()
@@ -105,10 +104,6 @@ class Af
 
         return $this;
     }
-
-
-
-
 
 
 }

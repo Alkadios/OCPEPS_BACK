@@ -37,8 +37,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
         ]
     ]
 )]
-
 #[ApiFilter(SearchFilter::class, properties: ['Annee.id' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['Annee.id' => 'exact', 'etablissement.id' => 'exact'])]
 class ApsaSelectAnnee
 {
     /**
@@ -46,31 +46,38 @@ class ApsaSelectAnnee
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['post:ApsaRetenu'])]
+    #[Groups(['post:ApsaRetenu', 'read:apsaSelectAnnee'])]
     private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=ChampApprentissage::class, inversedBy="apsaSelectAnnees")
      */
-    #[Groups(['read:caId' , 'write:caId', 'post:apsaSelectAnnee'])]
+    #[Groups(['read:caId', 'write:caId', 'post:apsaSelectAnnee'])]
     private $Ca;
 
     /**
      * @ORM\ManyToOne(targetEntity=Apsa::class, inversedBy="apsaSelectAnnees")
      */
-    #[Groups(['read:apsaSelectAnne', 'write:apsaId', 'post:apsaSelectAnnee', 'read:apsaRetenu'])]
+    #[Groups(['read:apsaSelectAnne', 'write:apsaId', 'post:apsaSelectAnnee', 'read:apsaRetenu', 'read:apsaSelectAnnee'])]
     private $Apsa;
 
     /**
      * @ORM\ManyToOne(targetEntity=Annee::class, inversedBy="apsaSelectAnnees")
      */
-    #[Groups(['read:Annee', 'write:Annee', 'post:apsaSelectAnnee'])]
+    #[Groups(['read:Annee', 'write:Annee', 'post:apsaSelectAnnee', 'read:ApsaSelectAnnee', 'read:caId'])]
     private $Annee;
 
     /**
-     * @ORM\OneToMany(targetEntity=ApsaRetenu::class, mappedBy="ApsaSelectAnneeController")
+     * @ORM\OneToMany(targetEntity=ApsaRetenu::class, mappedBy="ApsaSelectAnnee")
      */
+    #[Groups(['read:caId'])]
     private $apsaRetenus;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Etablissement::class, inversedBy="ApsaSelectAnnee")
+     */
+    #[Groups(['read:caId'])]
+    private $etablissement;
 
     public function __construct()
     {
@@ -144,6 +151,18 @@ class ApsaSelectAnnee
                 $apsaRetenu->setApsaSelectAnnee(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getEtablissement(): ?Etablissement
+    {
+        return $this->etablissement;
+    }
+
+    public function setEtablissement(?Etablissement $etablissement): self
+    {
+        $this->etablissement = $etablissement;
 
         return $this;
     }
