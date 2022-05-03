@@ -119,18 +119,28 @@ class AppFixtures extends Fixture
         $manager->persist($niveauScolaire16);
 
         $annee1 = new Annee();
-        $annee1->setAnnee("2020-2021");
+        $annee1->setAnnee("2021-2022");
         $annee1->setEnCours(true);
+        $manager->persist($annee1);
+
+
+        $annee1 = new Annee();
+        $annee1->setAnnee("2020-2021");
+        $annee1->setEnCours(false);
+        $manager->persist($annee1);
+
+        $annee1 = new Annee();
+        $annee1->setAnnee("2019-2020");
+        $annee1->setEnCours(false);
         $manager->persist($annee1);
 
         $etablissement = new Etablissement();
         $etablissement->setMail("saintjoseph@hotmail.fr");
-        $etablissement->setAdresse("rue saint joseph");
+        $etablissement->setAdresse("rue Saint Joseph");
         $etablissement->setCp(69120);
-        $etablissement->setNom("saint joseph");
+        $etablissement->setNom("Saint Joseph");
         $etablissement->setTel("0654956454");
         $etablissement->setVille("Lyon");
-
 
         $classe1 = new Classe();
         $classe1->setLibelleClasse("CP");
@@ -251,84 +261,107 @@ class AppFixtures extends Fixture
         $manager->persist($ChoixAnnee1);
 
         $Apsa1 = new Apsa();
-        $Apsa1->setLibelle("500M");
+        $Apsa1->setLibelle("Course de fond");
         $manager->persist($Apsa1);
 
         $Apsa2 = new Apsa();
-        $Apsa2->setLibelle("Saut en hauteur");
+        $Apsa2->setLibelle("Lancer de disque");
         $manager->persist($Apsa2);
 
         $Apsa3 = new Apsa();
-        $Apsa3->setLibelle("Saut de haie");
+        $Apsa3->setLibelle("Saut en hauteur");
         $manager->persist($Apsa3);
 
         $Apsa4 = new Apsa();
-        $Apsa4->setLibelle("Cours");
+        $Apsa4->setLibelle("Natation vitesse");
         $manager->persist($Apsa4);
 
         $Apsa5 = new Apsa();
-        $Apsa5->setLibelle("Lancer de javelot");
+        $Apsa5->setLibelle("Natation de distance");
         $manager->persist($Apsa5);
 
         $Apsa6 = new Apsa();
-        $Apsa6->setLibelle("Lancer de disque");
+        $Apsa6->setLibelle("Lancer de javelot");
         $manager->persist($Apsa6);
 
         $Apsa7 = new Apsa();
-        $Apsa7->setLibelle("Lancer de poids");
+        $Apsa7->setLibelle("Course de haie");
         $manager->persist($Apsa7);
 
         $Apsa8 = new Apsa();
-        $Apsa8->setLibelle("Lancer de marteau");
+        $Apsa8->setLibelle("Natation sauvetage");
         $manager->persist($Apsa8);
 
         $Apsa9 = new Apsa();
-        $Apsa9->setLibelle("Gymnastique saut de cheval");
+        $Apsa9->setLibelle("Course d'orientation");
         $manager->persist($Apsa9);
 
         $Apsa10 = new Apsa();
-        $Apsa10->setLibelle("Gymnastique artistiique");
+        $Apsa10->setLibelle("Acrosport");
         $manager->persist($Apsa10);
 
         $Apsa11 = new Apsa();
-        $Apsa11->setLibelle("Cirque");
+        $Apsa11->setLibelle("Art du cirque");
         $manager->persist($Apsa11);
 
         $Apsa12 = new Apsa();
-        $Apsa12->setLibelle("Judo");
+        $Apsa12->setLibelle("Danse");
         $manager->persist($Apsa12);
 
         $Apsa13 = new Apsa();
-        $Apsa13->setLibelle("Karaté");
+        $Apsa13->setLibelle("Gymnastique au sol");
         $manager->persist($Apsa13);
 
         $Apsa14 = new Apsa();
-        $Apsa14->setLibelle("Lutte");
-        $manager->persist($Apsa14);
-
-        $Apsa14 = new Apsa();
-        $Apsa14->setLibelle("Musculation");
+        $Apsa14->setLibelle("Gymnastique rythmique");
         $manager->persist($Apsa14);
 
         $Apsa15 = new Apsa();
-        $Apsa15->setLibelle("Rugby");
+        $Apsa15->setLibelle("Gymnastique saut de cheval");
         $manager->persist($Apsa15);
 
-        $Apsa15 = new Apsa();
-        $Apsa15->setLibelle("Football");
-        $manager->persist($Apsa15);
+
 
         $Apsa16 = new Apsa();
-        $Apsa16->setLibelle("Handball");
+        $Apsa16->setLibelle("Football");
         $manager->persist($Apsa16);
 
         $Apsa17 = new Apsa();
-        $Apsa17->setLibelle("Natation");
+        $Apsa17->setLibelle("Handball");
         $manager->persist($Apsa17);
 
         $Apsa18 = new Apsa();
-        $Apsa18->setLibelle("Course d'orientation");
+        $Apsa18->setLibelle("Rugby");
         $manager->persist($Apsa18);
+
+        $Apsa19 = new Apsa();
+        $Apsa19 ->setLibelle("Volley-ball");
+        $manager->persist($Apsa19);
+
+
+
+        $Apsa20 = new Apsa();
+        $Apsa20->setLibelle("Course de durée");
+        $manager->persist($Apsa20);
+
+        $Apsa21 = new Apsa();
+        $Apsa21->setLibelle("Natation de durée");
+        $manager->persist($Apsa21);
+
+        $Apsa22 = new Apsa();
+        $Apsa22->setLibelle("Musculation");
+        $manager->persist($Apsa22);
+
+        $Apsa23 = new Apsa();
+        $Apsa23->setLibelle("Relaxation");
+        $manager->persist($Apsa23);
+
+        $Apsa24 = new Apsa();
+        $Apsa24 ->setLibelle("Step");
+        $manager->persist($Apsa24);
+
+
+
 
         $champApprentissageApsa1 = new ChampsApprentissageApsa();
         $champApprentissageApsa1->setApsa($Apsa1);
@@ -337,53 +370,126 @@ class AppFixtures extends Fixture
 
         $champApprentissageApsa2 = new ChampsApprentissageApsa();
         $champApprentissageApsa2->setApsa($Apsa2);
-        $champApprentissageApsa2->setChampApprentissage($ChampApprentissage2);
+        $champApprentissageApsa2->setChampApprentissage($ChampApprentissage1);
         $manager->persist($champApprentissageApsa2);
 
         $champApprentissageApsa3 = new ChampsApprentissageApsa();
-        $champApprentissageApsa3->setApsa($Apsa12);
-        $champApprentissageApsa3->setChampApprentissage($ChampApprentissage3);
+        $champApprentissageApsa3->setApsa($Apsa3);
+        $champApprentissageApsa3->setChampApprentissage($ChampApprentissage1);
         $manager->persist($champApprentissageApsa3);
 
         $champApprentissageApsa4 = new ChampsApprentissageApsa();
-        $champApprentissageApsa4->setApsa($Apsa5);
-        $champApprentissageApsa4->setChampApprentissage($ChampApprentissage4);
+        $champApprentissageApsa4->setApsa($Apsa4);
+        $champApprentissageApsa4->setChampApprentissage($ChampApprentissage1);
         $manager->persist($champApprentissageApsa4);
 
         $champApprentissageApsa5 = new ChampsApprentissageApsa();
-        $champApprentissageApsa5->setApsa($Apsa18);
-        $champApprentissageApsa5->setChampApprentissage($ChampApprentissage5);
+        $champApprentissageApsa5->setApsa($Apsa5);
+        $champApprentissageApsa5->setChampApprentissage($ChampApprentissage1);
         $manager->persist($champApprentissageApsa5);
 
         $champApprentissageApsa6 = new ChampsApprentissageApsa();
-        $champApprentissageApsa6->setApsa($Apsa17);
+        $champApprentissageApsa6->setApsa($Apsa6);
         $champApprentissageApsa6->setChampApprentissage($ChampApprentissage1);
         $manager->persist($champApprentissageApsa6);
 
         $champApprentissageApsa7 = new ChampsApprentissageApsa();
-        $champApprentissageApsa7->setApsa($Apsa11);
+        $champApprentissageApsa7->setApsa($Apsa7);
         $champApprentissageApsa7->setChampApprentissage($ChampApprentissage1);
         $manager->persist($champApprentissageApsa7);
 
         $champApprentissageApsa8 = new ChampsApprentissageApsa();
-        $champApprentissageApsa8->setApsa($Apsa18);
+        $champApprentissageApsa8->setApsa($Apsa8);
         $champApprentissageApsa8->setChampApprentissage($ChampApprentissage2);
         $manager->persist($champApprentissageApsa8);
 
         $champApprentissageApsa9 = new ChampsApprentissageApsa();
-        $champApprentissageApsa9->setApsa($Apsa10);
-        $champApprentissageApsa9->setChampApprentissage($ChampApprentissage3);
+        $champApprentissageApsa9->setApsa($Apsa9);
+        $champApprentissageApsa9->setChampApprentissage($ChampApprentissage2);
         $manager->persist($champApprentissageApsa9);
 
         $champApprentissageApsa10 = new ChampsApprentissageApsa();
-        $champApprentissageApsa10->setApsa($Apsa13);
+        $champApprentissageApsa10->setApsa($Apsa10);
+        $champApprentissageApsa10->setChampApprentissage($ChampApprentissage3);
+        $manager->persist($champApprentissageApsa10);
+
+        $champApprentissageApsa11 = new ChampsApprentissageApsa();
+        $champApprentissageApsa11->setApsa($Apsa11);
+        $champApprentissageApsa11->setChampApprentissage($ChampApprentissage3);
+        $manager->persist($champApprentissageApsa11);
+
+        $champApprentissageApsa10 = new ChampsApprentissageApsa();
+        $champApprentissageApsa10->setApsa($Apsa12);
+        $champApprentissageApsa10->setChampApprentissage($ChampApprentissage3);
+        $manager->persist($champApprentissageApsa10);
+
+        $champApprentissageApsa11 = new ChampsApprentissageApsa();
+        $champApprentissageApsa11->setApsa($Apsa13);
+        $champApprentissageApsa11->setChampApprentissage($ChampApprentissage3);
+        $manager->persist($champApprentissageApsa11);
+
+
+        $champApprentissageApsa10 = new ChampsApprentissageApsa();
+        $champApprentissageApsa10->setApsa($Apsa14);
+        $champApprentissageApsa10->setChampApprentissage($ChampApprentissage3);
+        $manager->persist($champApprentissageApsa10);
+
+        $champApprentissageApsa11 = new ChampsApprentissageApsa();
+        $champApprentissageApsa11->setApsa($Apsa15);
+        $champApprentissageApsa11->setChampApprentissage($ChampApprentissage3);
+        $manager->persist($champApprentissageApsa11);
+
+
+        $champApprentissageApsa10 = new ChampsApprentissageApsa();
+        $champApprentissageApsa10->setApsa($Apsa16);
+        $champApprentissageApsa10->setChampApprentissage($ChampApprentissage4);
+        $manager->persist($champApprentissageApsa10);
+
+        $champApprentissageApsa11 = new ChampsApprentissageApsa();
+        $champApprentissageApsa11->setApsa($Apsa17);
+        $champApprentissageApsa11->setChampApprentissage($ChampApprentissage4);
+        $manager->persist($champApprentissageApsa11);
+
+
+        $champApprentissageApsa10 = new ChampsApprentissageApsa();
+        $champApprentissageApsa10->setApsa($Apsa18);
+        $champApprentissageApsa10->setChampApprentissage($ChampApprentissage4);
+        $manager->persist($champApprentissageApsa10);
+
+        $champApprentissageApsa11 = new ChampsApprentissageApsa();
+        $champApprentissageApsa11->setApsa($Apsa19);
+        $champApprentissageApsa11->setChampApprentissage($ChampApprentissage4);
+        $manager->persist($champApprentissageApsa11);
+
+
+
+        $champApprentissageApsa11 = new ChampsApprentissageApsa();
+        $champApprentissageApsa11->setApsa($Apsa20);
+        $champApprentissageApsa11->setChampApprentissage($ChampApprentissage5);
+        $manager->persist($champApprentissageApsa11);
+
+
+        $champApprentissageApsa10 = new ChampsApprentissageApsa();
+        $champApprentissageApsa10->setApsa($Apsa21);
         $champApprentissageApsa10->setChampApprentissage($ChampApprentissage5);
         $manager->persist($champApprentissageApsa10);
 
         $champApprentissageApsa11 = new ChampsApprentissageApsa();
-        $champApprentissageApsa11->setApsa($Apsa6);
-        $champApprentissageApsa11->setChampApprentissage($ChampApprentissage1);
+        $champApprentissageApsa11->setApsa($Apsa22);
+        $champApprentissageApsa11->setChampApprentissage($ChampApprentissage5);
         $manager->persist($champApprentissageApsa11);
+
+
+        $champApprentissageApsa10 = new ChampsApprentissageApsa();
+        $champApprentissageApsa10->setApsa($Apsa23);
+        $champApprentissageApsa10->setChampApprentissage($ChampApprentissage5);
+        $manager->persist($champApprentissageApsa10);
+
+        $champApprentissageApsa11 = new ChampsApprentissageApsa();
+        $champApprentissageApsa11->setApsa($Apsa24);
+        $champApprentissageApsa11->setChampApprentissage($ChampApprentissage5);
+        $manager->persist($champApprentissageApsa11);
+
 
 
         $Af1 = new Af();
