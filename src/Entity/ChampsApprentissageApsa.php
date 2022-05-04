@@ -52,7 +52,7 @@ class ChampsApprentissageApsa
     /**
      * @ORM\ManyToOne(targetEntity=ChampApprentissage::class, inversedBy="champsApprentissageApsas")
      */
-    #[Groups(['read:champapprentissage', 'post:ChampsApprentissageApsa'])]
+    #[Groups(['read:champapprentissage', 'post:ChampsApprentissageApsa', 'read:apsaRetenu'])]
     private $ChampApprentissage;
 
     public function getId(): ?int

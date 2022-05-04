@@ -5,11 +5,21 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\EvaluationEleveRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=EvaluationEleveRepository::class)
  */
-#[ApiResource()]
+#[ApiResource(
+    collectionOperations: [
+        'get' => [
+            'normalization_context' => [
+                'groups' => ['read:indicateur', 'read:critere', 'read:apsaRetenu']
+            ]
+        ],
+        'post'
+    ]
+)]
 class EvaluationEleve
 {
     /**
@@ -17,24 +27,28 @@ class EvaluationEleve
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    #[Groups(['read:indicateur', 'read:apsaRetenu'])]
     private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=Eleve::class, inversedBy="evaluationEleves")
      * @ORM\JoinColumn(nullable=false)
      */
+    #[Groups(['read:indicateur', 'read:apsaRetenu'])]
     private $Eleve;
 
     /**
      * @ORM\ManyToOne(targetEntity=Evaluation::class, inversedBy="evaluationEleves")
      * @ORM\JoinColumn(nullable=false)
      */
+    #[Groups(['read:indicateur', 'read:apsaRetenu'])]
     private $Evaluation;
 
     /**
      * @ORM\ManyToOne(targetEntity=Indicateur::class, inversedBy="evaluationEleves")
      * @ORM\JoinColumn(name="indicateur_id", referencedColumnName="id",nullable=false, onDelete="CASCADE")
      */
+    #[Groups(['read:indicateur', 'read:apsaRetenu'])]
     private $Indicateur;
 
     /**
