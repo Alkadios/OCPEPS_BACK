@@ -41,7 +41,7 @@ class Etablissement
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:etablissement'])]
+    #[Groups(['read:etablissement','read:classe'])]
     private $nom;
 
     /**

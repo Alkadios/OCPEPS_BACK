@@ -19,12 +19,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
     collectionOperations: [
         'get' => [
             'normalization_context' => [
-                'groups' => ['read:eleve']
+                'groups' => ['read:eleve','read:classe']
             ]
         ],
         'post' => [
             'denormalization_context' => [
-                'groups' => ['post:eleve']
+                'groups' => ['post:eleve','post:classe']
             ]
         ]
     ]
@@ -37,62 +37,62 @@ class Eleve
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:eleve', 'read:professeurClasse', 'read:classe'])]
+    #[Groups(['read:eleve', 'read:professeurClasse', 'read:classe', 'post:eleve'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:eleve', 'read:professeurClasse', 'read:classe'])]
+    #[Groups(['read:eleve', 'read:professeurClasse', 'read:classe', 'post:eleve'])]
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:eleve', 'read:professeurClasse', 'read:classe'])]
+    #[Groups(['read:eleve', 'read:professeurClasse', 'read:classe', 'post:eleve'])]
     private $prenom;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:eleve'])]
+    #[Groups(['read:eleve', 'post:eleve'])]
     private $telephone;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:eleve'])]
+    #[Groups(['read:eleve', 'post:eleve'])]
     private $mailParent1;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:eleve'])]
+    #[Groups(['read:eleve', 'post:eleve'])]
     private $mailParent2;
 
     /**
      * @ORM\Column(type="date")
      */
-    #[Groups(['read:eleve'])]
+    #[Groups(['read:eleve', 'post:eleve'])]
     private $dateNaiss;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:eleve'])]
+    #[Groups(['read:eleve', 'post:eleve'])]
     private $sexeEleve;
 
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="eleves")
      */
-    #[Groups(['read:eleve'])]
+    #[Groups(['read:eleve', 'post:eleve'])]
     private $user;
 
     /**
      * @ORM\OneToMany(targetEntity=EvaluationEleve::class, mappedBy="Eleve", orphanRemoval=true)
      */
-    #[Groups(['read:eleve'])]
+    #[Groups(['read:eleve', 'post:eleve'])]
     private $evaluationEleves;
 
 
@@ -100,12 +100,13 @@ class Eleve
      * @ORM\ManyToOne(targetEntity=Etablissement::class, inversedBy="Eleve")
      * @ORM\JoinColumn(nullable=false)
      */
-    #[Groups(['read:eleve'])]
+    #[Groups(['read:eleve' , 'post:eleve'])]
     private $etablissement;
 
     /**
      * @ORM\ManyToMany(targetEntity=Classe::class, inversedBy="eleves")
      */
+    #[Groups(['read:eleve' , 'post:eleve' , 'post:classe'])]
     private $classe;
 
 
