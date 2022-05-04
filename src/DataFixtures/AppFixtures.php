@@ -493,33 +493,73 @@ class AppFixtures extends Fixture
 
 
         $Af1 = new Af();
-        $Af1->setLibelle("Produire des efforts");
-        $Af1->setDescription("Produire et répartir intentionnellement ses efforts en mobilisant ses ressources pour gagner ou pour battre un record.");
+        $Af1->setLibelle("Produire et répartir stratégiquement ses efforts");
+        $Af1->setDescription("Produire et répartir stratégiquement ses efforts en mobilisant de façon optimale ses ressources pour gagner ou pour battre un record.");
+        $Af1->setCa($ChampApprentissage1);
+        $Af1->setTypeAf("AFLP BP");
         $manager->persist($Af1);
 
         $Af2 = new Af();
         $Af2->setLibelle("Connaître et utilser des techniques");
         $Af2->setDescription("Connaître et utiliser des techniques adaptées pour produire la meilleure performance possible.");
+        $Af2->setCa($ChampApprentissage1);
+        $Af2->setTypeAf("AFLP BP");
         $manager->persist($Af2);
 
         $Af3 = new Af();
-        $Af3->setLibelle("S’engager et persévére");
-        $Af3->setDescription("S’engager et persévérer, seul ou à plusieurs, dans des efforts répétés pour progresser dans une activité de performance.");
+        $Af3->setLibelle("Analyser sa performance");
+        $Af3->setDescription("Analyser sa performance pour adapter son projet et progresser.");
+        $Af3->setCa($ChampApprentissage1);
+        $Af3->setTypeAf("AFLP BP");
         $manager->persist($Af3);
 
         $Af4 = new Af();
-        $Af4->setLibelle("S’impliquer dans des rôles sociaux");
-        $Af4->setDescription("S’impliquer dans des rôles sociaux pour assurer le bon déroulement d’une épreuve de production de performance.");
+        $Af4->setLibelle("Assumer des rôles sociaux");
+        $Af4->setDescription("Assumer des rôles sociaux pour organiser une épreuve de production de performance, un concours.");
+        $Af4->setCa($ChampApprentissage1);
+        $Af4->setTypeAf("AFLP BP");
         $manager->persist($Af4);
 
         $Af5 = new Af();
-        $Af5->setLibelle("Se préparer à un effort long ou intense");
-        $Af5->setDescription("Se préparer à un effort long ou intense pour être efficace dans la production d’une performance à une échéance donnée.");
+        $Af5->setLibelle("Assurer la prise en charge de sa préparation");
+        $Af5->setDescription("Assurer la prise en charge de sa préparation et de celle d’un groupe, de façon autonome pour produire la meilleure performance possible");
+        $Af5->setCa($ChampApprentissage1);
+        $Af5->setTypeAf("AFLP BP");
         $manager->persist($Af5);
 
         $Af6 = new Af();
-        $Af6->setLibelle("Identifier ses progrès");
-        $Af6->setDescription("Identifier ses progrès et connaître sa meilleure performance réalisée pour la situer culturellement.");
+        $Af6->setLibelle("Connaître son niveau pour établir un projet");
+        $Af6->setDescription("Connaître son niveau pour établir un projet de performance située culturellement.");
+        $Af6->setCa($ChampApprentissage1);
+        $Af6->setTypeAf("AFLP BP");
+        $manager->persist($Af6);
+
+        $Af7 = new Af();
+        $Af7->setLibelle("Produire et répartir stratégiquement ses efforts");
+        $Af7->setDescription("Produire et répartir stratégiquement ses efforts en mobilisant de façon optimale ses ressources pour gagner ou pour battre un record.");
+        $Af7->setCa($ChampApprentissage2);
+        $Af7->setTypeAf("AFLP BP");
+        $manager->persist($Af7);
+
+        $Af8 = new Af();
+        $Af8->setLibelle("Connaître et mobiliser les techniques");
+        $Af8->setDescription("Connaître et mobiliser les techniques efficaces pour produire la meilleure performance possible.");
+        $Af8->setCa($ChampApprentissage2);
+        $Af8->setTypeAf("AFLP BP");
+        $manager->persist($Af8);
+
+        $Af9 = new Af();
+        $Af9->setLibelle("Connaître son niveau pour établir un projet");
+        $Af9->setDescription("Produire et répartir intentionnellement ses efforts en mobilisant ses ressources pour gagner ou pour battre un record.");
+        $Af9->setCa($ChampApprentissage1);
+        $Af9->setTypeAf("AFLP CAP");
+        $manager->persist($Af9);
+
+        $Af10 = new Af();
+        $Af10->setLibelle("Connaître et utiliser des techniques adaptées");
+        $Af10->setDescription("Connaître et utiliser des techniques adaptées pour produire la meilleure performance possible.");
+        $Af10->setCa($ChampApprentissage2);
+        $Af10->setTypeAf("AFLP CAP");
         $manager->persist($Af6);
 
         $manager->flush();

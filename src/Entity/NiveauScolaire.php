@@ -61,6 +61,7 @@ class NiveauScolaire
     /**
      * @ORM\Column(type="string", length=10, nullable=true)
      */
+    #[Groups(['read:etablissement'])]
     private $typeAf;
 
     public function __construct()
