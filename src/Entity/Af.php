@@ -39,6 +39,16 @@ class Af
      */
     private $afRetenus;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=ChampApprentissage::class, inversedBy="afs")
+     */
+    private $ca;
+
+    /**
+     * @ORM\Column(type="string", length=10, nullable=true)
+     */
+    private $typeAf;
+
 
     public function __construct()
     {
@@ -101,6 +111,30 @@ class Af
                 $afRetenu->setAf(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCa(): ?ChampApprentissage
+    {
+        return $this->ca;
+    }
+
+    public function setCa(?ChampApprentissage $ca): self
+    {
+        $this->ca = $ca;
+
+        return $this;
+    }
+
+    public function getTypeAf(): ?string
+    {
+        return $this->typeAf;
+    }
+
+    public function setTypeAf(?string $typeAf): self
+    {
+        $this->typeAf = $typeAf;
 
         return $this;
     }

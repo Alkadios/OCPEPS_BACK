@@ -58,6 +58,11 @@ class NiveauScolaire
      */
     private $etablissements;
 
+    /**
+     * @ORM\Column(type="string", length=10, nullable=true)
+     */
+    private $typeAf;
+
     public function __construct()
     {
         $this->choixAnnees = new ArrayCollection();
@@ -177,6 +182,18 @@ class NiveauScolaire
         if ($this->etablissements->removeElement($etablissement)) {
             $etablissement->removeNiveauScolaire($this);
         }
+
+        return $this;
+    }
+
+    public function getTypeAf(): ?string
+    {
+        return $this->typeAf;
+    }
+
+    public function setTypeAf(?string $typeAf): self
+    {
+        $this->typeAf = $typeAf;
 
         return $this;
     }
