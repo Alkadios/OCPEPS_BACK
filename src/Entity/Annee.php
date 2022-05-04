@@ -2,8 +2,10 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\AnneeRepository;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -12,7 +14,17 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity(repositoryClass=AnneeRepository::class)
  */
-#[ApiResource()]
+#[ApiResource(
+    collectionOperations: [
+        'get' => [
+            'normalization_context' => [
+                'groups' => ['read:annee']
+            ]
+        ],
+        'post'
+    ]
+)]
+#[ApiFilter(BooleanFilter::class, properties: ['enCours' => 'exact'])]
 class Annee
 {
     /**
@@ -20,17 +32,19 @@ class Annee
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['post:apsaSelectAnnee'])]
+    #[Groups(['post:apsaSelectAnnee', 'read:apsaSelectAnnee','read:caId', 'read:annee'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['read:annee'])]
     private $annee;
 
     /**
      * @ORM\OneToMany(targetEntity=ChoixAnnee::class, mappedBy="Annee")
      */
+    #[Groups(['read:apsaSelectAnnee', 'read:caId'])]
     private $choixAnnees;
 
     /**
@@ -38,10 +52,21 @@ class Annee
      */
     private $apsaSelectAnnees;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Classe::class, mappedBy="Annee")
+     */
+    private $classes;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $enCours;
+
     public function __construct()
     {
         $this->choixAnnees = new ArrayCollection();
         $this->apsaSelectAnnees = new ArrayCollection();
+        $this->classes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -117,6 +142,48 @@ class Annee
                 $apsaSelectAnnee->setAnnee(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Classe>
+     */
+    public function getClasses(): Collection
+    {
+        return $this->classes;
+    }
+
+    public function addClass(Classe $class): self
+    {
+        if (!$this->classes->contains($class)) {
+            $this->classes[] = $class;
+            $class->setAnnee($this);
+        }
+
+        return $this;
+    }
+
+    public function removeClass(Classe $class): self
+    {
+        if ($this->classes->removeElement($class)) {
+            // set the owning side to null (unless already changed)
+            if ($class->getAnnee() === $this) {
+                $class->setAnnee(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getEnCours(): ?bool
+    {
+        return $this->enCours;
+    }
+
+    public function setEnCours(?bool $en_cours): self
+    {
+        $this->enCours = $en_cours;
 
         return $this;
     }

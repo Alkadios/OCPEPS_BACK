@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\EleveRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -13,6 +15,21 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity(repositoryClass=EleveRepository::class)
  * @ApiResource()
  */
+#[ApiResource(
+    collectionOperations: [
+        'get' => [
+            'normalization_context' => [
+                'groups' => ['read:eleve']
+            ]
+        ],
+        'post' => [
+            'denormalization_context' => [
+                'groups' => ['post:eleve']
+            ]
+        ]
+    ]
+)]
+#[ApiFilter(SearchFilter::class, properties: ['eleveClasses.classe.id' => 'exact'])]
 class Eleve
 {
     /**
@@ -20,67 +37,86 @@ class Eleve
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:eleve'])]
+    #[Groups(['read:eleve', 'read:professeurClasse', 'read:classe'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:eleve'])]
+    #[Groups(['read:eleve', 'read:professeurClasse', 'read:classe'])]
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:eleve'])]
+    #[Groups(['read:eleve', 'read:professeurClasse', 'read:classe'])]
     private $prenom;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['read:eleve'])]
     private $telephone;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['read:eleve'])]
     private $mailParent1;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['read:eleve'])]
     private $mailParent2;
 
     /**
      * @ORM\Column(type="date")
      */
+    #[Groups(['read:eleve'])]
     private $dateNaiss;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['read:eleve'])]
     private $sexeEleve;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Classe::class, inversedBy="Eleve")
-     */
-    private $classe;
-
 
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="eleves")
      */
+    #[Groups(['read:eleve'])]
     private $user;
 
     /**
      * @ORM\OneToMany(targetEntity=EvaluationEleve::class, mappedBy="Eleve", orphanRemoval=true)
      */
+    #[Groups(['read:eleve'])]
     private $evaluationEleves;
+
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Etablissement::class, inversedBy="Eleve")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    #[Groups(['read:eleve'])]
+    private $etablissement;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Classe::class, inversedBy="eleves")
+     */
+    private $classe;
+
+
 
     public function __construct()
     {
         $this->evaluations = new ArrayCollection();
         $this->evaluationEleves = new ArrayCollection();
+        $this->classes = new ArrayCollection();
+        $this->eleveClasses = new ArrayCollection();
+        $this->classe = new ArrayCollection();
 
     }
 
@@ -173,19 +209,6 @@ class Eleve
         return $this;
     }
 
-    public function getClasse(): ?Classe
-    {
-        return $this->classe;
-    }
-
-    public function setClasse(?Classe $classe): self
-    {
-        $this->classe = $classe;
-
-        return $this;
-    }
-
-
 
     public function getUser(): ?User
     {
@@ -225,6 +248,42 @@ class Eleve
                 $evaluationElefe->setEleve(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getEtablissement(): ?Etablissement
+    {
+        return $this->etablissement;
+    }
+
+    public function setEtablissement(?Etablissement $etablissement): self
+    {
+        $this->etablissement = $etablissement;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Classe>
+     */
+    public function getClasse(): Collection
+    {
+        return $this->classe;
+    }
+
+    public function addClasse(Classe $classe): self
+    {
+        if (!$this->classe->contains($classe)) {
+            $this->classe[] = $classe;
+        }
+
+        return $this;
+    }
+
+    public function removeClasse(Classe $classe): self
+    {
+        $this->classe->removeElement($classe);
 
         return $this;
     }

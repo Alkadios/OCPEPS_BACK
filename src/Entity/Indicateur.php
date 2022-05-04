@@ -13,6 +13,16 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity(repositoryClass=IndicateurRepository::class)
  * @ApiResource()
  */
+#[ApiResource(
+    collectionOperations: [
+        'get' => [
+            'normalization_context' => [
+                'groups' => ['read:indicateur', 'read:critere']
+            ]
+        ],
+        'post'
+    ]
+)]
 class Indicateur
 {
     /**
@@ -20,21 +30,25 @@ class Indicateur
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    #[Groups(['read:indicateur', 'read:critere'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['read:indicateur', 'read:critere'])]
     private $libelle;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['read:indicateur', 'read:critere'])]
     private $description;
 
     /**
      * @ORM\OneToMany(targetEntity=EvaluationEleve::class, mappedBy="Indicateur", orphanRemoval=true)
      */
+    #[Groups(['read:indicateur', 'read:critere'])]
     private $evaluationEleves;
 
     /**
@@ -46,7 +60,24 @@ class Indicateur
     /**
      * @ORM\Column(type="text", nullable=true)
      */
+    #[Groups('read:indicateur')]
     private $url_video;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    #[Groups('read:indicateur')]
+    private $image;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $ordre;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $color;
 
     public function __construct()
     {
@@ -137,7 +168,41 @@ class Indicateur
         return $this;
     }
 
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
 
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    public function getOrdre(): ?int
+    {
+        return $this->ordre;
+    }
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
+
+    public function setOrdre(?int $ordre): self
+    {
+        $this->ordre = $ordre;
+
+        return $this;
+    }
+
+
+    public function setColor(string $color): self
+    {
+        $this->color = $color;
+
+        return $this;
+    }
 
 
 }

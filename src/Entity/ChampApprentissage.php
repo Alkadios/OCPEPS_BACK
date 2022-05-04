@@ -21,7 +21,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
             'controller' => ApsaChampApprentissageController::class,
             'openapi_context' => [
                 'summary' => 'Get les APSA de ChampApprentissage'
-]
+            ]
         ],
         'get' => [
             'normalization_context' => [
@@ -42,13 +42,13 @@ class ChampApprentissage
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:apsa', 'read:champapprentissage', 'read:ca', 'read:caId', 'post:apsaSelectAnnee'])]
+    #[Groups(['read:apsa', 'read:champapprentissage', 'read:ca', 'read:caId', 'post:apsaSelectAnnee', 'read:choixAnnee'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:apsa', 'read:champapprentissage', 'psot:ChampApprentissage'])]
+    #[Groups(['read:apsa', 'read:champapprentissage', 'psot:ChampApprentissage', 'read:choixAnnee'])]
     private $libelle;
 
     /**
@@ -74,6 +74,11 @@ class ChampApprentissage
      */
     private $apsaSelectAnnees;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Af::class, mappedBy="ca")
+     */
+    private $afs;
+
 
     public function __construct()
     {
@@ -82,6 +87,7 @@ class ChampApprentissage
         $this->apsas = new ArrayCollection();
         $this->champsApprentissageApsas = new ArrayCollection();
         $this->apsaSelectAnnees = new ArrayCollection();
+        $this->afs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -130,7 +136,6 @@ class ChampApprentissage
 
         return $this;
     }
-
 
 
     public function getColor(): ?string
@@ -199,6 +204,36 @@ class ChampApprentissage
             // set the owning side to null (unless already changed)
             if ($apsaSelectAnnee->getCa() === $this) {
                 $apsaSelectAnnee->setCa(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Af>
+     */
+    public function getAfs(): Collection
+    {
+        return $this->afs;
+    }
+
+    public function addAf(Af $af): self
+    {
+        if (!$this->afs->contains($af)) {
+            $this->afs[] = $af;
+            $af->setCa($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAf(Af $af): self
+    {
+        if ($this->afs->removeElement($af)) {
+            // set the owning side to null (unless already changed)
+            if ($af->getCa() === $this) {
+                $af->setCa(null);
             }
         }
 

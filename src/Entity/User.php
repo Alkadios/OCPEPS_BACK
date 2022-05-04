@@ -28,22 +28,19 @@ use Symfony\Component\Serializer\Annotation\Groups;
             'openapi_context' => [
                 'security' => [['bearerAuth' => []]]
             ]
-        ]
+        ],
+        'get',
+        'post'
     ],
     itemOperations: [
-        'get' => [
-            'controller' => NotFoundAction::class,
-            'openapi_context' => [
-                'summary' => 'hidden'
-            ],
-            'read' => false,
-            'output' => false
-        ]
+        'get',
+        'put',
+        'patch',
+        'delete'
     ],
     normalizationContext: [
         'groups' => ['read:User']
-    ],
-    security: 'is_granted("ROLE_USER")'
+    ]
 )]
 class User implements UserInterface, PasswordAuthenticatedUserInterface, JWTUserInterface
 {
@@ -113,7 +110,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, JWTUser
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->email;
+        return (string)$this->email;
     }
 
     /**
