@@ -70,6 +70,11 @@ class Indicateur
     private $image;
 
     /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $ordre;
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     private $color;
@@ -175,10 +180,22 @@ class Indicateur
         return $this;
     }
 
+    public function getOrdre(): ?int
+    {
+        return $this->ordre;
+    }
     public function getColor(): ?string
     {
         return $this->color;
     }
+
+    public function setOrdre(?int $ordre): self
+    {
+        $this->ordre = $ordre;
+
+        return $this;
+    }
+
 
     public function setColor(string $color): self
     {

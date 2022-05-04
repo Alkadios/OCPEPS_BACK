@@ -74,6 +74,11 @@ class ChampApprentissage
      */
     private $apsaSelectAnnees;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Af::class, mappedBy="ca")
+     */
+    private $afs;
+
 
     public function __construct()
     {
@@ -82,6 +87,7 @@ class ChampApprentissage
         $this->apsas = new ArrayCollection();
         $this->champsApprentissageApsas = new ArrayCollection();
         $this->apsaSelectAnnees = new ArrayCollection();
+        $this->afs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -198,6 +204,36 @@ class ChampApprentissage
             // set the owning side to null (unless already changed)
             if ($apsaSelectAnnee->getCa() === $this) {
                 $apsaSelectAnnee->setCa(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Af>
+     */
+    public function getAfs(): Collection
+    {
+        return $this->afs;
+    }
+
+    public function addAf(Af $af): self
+    {
+        if (!$this->afs->contains($af)) {
+            $this->afs[] = $af;
+            $af->setCa($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAf(Af $af): self
+    {
+        if ($this->afs->removeElement($af)) {
+            // set the owning side to null (unless already changed)
+            if ($af->getCa() === $this) {
+                $af->setCa(null);
             }
         }
 
