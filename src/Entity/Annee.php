@@ -38,7 +38,7 @@ class Annee
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:annee'])]
+    #[Groups(['read:annee','read:classe'])]
     private $annee;
 
     /**
@@ -50,16 +50,19 @@ class Annee
     /**
      * @ORM\OneToMany(targetEntity=ApsaSelectAnnee::class, mappedBy="Annee")
      */
+    #[Groups(['read:apsaSelectAnnee'])]
     private $apsaSelectAnnees;
 
     /**
      * @ORM\OneToMany(targetEntity=Classe::class, mappedBy="Annee")
      */
+    #[Groups(['read:apsaSelectAnnee'])]
     private $classes;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
+    #[Groups(['read:apsaSelectAnnee'])]
     private $enCours;
 
     public function __construct()

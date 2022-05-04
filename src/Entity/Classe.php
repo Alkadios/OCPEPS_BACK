@@ -23,9 +23,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
         ],
         'post' => [
             'denormalization_context' => [
-                'groups' => ['post:classe']
+                'groups' => ['post:classe','post:eleve']
             ]
-        ]
+        ],
+
     ]
 )]
 #[ApiFilter(SearchFilter::class, properties: ['professeurs.id' => 'exact','Annee.id' => 'exact'])]
@@ -36,13 +37,13 @@ class Classe
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:professeurClasse', 'read:classe'])]
+    #[Groups(['read:professeurClasse', 'read:classe','post:classe'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:classe', 'read:professeurClasse'])]
+    #[Groups(['read:classe', 'read:professeurClasse','post:classe'])]
     private $libelleClasse;
 
 
@@ -50,14 +51,14 @@ class Classe
      * @ORM\ManyToOne(targetEntity=NiveauScolaire::class, inversedBy="classes")
      * @ORM\JoinColumn(nullable=false)
      */
-    #[Groups(['read:classe'])]
+    #[Groups(['read:classe','post:classe'])]
     private $NiveauScolaire;
 
     /**
      * @ORM\ManyToOne(targetEntity=Annee::class, inversedBy="classes")
      * @ORM\JoinColumn(nullable=false)
      */
-    #[Groups(['read:classe'])]
+    #[Groups(['read:classe','post:classe'])]
     private $Annee;
 
 
@@ -65,24 +66,25 @@ class Classe
      * @ORM\ManyToOne(targetEntity=Etablissement::class, inversedBy="Classe", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
-    #[Groups(['read:classe'])]
+    #[Groups(['read:classe','post:classe'])]
     private $etablissement;
 
     /**
      * @ORM\ManyToMany(targetEntity=Professeur::class, mappedBy="classe")
      */
+    #[Groups(['read:classe','post:classe'])]
     private $professeurs;
 
     /**
      * @ORM\ManyToMany(targetEntity=Eleve::class, mappedBy="classe")
      */
-    #[Groups(['read:classe'])]
+    #[Groups(['read:classe','post:classe','post:eleve'])]
     private $eleves;
 
     /**
      * @ORM\ManyToMany(targetEntity=Eleve::class, mappedBy="classe")
      */
-    #[Groups(['read:classe'])]
+    #[Groups(['read:classe','post:classe'])]
     private $professeurClasses;
 
 
@@ -184,20 +186,20 @@ class Classe
         return $this->eleves;
     }
 
-    public function addElefe(Eleve $elefe): self
+    public function addEleve(Eleve $eleve): self
     {
-        if (!$this->eleves->contains($elefe)) {
-            $this->eleves[] = $elefe;
-            $elefe->addClasse($this);
+        if (!$this->eleves->contains($eleve)) {
+            $this->eleves[] = $eleve;
+            $eleve->addClasse($this);
         }
 
         return $this;
     }
 
-    public function removeElefe(Eleve $elefe): self
+    public function removeEleve(Eleve $eleve): self
     {
-        if ($this->eleves->removeElement($elefe)) {
-            $elefe->removeClasse($this);
+        if ($this->eleves->removeElement($eleve)) {
+            $eleve->removeClasse($this);
         }
 
         return $this;

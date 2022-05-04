@@ -47,6 +47,7 @@ class Apsa
     /**
      * @ORM\OneToMany(targetEntity=ChampsApprentissageApsa::class, mappedBy="Apsa")
      */
+    #[Groups(['read:apsaRetenu'])]
     private $champsApprentissageApsas;
 
     /**
