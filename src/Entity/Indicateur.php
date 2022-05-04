@@ -70,8 +70,15 @@ class Indicateur
     private $image;
 
     /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    #[Groups(['read:indicateur', 'read:critere'])]
+    private $ordre;
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['read:indicateur','read:critere'])]
     private $color;
 
     public function __construct()
@@ -175,10 +182,22 @@ class Indicateur
         return $this;
     }
 
+    public function getOrdre(): ?int
+    {
+        return $this->ordre;
+    }
     public function getColor(): ?string
     {
         return $this->color;
     }
+
+    public function setOrdre(?int $ordre): self
+    {
+        $this->ordre = $ordre;
+
+        return $this;
+    }
+
 
     public function setColor(string $color): self
     {
