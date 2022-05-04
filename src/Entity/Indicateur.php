@@ -72,11 +72,13 @@ class Indicateur
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
+    #[Groups(['read:indicateur', 'read:critere'])]
     private $ordre;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['read:indicateur','read:critere'])]
     private $color;
 
     public function __construct()
