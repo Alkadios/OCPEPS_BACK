@@ -47,7 +47,7 @@ class AfRetenu
     /**
      * @ORM\ManyToOne(targetEntity=ChoixAnnee::class, inversedBy="afRetenus")
      */
-    #[Groups(['read:ca', 'read:AfRetenu'])]
+    #[Groups(['read:ca', 'read:AfRetenu', 'read:eleve', 'read:ApsaRetenu', 'read:apsaSelectAnnee'])]
     private $ChoixAnnee;
 
     /**

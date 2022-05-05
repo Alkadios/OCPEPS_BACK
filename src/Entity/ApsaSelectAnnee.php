@@ -27,7 +27,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     collectionOperations: [
         'get' => [
             'normalization_context' => [
-                'groups' => ['read:apsaSelectAnne', 'read:caId', 'read:apsaId', 'read:apsaLibelle']
+                'groups' => ['read:apsaSelectAnnee', 'read:caId', 'read:apsaId', 'read:apsaLibelle']
             ]
         ],
         'post' => [
@@ -37,8 +37,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         ]
     ]
 )]
-#[ApiFilter(SearchFilter::class, properties: ['Annee.id' => 'exact'])]
-#[ApiFilter(SearchFilter::class, properties: ['Annee.id' => 'exact', 'etablissement.id' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['Annee.id' => 'exact', 'etablissement.id' => 'exact', 'Apsa.id' => 'exact'])]
 class ApsaSelectAnnee
 {
     /**
@@ -58,7 +57,7 @@ class ApsaSelectAnnee
     /**
      * @ORM\ManyToOne(targetEntity=Apsa::class, inversedBy="apsaSelectAnnees")
      */
-    #[Groups(['read:apsaSelectAnne', 'write:apsaId', 'post:apsaSelectAnnee', 'read:apsaRetenu', 'read:apsaSelectAnnee', 'read:eleveApsa'])]
+    #[Groups(['read:apsaSelectAnnee', 'write:apsaId', 'post:apsaSelectAnnee', 'read:apsaRetenu', 'read:apsaSelectAnnee', 'read:eleveApsa'])]
     private $Apsa;
 
     /**
@@ -70,7 +69,7 @@ class ApsaSelectAnnee
     /**
      * @ORM\OneToMany(targetEntity=ApsaRetenu::class, mappedBy="ApsaSelectAnnee")
      */
-    #[Groups(['read:caId'])]
+    #[Groups(['read:caId', 'read:eleve', 'read:apsaSelectAnnee'])]
     private $apsaRetenus;
 
     /**
