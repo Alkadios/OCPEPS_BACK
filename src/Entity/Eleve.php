@@ -27,6 +27,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
                 'groups' => ['post:eleve','post:classe']
             ]
         ]
+    ],
+    itemOperations: [
+        'get' => [
+            'normalization_context' => [
+                'groups' => ['read:eleveApsa', 'read:eleve']
+            ]
+        ]
     ]
 )]
 #[ApiFilter(SearchFilter::class, properties: ['eleveClasses.classe.id' => 'exact'])]
@@ -106,7 +113,7 @@ class Eleve
     /**
      * @ORM\ManyToMany(targetEntity=Classe::class, inversedBy="eleves")
      */
-    #[Groups(['read:eleve' , 'post:eleve' , 'post:classe'])]
+    #[Groups(['read:eleve' , 'post:eleve' , 'post:classe', 'read:eleveApsa'])]
     private $classe;
 
 

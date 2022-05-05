@@ -46,19 +46,19 @@ class ApsaSelectAnnee
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['post:ApsaRetenu', 'read:apsaSelectAnnee'])]
+    #[Groups(['post:ApsaRetenu', 'read:apsaSelectAnnee', 'read:eleveApsa'])]
     private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=ChampApprentissage::class, inversedBy="apsaSelectAnnees")
      */
-    #[Groups(['read:caId', 'write:caId', 'post:apsaSelectAnnee'])]
+    #[Groups(['read:caId', 'write:caId', 'post:apsaSelectAnnee', 'read:eleveApsa'])]
     private $Ca;
 
     /**
      * @ORM\ManyToOne(targetEntity=Apsa::class, inversedBy="apsaSelectAnnees")
      */
-    #[Groups(['read:apsaSelectAnne', 'write:apsaId', 'post:apsaSelectAnnee', 'read:apsaRetenu', 'read:apsaSelectAnnee'])]
+    #[Groups(['read:apsaSelectAnne', 'write:apsaId', 'post:apsaSelectAnnee', 'read:apsaRetenu', 'read:apsaSelectAnnee', 'read:eleveApsa'])]
     private $Apsa;
 
     /**
