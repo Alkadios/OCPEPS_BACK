@@ -27,6 +27,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
                 'groups' => ['post:eleve','post:classe']
             ]
         ]
+    ],
+    itemOperations: [
+        'get' => [
+            'normalization_context' => [
+                'groups' => ['read:eleveApsa', 'read:eleve']
+            ]
+        ]
     ]
 )]
 #[ApiFilter(SearchFilter::class, properties: ['eleveClasses.classe.id' => 'exact'])]
@@ -37,19 +44,19 @@ class Eleve
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:eleve', 'read:professeurClasse', 'read:classe', 'post:eleve'])]
+    #[Groups(['read:eleve', 'read:professeurClasse', 'read:classe', 'post:eleve', 'read:apsaSelectAnnee'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:eleve', 'read:professeurClasse', 'read:classe', 'post:eleve'])]
+    #[Groups(['read:eleve', 'read:professeurClasse', 'read:classe', 'post:eleve', 'read:apsaSelectAnnee'])]
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:eleve', 'read:professeurClasse', 'read:classe', 'post:eleve'])]
+    #[Groups(['read:eleve', 'read:professeurClasse', 'read:classe', 'post:eleve', 'read:apsaSelectAnnee'])]
     private $prenom;
 
     /**
@@ -106,7 +113,7 @@ class Eleve
     /**
      * @ORM\ManyToMany(targetEntity=Classe::class, inversedBy="eleves")
      */
-    #[Groups(['read:eleve' , 'post:eleve' , 'post:classe'])]
+    #[Groups(['read:eleve' , 'post:eleve' , 'post:classe', 'read:eleveApsa'])]
     private $classe;
 
 

@@ -37,13 +37,13 @@ class Classe
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:professeurClasse', 'read:classe','post:classe'])]
+    #[Groups(['read:professeurClasse', 'read:classe','post:classe', 'read:eleveApsa'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:classe', 'read:professeurClasse','post:classe'])]
+    #[Groups(['read:classe', 'read:professeurClasse','post:classe', 'read:eleveApsa'])]
     private $libelleClasse;
 
 
@@ -51,14 +51,14 @@ class Classe
      * @ORM\ManyToOne(targetEntity=NiveauScolaire::class, inversedBy="classes")
      * @ORM\JoinColumn(nullable=false)
      */
-    #[Groups(['read:classe','post:classe'])]
+    #[Groups(['read:classe','post:classe', 'read:eleve'])]
     private $NiveauScolaire;
 
     /**
      * @ORM\ManyToOne(targetEntity=Annee::class, inversedBy="classes")
      * @ORM\JoinColumn(nullable=false)
      */
-    #[Groups(['read:classe','post:classe'])]
+    #[Groups(['read:classe','post:classe', 'read:eleveApsa', 'read:eleve'])]
     private $Annee;
 
 
@@ -66,7 +66,7 @@ class Classe
      * @ORM\ManyToOne(targetEntity=Etablissement::class, inversedBy="Classe", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
-    #[Groups(['read:classe','post:classe'])]
+    #[Groups(['read:classe','post:classe', 'read:eleve'])]
     private $etablissement;
 
     /**
