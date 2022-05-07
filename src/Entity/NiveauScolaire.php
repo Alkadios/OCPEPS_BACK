@@ -34,7 +34,7 @@ class NiveauScolaire
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:niveauScolaire', 'read:professeurClasse', 'read:etablissement', 'read:choixAnnee'])]
+    #[Groups(['read:niveauScolaire', 'read:professeurClasse', 'read:etablissement', 'read:choixAnnee', 'read:classe'])]
     private $libelle;
 
     /**
@@ -61,6 +61,7 @@ class NiveauScolaire
     /**
      * @ORM\Column(type="string", length=10, nullable=true)
      */
+    #[Groups(['read:etablissement'])]
     private $typeAf;
 
     public function __construct()

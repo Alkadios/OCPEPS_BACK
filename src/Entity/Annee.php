@@ -32,13 +32,13 @@ class Annee
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['post:apsaSelectAnnee', 'read:apsaSelectAnnee','read:caId', 'read:annee'])]
+    #[Groups(['post:apsaSelectAnnee', 'read:apsaSelectAnnee','read:caId', 'read:annee', 'read:eleveApsa'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:annee'])]
+    #[Groups(['read:annee','read:classe', 'read:eleveApsa'])]
     private $annee;
 
     /**
@@ -50,16 +50,19 @@ class Annee
     /**
      * @ORM\OneToMany(targetEntity=ApsaSelectAnnee::class, mappedBy="Annee")
      */
+    #[Groups(['read:apsaSelectAnnee', 'read:eleveApsa'])]
     private $apsaSelectAnnees;
 
     /**
      * @ORM\OneToMany(targetEntity=Classe::class, mappedBy="Annee")
      */
+    #[Groups(['read:apsaSelectAnnee'])]
     private $classes;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
+    #[Groups(['read:apsaSelectAnnee'])]
     private $enCours;
 
     public function __construct()

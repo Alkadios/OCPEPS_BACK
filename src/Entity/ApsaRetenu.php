@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\ExistsFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\ApsaRetenuRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -52,7 +53,7 @@ class ApsaRetenu
      * @ORM\ManyToOne(targetEntity=AfRetenu::class, inversedBy="apsaRetenus")
      * @ORM\JoinColumn(name="af_retenu_id", referencedColumnName="id", onDelete="CASCADE")
      */
-    #[Groups(['read:AfRetenu', 'post:ApsaRetenu'])]
+    #[Groups(['read:AfRetenu', 'post:ApsaRetenu', 'read:eleve', 'read:ApsaRetenu', 'read:apsaSelectAnnee'])]
     private $AfRetenu;
 
     /**
@@ -72,7 +73,7 @@ class ApsaRetenu
     /**
      * @ORM\OneToMany(targetEntity=Critere::class, mappedBy="ApsaRetenu", orphanRemoval=true)
      */
-    #[Groups(['read:apsaRetenu'])]
+    #[Groups(['read:apsaRetenu', 'read:eleve', 'read:apsaSelectAnnee'])]
     private $criteres;
 
     public function __construct()

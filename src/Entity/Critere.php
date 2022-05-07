@@ -33,31 +33,31 @@ class Critere
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:critere'])]
+    #[Groups(['read:critere', 'read:apsaSelectAnnee'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:critere'])]
+    #[Groups(['read:critere', 'read:apsaSelectAnnee'])]
     private $titre;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:critere'])]
+    #[Groups(['read:critere', 'read:apsaSelectAnnee'])]
     private $description;
 
     /**
      * @ORM\Column(type="text")
      */
-    #[Groups(['read:critere'])]
+    #[Groups(['read:critere', 'read:apsaSelectAnnee'])]
     private $image;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    #[Groups(['read:critere'])]
+    #[Groups(['read:critere', 'read:apsaSelectAnnee'])]
     private $url_video;
 
     /**
@@ -70,7 +70,7 @@ class Critere
     /**
      * @ORM\OneToMany(targetEntity=Indicateur::class, mappedBy="critere")
      */
-    #[Groups(['read:critere'])]
+    #[Groups(['read:critere', 'read:apsaSelectAnnee'])]
     private $Indicateur;
 
     public function __construct()

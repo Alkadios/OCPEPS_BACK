@@ -42,13 +42,13 @@ class ChampApprentissage
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:apsa', 'read:champapprentissage', 'read:ca', 'read:caId', 'post:apsaSelectAnnee', 'read:choixAnnee'])]
+    #[Groups(['read:apsa', 'read:champapprentissage', 'read:ca', 'read:caId', 'post:apsaSelectAnnee', 'read:choixAnnee', 'read:apsaRetenu'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:apsa', 'read:champapprentissage', 'psot:ChampApprentissage', 'read:choixAnnee'])]
+    #[Groups(['read:apsa', 'read:champapprentissage', 'psot:ChampApprentissage', 'read:choixAnnee', 'read:apsaRetenu'])]
     private $libelle;
 
     /**
@@ -60,7 +60,7 @@ class ChampApprentissage
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:apsa', 'read:champapprentissage', 'psot:ChampApprentissage'])]
+    #[Groups(['read:apsa', 'read:champapprentissage', 'psot:ChampApprentissage', 'read:apsaRetenu'])]
     private $color;
 
     /**
