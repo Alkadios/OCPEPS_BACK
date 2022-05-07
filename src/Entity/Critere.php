@@ -25,8 +25,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         'post'
     ]
 )]
-#[ApiFilter(SearchFilter::class, properties: ['ApsaRetenu.id' => 'exact'])]
-#[ApiFilter(SearchFilter::class, properties: ['ApsaRetenu.ApsaSelectAnnee.Apsa.id' => 'exact', 'ApsaRetenu.ApsaSelectAnnee.Annee.id' => 'exact', 'ApsaRetenu.AfRetenu.id' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['ApsaRetenu.id' => 'exact', 'ApsaRetenu.ApsaSelectAnnee.Apsa.id' => 'exact', 'ApsaRetenu.ApsaSelectAnnee.Annee.id' => 'exact', 'ApsaRetenu.AfRetenu.id' => 'exact'])]
 class Critere
 {
     /**

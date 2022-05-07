@@ -33,6 +33,34 @@ class ApsaRetenuRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findApsaRetenuIfEleveHaveEval($eleve)
+    {
+        return $this->createQueryBuilder('a')
+            ->innerJoin('a.critere', 'c')
+            ->innerJoin('c.indicateur', 'i')
+            ->innerJoin('a.ApsaSelectAnnee', 'as')
+            ->innerJoin('as.apsa', 'ap')
+            ->innerJoin('as.annee', 'an')
+            ->Where('i.id = IN')
+            ->setParameter('val', $eleve)
+            ->getQuery()
+            ->getResult();
+
+
+
+    }
+
+    public function subquery()
+    {
+        return $this->createQueryBuilder('so')
+            ->select('cs.id')
+            ->from('AcmeDemoBundle:Contact', 'cs')
+            ->innerJoin('cs.settings', 's')
+            ->where('s.parameter = :parameter') // move setParameter() to main queryBuilder!
+        ;
+
+    }
+
 
     public function findOneBySomeField($value): ?ApsaRetenu
     {
