@@ -27,14 +27,14 @@ class EvaluationEleve
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:indicateur', 'read:apsaRetenu'])]
+    #[Groups(['read:indicateur', 'read:apsaRetenu', 'read:apsaSelectAnnee'])]
     private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=Eleve::class, inversedBy="evaluationEleves")
      * @ORM\JoinColumn(nullable=false)
      */
-    #[Groups(['read:indicateur', 'read:apsaRetenu'])]
+    #[Groups(['read:indicateur', 'read:apsaRetenu', 'read:apsaSelectAnnee'])]
     private $Eleve;
 
     /**

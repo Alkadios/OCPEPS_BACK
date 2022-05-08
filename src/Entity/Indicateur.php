@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\IndicateurRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -23,6 +25,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         'post'
     ]
 )]
+#[ApiFilter(SearchFilter::class, properties: ['critere.id' => 'exact'])]
 class Indicateur
 {
     /**
@@ -30,25 +33,25 @@ class Indicateur
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:indicateur', 'read:critere'])]
+    #[Groups(['read:indicateur', 'read:critere', 'read:apsaSelectAnnee'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:indicateur', 'read:critere'])]
+    #[Groups(['read:indicateur', 'read:critere', 'read:apsaSelectAnnee'])]
     private $libelle;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:indicateur', 'read:critere'])]
+    #[Groups(['read:indicateur', 'read:critere', 'read:apsaSelectAnnee'])]
     private $description;
 
     /**
      * @ORM\OneToMany(targetEntity=EvaluationEleve::class, mappedBy="Indicateur", orphanRemoval=true)
      */
-    #[Groups(['read:indicateur', 'read:critere'])]
+    #[Groups(['read:indicateur', 'read:critere', 'read:apsaSelectAnnee'])]
     private $evaluationEleves;
 
     /**
@@ -60,25 +63,25 @@ class Indicateur
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    #[Groups('read:indicateur')]
+    #[Groups('read:indicateur', 'read:apsaSelectAnnee')]
     private $url_video;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    #[Groups('read:indicateur')]
+    #[Groups('read:indicateur', 'read:apsaSelectAnnee')]
     private $image;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    #[Groups(['read:indicateur', 'read:critere'])]
+    #[Groups(['read:indicateur', 'read:critere', 'read:apsaSelectAnnee'])]
     private $ordre;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:indicateur','read:critere'])]
+    #[Groups(['read:indicateur','read:critere', 'read:apsaSelectAnnee'])]
     private $color;
 
     public function __construct()
