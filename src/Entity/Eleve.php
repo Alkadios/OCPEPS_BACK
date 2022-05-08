@@ -29,7 +29,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         ]
     ]
 )]
-#[ApiFilter(SearchFilter::class, properties: ['eleveClasses.classe.id' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['eleveClasses.classe.id' => 'exact', 'etablissement.id' => 'exact'])]
 class Eleve
 {
     /**
