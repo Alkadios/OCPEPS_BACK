@@ -49,7 +49,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, JWTUser
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:User'])]
+    #[Groups(['read:User','read:eleve','read:professeur'])]
     private $id;
 
     /**

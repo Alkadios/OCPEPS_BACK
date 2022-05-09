@@ -27,6 +27,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
                 'groups' => ['post:eleve','post:classe']
             ]
         ]
+
     ],
     itemOperations: [
         'get' => [
@@ -34,9 +35,20 @@ use Symfony\Component\Serializer\Annotation\Groups;
                 'groups' => ['read:eleveApsa', 'read:eleve']
             ]
         ]
+        ,
+        'put' => [
+            'denormalization_context' => [
+                'groups' => ['put:eleve','put:classe']
+            ]
+        ],
+        'delete' => [
+            'denormalization_context' => [
+                'groups' => ['delete:eleve', 'delete:classe']
+            ]
+        ]
     ]
 )]
-#[ApiFilter(SearchFilter::class, properties: ['eleveClasses.classe.id' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['eleveClasses.classe.id' => 'exact', 'etablissement.id' => 'exact'])]
 class Eleve
 {
     /**
@@ -238,22 +250,22 @@ class Eleve
         return $this->evaluationEleves;
     }
 
-    public function addEvaluationElefe(EvaluationEleve $evaluationElefe): self
+    public function addEvaluationEleve(EvaluationEleve $evaluationEleve): self
     {
-        if (!$this->evaluationEleves->contains($evaluationElefe)) {
-            $this->evaluationEleves[] = $evaluationElefe;
-            $evaluationElefe->setEleve($this);
+        if (!$this->evaluationEleves->contains($evaluationEleve)) {
+            $this->evaluationEleves[] = $evaluationEleve;
+            $evaluationEleve->setEleve($this);
         }
 
         return $this;
     }
 
-    public function removeEvaluationElefe(EvaluationEleve $evaluationElefe): self
+    public function removeEvaluationEleve(EvaluationEleve $evaluationEleve): self
     {
-        if ($this->evaluationEleves->removeElement($evaluationElefe)) {
+        if ($this->evaluationEleves->removeElement($evaluationEleve)) {
             // set the owning side to null (unless already changed)
-            if ($evaluationElefe->getEleve() === $this) {
-                $evaluationElefe->setEleve(null);
+            if ($evaluationEleve->getEleve() === $this) {
+                $evaluationEleve->setEleve(null);
             }
         }
 
