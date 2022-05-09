@@ -41,14 +41,14 @@ class EvaluationEleve
      * @ORM\ManyToOne(targetEntity=Evaluation::class, inversedBy="evaluationEleves")
      * @ORM\JoinColumn(nullable=false)
      */
-    #[Groups(['read:indicateur', 'read:apsaRetenu'])]
+    #[Groups(['read:indicateur', 'read:apsaRetenu', 'read:apsaSelectAnnee'])]
     private $Evaluation;
 
     /**
      * @ORM\ManyToOne(targetEntity=Indicateur::class, inversedBy="evaluationEleves")
      * @ORM\JoinColumn(name="indicateur_id", referencedColumnName="id",nullable=false, onDelete="CASCADE")
      */
-    #[Groups(['read:indicateur', 'read:apsaRetenu'])]
+    #[Groups(['read:indicateur', 'read:apsaRetenu', 'read:apsaSelectAnnee'])]
     private $Indicateur;
 
     /**

@@ -33,7 +33,7 @@ class Indicateur
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:indicateur', 'read:critere', 'read:apsaSelectAnnee'])]
+    #[Groups(['read:indicateur', 'read:critere', 'read:apsaSelectAnnee', 'read:apsaRetenu'])]
     private $id;
 
     /**
@@ -63,25 +63,25 @@ class Indicateur
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    #[Groups('read:indicateur', 'read:apsaSelectAnnee')]
+    #[Groups(['read:indicateur', 'read:apsaSelectAnnee'])]
     private $url_video;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    #[Groups('read:indicateur', 'read:apsaSelectAnnee')]
+    #[Groups(['read:indicateur', 'read:apsaSelectAnnee'])]
     private $image;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    #[Groups(['read:indicateur', 'read:critere', 'read:apsaSelectAnnee'])]
+    #[Groups(['read:apsaSelectAnnee', 'read:indicateur','read:critere', 'read:apsaRetenu'])]
     private $ordre;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:indicateur','read:critere', 'read:apsaSelectAnnee'])]
+    #[Groups(['read:indicateur','read:critere', 'read:apsaSelectAnnee', 'read:apsaRetenu'])]
     private $color;
 
     public function __construct()
