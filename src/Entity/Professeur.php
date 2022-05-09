@@ -14,7 +14,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity(repositoryClass=ProfesseurRepository::class)
  */
-#[ApiResource()]
+#[ApiResource(
+    normalizationContext: [
+        'groups' => ['read:professeur']
+    ]
+)]
 
 #[ApiFilter(SearchFilter::class, properties: ['etablissements' => 'exact'])]
 class Professeur
@@ -24,41 +28,51 @@ class Professeur
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    #[Groups(['read:professeur'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['read:professeur'])]
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['read:professeur'])]
     private $prenom;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['read:professeur'])]
     private $telephone;
 
     /**
      * @ORM\OneToMany(targetEntity=Cours::class, mappedBy="Professeur")
      */
+    #[Groups(['read:professeur'])]
     private $cours;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="professeurs")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")
      */
+
+    #[Groups(['read:professeur'])]
     private $user;
 
     /**
      * @ORM\ManyToMany(targetEntity=Etablissement::class, mappedBy="Professeur")
      */
+    #[Groups(['read:professeur'])]
     private $etablissements;
 
     /**
      * @ORM\ManyToMany(targetEntity=Classe::class, inversedBy="professeurs")
      */
+    #[Groups(['read:professeur'])]
     private $classe;
 
 
