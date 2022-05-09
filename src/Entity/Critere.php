@@ -70,7 +70,7 @@ class Critere
     /**
      * @ORM\OneToMany(targetEntity=Indicateur::class, mappedBy="critere")
      */
-    #[Groups(['read:critere', 'read:apsaSelectAnnee'])]
+    #[Groups(['read:critere', 'read:apsaSelectAnnee', 'read:ordreIndicateur'])]
     private $Indicateur;
 
     public function __construct()
