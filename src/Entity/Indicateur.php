@@ -63,19 +63,19 @@ class Indicateur
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    #[Groups('read:indicateur', 'read:apsaSelectAnnee')]
+    #[Groups(['read:indicateur', 'read:apsaSelectAnnee'])]
     private $url_video;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    #[Groups('read:indicateur', 'read:apsaSelectAnnee')]
+    #[Groups(['read:indicateur', 'read:apsaSelectAnnee'])]
     private $image;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    #[Groups(['read:indicateur', 'read:critere', 'read:apsaSelectAnnee'])]
+    #[Groups(['read:indicateur', 'read:critere', 'read:apsaSelectAnnee', 'read:ordreIndicateur'])]
     private $ordre;
 
     /**
