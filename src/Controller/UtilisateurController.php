@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Eleve;
+use App\Entity\Professeur;
 use App\Entity\User;
 use App\Repository\EleveRepository;
 use App\Repository\EtablissementRepository;
@@ -73,8 +74,6 @@ class UtilisateurController extends AbstractController
 
         $JsonContent = json_decode($request->getContent());
 
-
-
         $email = $JsonContent->email;
         $roles = $JsonContent->roles;
         $password = $JsonContent->password;
@@ -131,6 +130,64 @@ class UtilisateurController extends AbstractController
             array_push($jsonres,["id" => $user->getId() , "roles" => $user->getRoles() , "eleveId" => $eleve->getId() , "nom" => $eleve->getNom() , "prenom" => $eleve->getPrenom()]);
 
             return new JsonResponse(array("message" => "Created", "eleve" => $jsonres), 201);
+
+        } else {
+            return new Response('Infos manquantes', 404);
+        }
+    }
+
+
+    /**
+     * @Route("api/professeur/create", name="professeur-create", methods={"POST"})
+     */
+    public function createProfesseur(Request $request,EtablissementRepository $etablissementRepository,  UserPasswordHasherInterface $passwordEncoder,EntityManagerInterface $manager): Response
+    {
+
+        $JsonContent = json_decode($request->getContent());
+
+        $email = $JsonContent->email;
+        $roles = $JsonContent->roles;
+        $password = $JsonContent->password;
+        $nom = $JsonContent->nom;
+        $prenom = $JsonContent->prenom;
+        $telephone = $JsonContent->telephone;
+
+
+        if (
+            isset($email) &&
+            isset($roles) &&
+            isset($password) &&
+            isset($nom) &&
+            isset($prenom) &&
+            isset($telephone)
+        ) {
+
+            $user = new User();
+
+            $user->setEmail($email);
+            $user->setRoles($roles);
+            $user->setPassword(
+                $passwordEncoder->hashPassword(
+                    $user,
+                    $password
+                )
+            );
+            $manager->persist($user);
+            $manager->flush();
+
+            $professeur = new Professeur();
+            $professeur->setNom($nom);
+            $professeur->setPrenom($prenom);
+            $professeur->setTelephone($telephone);
+            $professeur->setUser($user);
+            $manager->persist($professeur);
+            $manager->flush();
+
+            $jsonres = [];
+
+            array_push($jsonres,["id" => $user->getId() , "roles" => $user->getRoles() , "professeurId" => $professeur->getId() , "nom" => $professeur->getNom() , "prenom" => $professeur->getPrenom()]);
+
+            return new JsonResponse(array("message" => "Created", "professeur" => $jsonres), 201);
 
         } else {
             return new Response('Infos manquantes', 404);

@@ -34,7 +34,7 @@ class NiveauScolaire
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:niveauScolaire', 'read:professeurClasse', 'read:etablissement', 'read:choixAnnee'])]
+    #[Groups(['read:niveauScolaire', 'read:professeurClasse', 'read:etablissement', 'read:choixAnnee', 'read:classe'])]
     private $libelle;
 
     /**
@@ -57,6 +57,12 @@ class NiveauScolaire
      * @ORM\ManyToMany(targetEntity=Etablissement::class, mappedBy="niveau_scolaire")
      */
     private $etablissements;
+
+    /**
+     * @ORM\Column(type="string", length=10, nullable=true)
+     */
+    #[Groups(['read:etablissement'])]
+    private $typeAf;
 
     public function __construct()
     {
@@ -177,6 +183,18 @@ class NiveauScolaire
         if ($this->etablissements->removeElement($etablissement)) {
             $etablissement->removeNiveauScolaire($this);
         }
+
+        return $this;
+    }
+
+    public function getTypeAf(): ?string
+    {
+        return $this->typeAf;
+    }
+
+    public function setTypeAf(?string $typeAf): self
+    {
+        $this->typeAf = $typeAf;
 
         return $this;
     }

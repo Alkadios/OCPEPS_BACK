@@ -42,19 +42,19 @@ class ChoixAnnee
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:choixAnnee', 'read:caId'])]
+    #[Groups(['read:choixAnnee', 'read:caId',  'read:AfRetenu',  'read:ApsaRetenu'])]
     private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=NiveauScolaire::class, inversedBy="choixAnnees")
      */
-    #[Groups(['read:choixAnnee', 'read:AfRetenu', 'read:caId'])]
+    #[Groups(['read:choixAnnee', 'read:AfRetenu', 'read:caId', 'read:eleve', 'read:ApsaRetenu', 'read:apsaSelectAnnee'])]
     private $Niveau;
 
     /**
      * @ORM\ManyToOne(targetEntity=Annee::class, inversedBy="choixAnnees")
      */
-    #[Groups(['read:choixAnnee'])]
+    #[Groups(['read:choixAnnee', 'read:eleve'])]
     private $Annee;
 
 

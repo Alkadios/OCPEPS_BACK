@@ -19,17 +19,36 @@ use Symfony\Component\Serializer\Annotation\Groups;
     collectionOperations: [
         'get' => [
             'normalization_context' => [
-                'groups' => ['read:eleve']
+                'groups' => ['read:eleve','read:classe']
             ]
         ],
         'post' => [
             'denormalization_context' => [
-                'groups' => ['post:eleve']
+                'groups' => ['post:eleve','post:classe']
+            ]
+        ]
+
+    ],
+    itemOperations: [
+        'get' => [
+            'normalization_context' => [
+                'groups' => ['read:eleveApsa', 'read:eleve']
+            ]
+        ]
+        ,
+        'put' => [
+            'denormalization_context' => [
+                'groups' => ['put:eleve','put:classe']
+            ]
+        ],
+        'delete' => [
+            'denormalization_context' => [
+                'groups' => ['delete:eleve', 'delete:classe']
             ]
         ]
     ]
 )]
-#[ApiFilter(SearchFilter::class, properties: ['eleveClasses.classe.id' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['eleveClasses.classe.id' => 'exact', 'etablissement.id' => 'exact'])]
 class Eleve
 {
     /**
@@ -37,62 +56,62 @@ class Eleve
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:eleve', 'read:professeurClasse', 'read:classe'])]
+    #[Groups(['read:eleve', 'read:professeurClasse', 'read:classe', 'post:eleve', 'read:apsaSelectAnnee'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:eleve', 'read:professeurClasse', 'read:classe'])]
+    #[Groups(['read:eleve', 'read:professeurClasse', 'read:classe', 'post:eleve', 'read:apsaSelectAnnee'])]
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:eleve', 'read:professeurClasse', 'read:classe'])]
+    #[Groups(['read:eleve', 'read:professeurClasse', 'read:classe', 'post:eleve', 'read:apsaSelectAnnee'])]
     private $prenom;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:eleve'])]
+    #[Groups(['read:eleve', 'post:eleve'])]
     private $telephone;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:eleve'])]
+    #[Groups(['read:eleve', 'post:eleve'])]
     private $mailParent1;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:eleve'])]
+    #[Groups(['read:eleve', 'post:eleve'])]
     private $mailParent2;
 
     /**
      * @ORM\Column(type="date")
      */
-    #[Groups(['read:eleve'])]
+    #[Groups(['read:eleve', 'post:eleve'])]
     private $dateNaiss;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:eleve'])]
+    #[Groups(['read:eleve', 'post:eleve'])]
     private $sexeEleve;
 
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="eleves")
      */
-    #[Groups(['read:eleve'])]
+    #[Groups(['read:eleve', 'post:eleve'])]
     private $user;
 
     /**
      * @ORM\OneToMany(targetEntity=EvaluationEleve::class, mappedBy="Eleve", orphanRemoval=true)
      */
-    #[Groups(['read:eleve'])]
+    #[Groups(['read:eleve', 'post:eleve'])]
     private $evaluationEleves;
 
 
@@ -100,12 +119,13 @@ class Eleve
      * @ORM\ManyToOne(targetEntity=Etablissement::class, inversedBy="Eleve")
      * @ORM\JoinColumn(nullable=false)
      */
-    #[Groups(['read:eleve'])]
+    #[Groups(['read:eleve' , 'post:eleve'])]
     private $etablissement;
 
     /**
      * @ORM\ManyToMany(targetEntity=Classe::class, inversedBy="eleves")
      */
+    #[Groups(['read:eleve' , 'post:eleve' , 'post:classe', 'read:eleveApsa'])]
     private $classe;
 
 
@@ -230,22 +250,22 @@ class Eleve
         return $this->evaluationEleves;
     }
 
-    public function addEvaluationElefe(EvaluationEleve $evaluationElefe): self
+    public function addEvaluationEleve(EvaluationEleve $evaluationEleve): self
     {
-        if (!$this->evaluationEleves->contains($evaluationElefe)) {
-            $this->evaluationEleves[] = $evaluationElefe;
-            $evaluationElefe->setEleve($this);
+        if (!$this->evaluationEleves->contains($evaluationEleve)) {
+            $this->evaluationEleves[] = $evaluationEleve;
+            $evaluationEleve->setEleve($this);
         }
 
         return $this;
     }
 
-    public function removeEvaluationElefe(EvaluationEleve $evaluationElefe): self
+    public function removeEvaluationEleve(EvaluationEleve $evaluationEleve): self
     {
-        if ($this->evaluationEleves->removeElement($evaluationElefe)) {
+        if ($this->evaluationEleves->removeElement($evaluationEleve)) {
             // set the owning side to null (unless already changed)
-            if ($evaluationElefe->getEleve() === $this) {
-                $evaluationElefe->setEleve(null);
+            if ($evaluationEleve->getEleve() === $this) {
+                $evaluationEleve->setEleve(null);
             }
         }
 
