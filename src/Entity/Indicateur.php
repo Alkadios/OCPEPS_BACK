@@ -75,7 +75,7 @@ class Indicateur
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    #[Groups(['read:apsaSelectAnnee', 'read:indicateur','read:critere', 'read:apsaRetenu'])]
+    #[Groups(['read:indicateur', 'read:critere', 'read:apsaSelectAnnee', 'read:ordreIndicateur'])]
     private $ordre;
 
     /**
