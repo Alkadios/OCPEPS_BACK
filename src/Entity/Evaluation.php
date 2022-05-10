@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=EvaluationRepository::class)
@@ -23,12 +24,14 @@ class Evaluation
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    #[Groups(['read:indicateur', 'read:apsaRetenu', 'read:apsaSelectAnnee'])]
     private $id;
 
 
     /**
      * @ORM\Column(type="date")
      */
+    #[Groups(['read:indicateur', 'read:apsaRetenu', 'read:apsaSelectAnnee'])]
     private $DateEval;
 
     /**

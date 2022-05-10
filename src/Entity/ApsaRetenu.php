@@ -73,7 +73,7 @@ class ApsaRetenu
     /**
      * @ORM\OneToMany(targetEntity=Critere::class, mappedBy="ApsaRetenu", orphanRemoval=true)
      */
-    #[Groups(['read:apsaRetenu', 'read:eleve', 'read:apsaSelectAnnee'])]
+    #[Groups(['read:apsaRetenu', 'read:eleve', 'read:apsaSelectAnnee', 'read:ordreIndicateur'])]
     private $criteres;
 
     public function __construct()
