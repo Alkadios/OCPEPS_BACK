@@ -33,7 +33,7 @@ class Indicateur
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:indicateur', 'read:critere', 'read:apsaSelectAnnee'])]
+    #[Groups(['read:indicateur', 'read:critere', 'read:apsaSelectAnnee', 'read:apsaRetenu'])]
     private $id;
 
     /**
@@ -81,7 +81,7 @@ class Indicateur
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:indicateur','read:critere', 'read:apsaSelectAnnee'])]
+    #[Groups(['read:indicateur','read:critere', 'read:apsaSelectAnnee', 'read:apsaRetenu'])]
     private $color;
 
     public function __construct()
