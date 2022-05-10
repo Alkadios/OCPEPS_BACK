@@ -73,11 +73,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, JWTUser
     /**
      * @ORM\OneToMany(targetEntity=Eleve::class, mappedBy="user")
      */
+    #[Groups(['read:User'])]
     private $eleves;
 
     /**
      * @ORM\OneToMany(targetEntity=Professeur::class, mappedBy="user")
      */
+    #[Groups(['read:User'])]
     private $professeurs;
 
     public function __construct()

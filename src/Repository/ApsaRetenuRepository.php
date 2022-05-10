@@ -41,22 +41,19 @@ class ApsaRetenuRepository extends ServiceEntityRepository
             ->innerJoin('a.ApsaSelectAnnee', 'as')
             ->innerJoin('as.apsa', 'ap')
             ->innerJoin('as.annee', 'an')
-            ->Where('i.id = IN')
+            ->Where('i.id = IN', $this->subquery())
             ->setParameter('val', $eleve)
             ->getQuery()
             ->getResult();
-
-
-
     }
+
 
     public function subquery()
     {
-        return $this->createQueryBuilder('so')
-            ->select('cs.id')
-            ->from('AcmeDemoBundle:Contact', 'cs')
-            ->innerJoin('cs.settings', 's')
-            ->where('s.parameter = :parameter') // move setParameter() to main queryBuilder!
+        return $this->createQueryBuilder('i')
+            ->select('i.indicateur.id')
+            ->from('AcmeDemoBundle:EvaluationEleve', 'ev')
+            ->where('ev.eleve.id = :val') // move setParameter() to main queryBuilder!
         ;
 
     }
