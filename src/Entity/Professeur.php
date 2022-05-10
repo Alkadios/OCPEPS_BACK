@@ -20,7 +20,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     ]
 )]
 
-#[ApiFilter(SearchFilter::class, properties: ['etablissements' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['etablissements' => 'exact', 'user.id' => 'exact'])]
 class Professeur
 {
     /**
