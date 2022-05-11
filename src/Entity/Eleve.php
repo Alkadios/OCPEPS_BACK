@@ -48,7 +48,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         ]
     ]
 )]
-#[ApiFilter(SearchFilter::class, properties: ['eleveClasses.classe.id' => 'exact', 'etablissement.id' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['eleveClasses.classe.id' => 'exact','classe.Annee.id' => 'exact', 'etablissement.id' => 'exact'])]
 class Eleve
 {
     /**
@@ -62,43 +62,43 @@ class Eleve
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:eleve', 'read:professeurClasse', 'read:classe', 'post:eleve', 'read:apsaSelectAnnee'])]
+    #[Groups(['read:eleve','put:eleve','read:professeurClasse', 'read:classe', 'post:eleve', 'read:apsaSelectAnnee'])]
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:eleve', 'read:professeurClasse', 'read:classe', 'post:eleve', 'read:apsaSelectAnnee'])]
+    #[Groups(['read:eleve','put:eleve', 'read:professeurClasse', 'read:classe', 'post:eleve', 'read:apsaSelectAnnee'])]
     private $prenom;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:eleve', 'post:eleve'])]
+    #[Groups(['read:eleve','put:eleve', 'post:eleve'])]
     private $telephone;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:eleve', 'post:eleve'])]
+    #[Groups(['read:eleve', 'put:eleve' ,'post:eleve'])]
     private $mailParent1;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:eleve', 'post:eleve'])]
+    #[Groups(['read:eleve','put:eleve', 'post:eleve'])]
     private $mailParent2;
 
     /**
      * @ORM\Column(type="date")
      */
-    #[Groups(['read:eleve', 'post:eleve'])]
+    #[Groups(['read:eleve','put:eleve', 'post:eleve'])]
     private $dateNaiss;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:eleve', 'post:eleve'])]
+    #[Groups(['read:eleve', 'put:eleve','post:eleve'])]
     private $sexeEleve;
 
 
@@ -125,7 +125,7 @@ class Eleve
     /**
      * @ORM\ManyToMany(targetEntity=Classe::class, inversedBy="eleves")
      */
-    #[Groups(['read:eleve' , 'post:eleve' , 'post:classe', 'read:eleveApsa'])]
+    #[Groups(['read:eleve' , 'post:eleve' ,'put:eleve', 'post:classe', 'read:eleveApsa'])]
     private $classe;
 
 
