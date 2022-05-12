@@ -20,7 +20,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     ]
 )]
 
-#[ApiFilter(SearchFilter::class, properties: ['etablissements' => 'exact', 'user.id' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['etablissements' => 'exact', 'user.roles' => 'exact', 'user.id' => 'exact'])]
 class Professeur
 {
     /**
@@ -28,51 +28,50 @@ class Professeur
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:professeur','read:classe', 'read:User'])]
+    #[Groups(['read:professeur','read:etablissement','read:classe', 'read:User'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:professeur'])]
+    #[Groups(['read:professeur','read:etablissement',])]
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:professeur'])]
+    #[Groups(['read:professeur','read:etablissement',])]
     private $prenom;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:professeur'])]
+    #[Groups(['read:professeur', 'read:etablissement',])]
     private $telephone;
 
     /**
      * @ORM\OneToMany(targetEntity=Cours::class, mappedBy="Professeur")
      */
-    #[Groups(['read:professeur'])]
+    #[Groups(['read:professeur','read:etablissement',])]
     private $cours;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="professeurs")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")
      */
-
-    #[Groups(['read:professeur'])]
+    #[Groups(['read:professeur','read:etablissement',])]
     private $user;
 
     /**
      * @ORM\ManyToMany(targetEntity=Etablissement::class, mappedBy="Professeur")
      */
-    #[Groups(['read:professeur'])]
+    #[Groups(['read:professeur','read:etablissement',])]
     private $etablissements;
 
     /**
      * @ORM\ManyToMany(targetEntity=Classe::class, inversedBy="professeurs")
      */
-    #[Groups(['read:professeur'])]
+    #[Groups(['read:professeur','read:etablissement',])]
     private $classe;
 
 

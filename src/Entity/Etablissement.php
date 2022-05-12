@@ -20,14 +20,32 @@ use Symfony\Component\Serializer\Annotation\Groups;
             ]
         ],
         'post'
-    ], itemOperations: ['get' => [
-    'normalization_context' => [
-        'groups' => ['read:etablissement']
+    ],
+    itemOperations: [
+
+    'get' => [
+        'normalization_context' => [
+            'groups' => ['read:etablissement']
+        ]
+    ],
+
+    'delete' => [
+        'normalization_context' => [
+            'groups' => ['delete:etablissement']
+        ]
+    ],
+
+    'put' => [
+        'denormalization_context' => [
+            'groups' => ['put:etablissement']
+        ],
+        'normalization_context' => [
+            'groups' => ['read:etablissement', 'read:professeur']
+        ]
     ]
-], 'put',
-    'patch',
-    'delete']
+    ]
 )]
+
 class Etablissement
 {
     /**
@@ -35,63 +53,67 @@ class Etablissement
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:etablissement', 'read:caId', 'read:eleve'])]
+    #[Groups(['read:etablissement','read:professeur', 'read:caId','put:etablissement', 'read:eleve'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:etablissement','read:classe', 'read:eleve'])]
+    #[Groups(['read:etablissement','read:classe','put:etablissement', 'read:eleve'])]
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:etablissement'])]
+    #[Groups(['read:etablissement', 'put:etablissement'])]
     private $adresse;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:etablissement'])]
+    #[Groups(['read:etablissement' , 'put:etablissement'])]
     private $cp;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:etablissement'])]
+    #[Groups(['read:etablissement', 'put:etablissement'])]
     private $ville;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    #[Groups(['read:etablissement'])]
+    #[Groups(['read:etablissement', 'put:etablissement'])]
     private $tel;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    #[Groups(['read:etablissement'])]
+    #[Groups(['read:etablissement', 'put:etablissement'])]
     private $mail;
 
     /**
      * @ORM\OneToMany(targetEntity=Classe::class, mappedBy="etablissement")
      */
+    #[Groups(['read:etablissement', 'put:etablissement'])]
     private $Classe;
 
     /**
      * @ORM\OneToMany(targetEntity=Eleve::class, mappedBy="etablissement")
      */
+    #[Groups(['read:etablissement', 'put:etablissement'])]
     private $Eleve;
 
     /**
      * @ORM\ManyToMany(targetEntity=Professeur::class, inversedBy="etablissements")
      */
+    #[Groups(['read:etablissement', 'read:professeurs' , 'put:etablissement'])]
     private $Professeur;
 
     /**
      * @ORM\OneToMany(targetEntity=ApsaSelectAnnee::class, mappedBy="etablissement")
      */
+    #[Groups(['read:etablissement', 'put:etablissement'])]
     private $ApsaSelectAnnee;
 
     /**
@@ -103,6 +125,7 @@ class Etablissement
     /**
      * @ORM\OneToMany(targetEntity=ChoixAnnee::class, mappedBy="etablissement", orphanRemoval=true)
      */
+    #[Groups(['read:etablissement', 'put:etablissement'])]
     private $choixAnnee;
 
     public function __construct()
