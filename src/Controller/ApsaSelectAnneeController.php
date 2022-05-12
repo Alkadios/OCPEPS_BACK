@@ -9,6 +9,7 @@ use App\Repository\AnneeRepository;
 use App\Repository\ApsaRepository;
 use App\Repository\ApsaSelectAnneeRepository;
 use App\Repository\ChampApprentissageRepository;
+use App\Repository\EtablissementRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -39,7 +40,7 @@ class ApsaSelectAnneeController extends AbstractController
     /**
      * @Route("api/apsa_select_annees/deleteAndReplace", name="deleteApsaSelectAnneeAndReplace", methods={"POST"})
      */
-    public function deleteApsaSelectAnneeAndReplace(ApsaSelectAnneeRepository $apsaSelectAnneeRepository, AnneeRepository $anneeRepository, ChampApprentissageRepository $champApprentissageRepository, ApsaRepository $apsaRepository, Request $request, EntityManagerInterface $manager): Response
+    public function deleteApsaSelectAnneeAndReplace(ApsaSelectAnneeRepository $apsaSelectAnneeRepository, AnneeRepository $anneeRepository, ChampApprentissageRepository $champApprentissageRepository, EtablissementRepository $etablissementRepository, ApsaRepository $apsaRepository, Request $request, EntityManagerInterface $manager): Response
     {
         // Tableau contenant  la réponse lors de l'ajout
         $jsonres = [];
@@ -58,17 +59,19 @@ class ApsaSelectAnneeController extends AbstractController
             $ca_id = $donnee->Ca;
             $apsa_id = $donnee->Apsa;
             $annee_id = $donnee->Annee;
+            $etablissement_id = $donnee->Etablissement;
 
             if (isset($apsa_id) && isset($ca_id) && isset($annee_id)) {
                 $apsa = $apsaRepository->find($apsa_id);
                 $ca = $champApprentissageRepository->find($ca_id);
                 $annee = $anneeRepository->find($annee_id);
-
+                $etablissement = $etablissementRepository->find($etablissement_id);
                 //Création de l'ApsaSelectAnnee
                 $NewChampsApsaSelectAnnee = new ApsaSelectAnnee();
                 $NewChampsApsaSelectAnnee->setApsa($apsa);
                 $NewChampsApsaSelectAnnee->setCa($ca);
                 $NewChampsApsaSelectAnnee->setAnnee($annee);
+                $NewChampsApsaSelectAnnee->setEtablissement($etablissement);
 
                 array_push($apsaSelectAnneeObjectByJson,
                     $NewChampsApsaSelectAnnee);
