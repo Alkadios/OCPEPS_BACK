@@ -81,7 +81,7 @@ class Indicateur
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:indicateur','read:critere', 'read:apsaSelectAnnee', 'read:apsaRetenu'])]
+    #[Groups(['read:indicateur','read:critere', 'read:apsaSelectAnnee'])]
     private $color;
 
     public function __construct()
