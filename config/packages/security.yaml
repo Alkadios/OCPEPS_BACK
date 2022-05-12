@@ -52,6 +52,8 @@ security:
         - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
 
 
+
+
 when@test:
     security:
         password_hashers:
