@@ -18,10 +18,11 @@ class JWTSubscriber implements EventSubscriberInterface
             $data["id"] = $user->getId();
             $data['roles'] = $user->getRoles()[0];
             $data['email'] = $user->getEmail();
-
-            if ($user->getProfesseurs()->count() > 0) {
+            if($user->getProfesseurs()->count() > 0){
                 $data['professeurs'] = $user->getProfesseurs()[0]->getId();
+
             }
+
 
         }
 

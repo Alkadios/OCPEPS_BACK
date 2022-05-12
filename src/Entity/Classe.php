@@ -23,13 +23,35 @@ use Symfony\Component\Serializer\Annotation\Groups;
         ],
         'post' => [
             'denormalization_context' => [
-                'groups' => ['post:classe','post:eleve']
+                'groups' => ['post:classe', 'post:eleve']
+            ]
+        ],
+    ],
+    itemOperations: [
+
+        'get' => [
+            'normalization_context' => [
+                'groups' => ['read:classe', 'read:eleve']
             ]
         ],
 
+        'delete' => [
+            'normalization_context' => [
+                'groups' => ['delete:classe', 'delete:eleve']
+            ]
+        ],
+
+        'put' => [
+            'denormalization_context' => [
+                'groups' => ['put:classe']
+            ],
+            'normalization_context' => [
+                'groups' => ['read:classe', 'read:eleve']
+            ]
+        ],
     ]
 )]
-#[ApiFilter(SearchFilter::class, properties: ['professeurs.id' => 'exact','Annee.id' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['professeurs.id' => 'exact','etablissement.id' => 'exact','Annee.id' => 'exact'])]
 class Classe
 {
     /**
@@ -37,13 +59,13 @@ class Classe
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:professeurClasse', 'read:classe','post:classe', 'read:eleveApsa'])]
+    #[Groups(['read:professeurClasse', 'read:classe','post:classe','put:classe', 'read:eleveApsa'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:classe', 'read:professeurClasse','post:classe', 'read:eleveApsa'])]
+    #[Groups(['read:classe', 'read:professeurClasse','post:classe','put:classe', 'read:eleveApsa'])]
     private $libelleClasse;
 
 
@@ -51,14 +73,14 @@ class Classe
      * @ORM\ManyToOne(targetEntity=NiveauScolaire::class, inversedBy="classes")
      * @ORM\JoinColumn(nullable=false)
      */
-    #[Groups(['read:classe','post:classe', 'read:eleve'])]
+    #[Groups(['read:classe','post:classe','put:classe', 'read:eleve'])]
     private $NiveauScolaire;
 
     /**
      * @ORM\ManyToOne(targetEntity=Annee::class, inversedBy="classes")
      * @ORM\JoinColumn(nullable=false)
      */
-    #[Groups(['read:classe','post:classe', 'read:eleveApsa', 'read:eleve'])]
+    #[Groups(['read:classe','post:classe', 'read:eleveApsa','put:classe', 'read:eleve'])]
     private $Annee;
 
 
@@ -66,25 +88,25 @@ class Classe
      * @ORM\ManyToOne(targetEntity=Etablissement::class, inversedBy="Classe", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
-    #[Groups(['read:classe','post:classe', 'read:eleve'])]
+    #[Groups(['read:classe','post:classe','put:classe', 'read:eleve'])]
     private $etablissement;
 
     /**
      * @ORM\ManyToMany(targetEntity=Professeur::class, mappedBy="classe")
      */
-    #[Groups(['read:classe','post:classe'])]
+    #[Groups(['read:classe','post:classe','put:classe'])]
     private $professeurs;
 
     /**
      * @ORM\ManyToMany(targetEntity=Eleve::class, mappedBy="classe")
      */
-    #[Groups(['read:classe','post:classe','post:eleve'])]
+    #[Groups(['read:classe','post:classe','post:eleve','put:classe'])]
     private $eleves;
 
     /**
      * @ORM\ManyToMany(targetEntity=Eleve::class, mappedBy="classe")
      */
-    #[Groups(['read:classe','post:classe'])]
+    #[Groups(['read:classe','post:classe','put:classe'])]
     private $professeurClasses;
 
 
