@@ -73,4 +73,10 @@ class EvaluationEleveRepository extends ServiceEntityRepository
         ;
     }
     */
+public function getSousRequeteApsaRetenu($idEleve){
+    return $this->createQueryBuilder('i')
+        ->where('i.Eleve = :idEleve') // move setParameter() to main queryBuilder!
+        ->setParameter('idEleve', $idEleve);
+}
+
 }
