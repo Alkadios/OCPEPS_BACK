@@ -65,7 +65,7 @@ class Professeur
     /**
      * @ORM\ManyToMany(targetEntity=Etablissement::class, mappedBy="Professeur")
      */
-    #[Groups(['read:professeur','read:etablissement',])]
+    #[Groups(['read:professeur','read:etablissement'])]
     private $etablissements;
 
     /**
