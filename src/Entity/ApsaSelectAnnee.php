@@ -75,7 +75,7 @@ class ApsaSelectAnnee
     /**
      * @ORM\ManyToOne(targetEntity=Etablissement::class, inversedBy="ApsaSelectAnnee")
      */
-    #[Groups(['read:caId'])]
+    #[Groups(['read:caId', 'post:apsaSelectAnnee'])]
     private $etablissement;
 
     public function __construct()

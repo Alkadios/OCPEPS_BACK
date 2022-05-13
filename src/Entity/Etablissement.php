@@ -19,7 +19,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
                 'groups' => ['read:etablissement']
             ]
         ],
-        'post'
+        'post' => [
+            'denormalization_context' => [
+                'groups' => ['post:etablissement', 'post:professeur']
+            ]
+        ],
+
     ],
     itemOperations: [
 
@@ -53,7 +58,7 @@ class Etablissement
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:etablissement','read:professeur', 'read:caId','put:etablissement', 'read:eleve'])]
+    #[Groups(['read:etablissement', 'read:caId','put:etablissement', 'read:eleve'])]
     private $id;
 
     /**
@@ -382,4 +387,6 @@ class Etablissement
 
         return $this;
     }
+
+
 }
