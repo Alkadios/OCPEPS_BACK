@@ -20,44 +20,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
         'get' => [
             'normalization_context' => [
                 'groups' => ['read:indicateur', 'read:critere']
-            ],
-            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
-            'openapi_context' => [
-                'security' => [['bearerAuth' => []]]
-            ],
-        ],
-        'post' => [
-            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
-            'openapi_context' => [
-                'security' => [['bearerAuth' => []]]
             ]
-        ]
-    ],
-    itemOperations: [
-        'get' => [
-            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
-            'openapi_context' => [
-                'security' => [['bearerAuth' => []]]
-            ],
         ],
-        'put' => [
-            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
-            'openapi_context' => [
-                'security' => [['bearerAuth' => []]]
-            ],
-        ],
-        'patch' => [
-            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
-            'openapi_context' => [
-                'security' => [['bearerAuth' => []]]
-            ],
-        ],
-        'delete' => [
-            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
-            'openapi_context' => [
-                'security' => [['bearerAuth' => []]]
-            ],
-        ]
+        'post'
     ]
 )]
 #[ApiFilter(SearchFilter::class, properties: ['critere.id' => 'exact'])]

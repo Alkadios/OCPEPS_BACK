@@ -29,46 +29,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
         'get' => [
             'normalization_context' => [
                 'groups' => ['read:apsaSelectAnnee','read:critere', 'read:Apsa', 'read:AfRetenu', 'read:Critere', 'read:apsaSelectAnnee','read:choixAnnee', 'read:apsaRetenu']
-            ],
-            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
-            'openapi_context' => [
-                'security' => [['bearerAuth' => []]]
-            ],
+            ]
         ],
         'post' => [
             'denormalization_context' => [
                 'groups' => ['post:ApsaRetenu']
-            ],
-            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
-            'openapi_context' => [
-                'security' => [['bearerAuth' => []]]
-            ],
-        ]
-    ],
-    itemOperations: [
-        'get' => [
-            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
-            'openapi_context' => [
-                'security' => [['bearerAuth' => []]]
-            ],
-        ],
-        'put' => [
-            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
-            'openapi_context' => [
-                'security' => [['bearerAuth' => []]]
-            ],
-        ],
-        'patch' => [
-            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
-            'openapi_context' => [
-                'security' => [['bearerAuth' => []]]
-            ],
-        ],
-        'delete' => [
-            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
-            'openapi_context' => [
-                'security' => [['bearerAuth' => []]]
-            ],
+            ]
         ]
     ]
 )]

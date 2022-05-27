@@ -25,48 +25,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
         'get' => [
             'noarmalization_context' => [
                 'groups' => ['read:apsa', 'read:champapprentissage'],
-            ],
-            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
-            'openapi_context' => [
-                'security' => [['bearerAuth' => []]]
-            ],
+            ]
         ],
         'post' => [
             'denormalization_context' => [
                 'groups' => ['post:ChampsApprentissageApsa']
-            ],
-            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
-            'openapi_context' => [
-                'security' => [['bearerAuth' => []]]
-            ],
+            ]
         ]
-    ],
-    itemOperations: [
-        'get' => [
-            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
-            'openapi_context' => [
-                'security' => [['bearerAuth' => []]]
-            ],
-        ],
-        'put' => [
-            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
-            'openapi_context' => [
-                'security' => [['bearerAuth' => []]]
-            ],
-        ],
-        'patch' => [
-            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
-            'openapi_context' => [
-                'security' => [['bearerAuth' => []]]
-            ],
-        ],
-        'delete' => [
-            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
-            'openapi_context' => [
-                'security' => [['bearerAuth' => []]]
-            ],
-        ]
-    ],
+    ]
 )]
 class ChampsApprentissageApsa
 {

@@ -17,59 +17,37 @@ use Symfony\Component\Serializer\Annotation\Groups;
         'get' => [
             'normalization_context' => [
                 'groups' => ['read:etablissement']
-            ],
-            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
-            'openapi_context' => [
-                'security' => [['bearerAuth' => []]]
-            ],
+            ]
         ],
         'post' => [
             'denormalization_context' => [
                 'groups' => ['post:etablissement', 'post:professeur']
-            ],
-            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
-            'openapi_context' => [
-                'security' => [['bearerAuth' => []]]
-            ],
+            ]
         ],
+
     ],
     itemOperations: [
-        'get' => [
-            'normalization_context' => [
-                'groups' => ['read:etablissement']
-            ],
-            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
-            'openapi_context' => [
-                'security' => [['bearerAuth' => []]]
-            ],
-        ],
-        'delete' => [
-            'normalization_context' => [
-                'groups' => ['delete:etablissement']
-            ],
-            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
-            'openapi_context' => [
-                'security' => [['bearerAuth' => []]]
-            ],
-        ],
-        'put' => [
-            'denormalization_context' => [
-                'groups' => ['put:etablissement']
-            ],
-            'normalization_context' => [
-                'groups' => ['read:etablissement', 'read:professeur']
-            ],
-            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
-            'openapi_context' => [
-                'security' => [['bearerAuth' => []]]
-            ],
-        ],
-        'patch' => [
-            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
-            'openapi_context' => [
-                'security' => [['bearerAuth' => []]]
-            ],
+
+    'get' => [
+        'normalization_context' => [
+            'groups' => ['read:etablissement']
         ]
+    ],
+
+    'delete' => [
+        'normalization_context' => [
+            'groups' => ['delete:etablissement']
+        ]
+    ],
+
+    'put' => [
+        'denormalization_context' => [
+            'groups' => ['put:etablissement']
+        ],
+        'normalization_context' => [
+            'groups' => ['read:etablissement', 'read:professeur']
+        ]
+    ]
     ]
 )]
 
