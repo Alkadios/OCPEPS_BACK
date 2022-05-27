@@ -20,7 +20,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
             'normalization_context' => [
                 'groups' => ['read:classe', 'read:eleve']
             ],
-            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER)",
+            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
             'openapi_context' => [
                 'security' => [['bearerAuth' => []]]
             ],
@@ -29,7 +29,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
             'denormalization_context' => [
                 'groups' => ['post:classe', 'post:eleve']
             ],
-            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER)",
+            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
             'openapi_context' => [
                 'security' => [['bearerAuth' => []]]
             ],
@@ -40,7 +40,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
             'normalization_context' => [
                 'groups' => ['read:classe', 'read:eleve']
             ],
-            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER)",
+            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
             'openapi_context' => [
                 'security' => [['bearerAuth' => []]]
             ],
@@ -49,7 +49,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
             'normalization_context' => [
                 'groups' => ['delete:classe', 'delete:eleve']
             ],
-            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER)",
+            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
             'openapi_context' => [
                 'security' => [['bearerAuth' => []]]
             ],
@@ -61,13 +61,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
             'normalization_context' => [
                 'groups' => ['read:classe', 'read:eleve']
             ],
-            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER)",
+            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
             'openapi_context' => [
                 'security' => [['bearerAuth' => []]]
             ],
         ],
         'patch' => [
-            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER)",
+            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
             'openapi_context' => [
                 'security' => [['bearerAuth' => []]]
             ],
