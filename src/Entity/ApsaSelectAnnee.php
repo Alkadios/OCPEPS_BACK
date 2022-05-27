@@ -28,14 +28,40 @@ use Symfony\Component\Serializer\Annotation\Groups;
         'get' => [
             'normalization_context' => [
                 'groups' => ['read:apsaSelectAnnee', 'read:caId', 'read:apsaId', 'read:apsaLibelle', 'read:ordreIndicateur']
-            ]
+            ],
         ],
         'post' => [
             'denormalization_context' => [
                 'groups' => ['post:apsaSelectAnnee']
             ]
         ]
-    ]
+    ],
+    itemOperations: [
+        'get' => [
+            "security" => "is_granted('ROLE_ADMIN')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ],
+        'put' => [
+            "security" => "is_granted('ROLE_ADMIN')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ],
+        'patch' => [
+            "security" => "is_granted('ROLE_ADMIN')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ],
+        'delete' => [
+            "security" => "is_granted('ROLE_ADMIN')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ]
+    ],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['Annee.id' => 'exact', 'etablissement.id' => 'exact', 'Apsa.id' => 'exact'])]
 class ApsaSelectAnnee
