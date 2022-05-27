@@ -29,14 +29,44 @@ use Symfony\Component\Serializer\Annotation\Groups;
                 'security' => [['bearerAuth' => []]]
             ]
         ],
-        'get',
-        'post'
+        'get' => [
+            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ],
+        'post' => [
+            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ],
     ],
     itemOperations: [
-        'get',
-        'put',
-        'patch',
-        'delete'
+        'get' => [
+            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ],
+        'put' => [
+            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ],
+        'patch' => [
+            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ],
+        'delete' => [
+            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ]
     ],
     normalizationContext: [
         'groups' => ['read:User']
@@ -55,13 +85,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, JWTUser
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      */
-    #[Groups(['read:User'])]
+    #[Groups(['read:User', 'read:eleve', 'read:professeur'])]
     private $email;
 
     /**
      * @ORM\Column(type="json")
      */
-    #[Groups(['read:User'])]
+    #[Groups(['read:User', 'read:eleve', 'read:professeur'])]
     private $roles = [];
 
     /**
@@ -73,11 +103,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, JWTUser
     /**
      * @ORM\OneToMany(targetEntity=Eleve::class, mappedBy="user")
      */
+    #[Groups(['read:User'])]
     private $eleves;
 
     /**
      * @ORM\OneToMany(targetEntity=Professeur::class, mappedBy="user")
      */
+    #[Groups(['read:User'])]
     private $professeurs;
 
     public function __construct()

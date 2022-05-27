@@ -2,6 +2,7 @@
 
 namespace App\EventSubscriber;
 
+use App\Entity\Professeur;
 use App\Entity\User;
 use Lexik\Bundle\JWTAuthenticationBundle\Event\JWTCreatedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -15,8 +16,19 @@ class JWTSubscriber implements EventSubscriberInterface
 
         if($user instanceof User){
             $data["id"] = $user->getId();
-            $data['role'] = ["label" => $user->getRoles()];
+            $data['roles'] = $user->getRoles()[0];
+            $data['email'] = $user->getEmail();
+            if($user->getProfesseurs()->count() > 0){
+                $data['professeurs'] = $user->getProfesseurs()[0]->getId();
+                if($user->getProfesseurs()[0]->getEtablissements()->count() > 0) {
+                    $data['currentEtablissement'] = $user->getProfesseurs()[0]->getEtablissements()->last()->getId();
+                }
+
+            }
+
+
         }
+
         $event->setData($data);
     }
 

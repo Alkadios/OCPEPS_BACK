@@ -84,6 +84,7 @@ class UtilisateurController extends AbstractController
         $mailParent2 = $JsonContent->mailParent2;
         $sexeEleve = $JsonContent->sexeEleve;
         $etablissement = $JsonContent->etablissement;
+        $dateNaiss = $JsonContent->dateNaiss;
 
         if (
             isset($email) &&
@@ -120,6 +121,7 @@ class UtilisateurController extends AbstractController
             $eleve->setSexeEleve($sexeEleve);
             $eleve->setUser($user);
             $eleve->setEtablissement($etablissementObject);
+            $eleve->setDateNaiss(New DateTime($dateNaiss));
             $manager->persist($eleve);
             $manager->flush();
 
@@ -127,7 +129,7 @@ class UtilisateurController extends AbstractController
 
             $jsonres = [];
 
-            array_push($jsonres,["id" => $user->getId() , "roles" => $user->getRoles() , "eleveId" => $eleve->getId() , "nom" => $eleve->getNom() , "prenom" => $eleve->getPrenom()]);
+            array_push($jsonres,["id" => $user->getId() , "roles" => $user->getRoles() , "dateNaiss" => $eleve->getDateNaiss(),  "eleveId" => $eleve->getId() , "nom" => $eleve->getNom() , "prenom" => $eleve->getPrenom()]);
 
             return new JsonResponse(array("message" => "Created", "eleve" => $jsonres), 201);
 
@@ -151,6 +153,7 @@ class UtilisateurController extends AbstractController
         $nom = $JsonContent->nom;
         $prenom = $JsonContent->prenom;
         $telephone = $JsonContent->telephone;
+        $etablissements = $JsonContent->etablissements;
 
 
         if (
@@ -175,11 +178,14 @@ class UtilisateurController extends AbstractController
             $manager->persist($user);
             $manager->flush();
 
+            $etablissementObject = $etablissementRepository->find($etablissements);
+
             $professeur = new Professeur();
             $professeur->setNom($nom);
             $professeur->setPrenom($prenom);
             $professeur->setTelephone($telephone);
             $professeur->setUser($user);
+            $professeur->addEtablissement($etablissementObject);
             $manager->persist($professeur);
             $manager->flush();
 

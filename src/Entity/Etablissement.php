@@ -17,17 +17,62 @@ use Symfony\Component\Serializer\Annotation\Groups;
         'get' => [
             'normalization_context' => [
                 'groups' => ['read:etablissement']
-            ]
+            ],
+            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
         ],
-        'post'
-    ], itemOperations: ['get' => [
-    'normalization_context' => [
-        'groups' => ['read:etablissement']
+        'post' => [
+            'denormalization_context' => [
+                'groups' => ['post:etablissement', 'post:professeur']
+            ],
+            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ],
+    ],
+    itemOperations: [
+        'get' => [
+            'normalization_context' => [
+                'groups' => ['read:etablissement']
+            ],
+            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ],
+        'delete' => [
+            'normalization_context' => [
+                'groups' => ['delete:etablissement']
+            ],
+            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ],
+        'put' => [
+            'denormalization_context' => [
+                'groups' => ['put:etablissement']
+            ],
+            'normalization_context' => [
+                'groups' => ['read:etablissement', 'read:professeur']
+            ],
+            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ],
+        'patch' => [
+            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ]
     ]
-], 'put',
-    'patch',
-    'delete']
 )]
+
 class Etablissement
 {
     /**
@@ -35,63 +80,67 @@ class Etablissement
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:etablissement', 'read:caId', 'read:eleve'])]
+    #[Groups(['read:etablissement', 'read:caId','put:etablissement', 'read:eleve'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:etablissement','read:classe', 'read:eleve'])]
+    #[Groups(['read:etablissement','read:classe','put:etablissement', 'read:eleve'])]
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:etablissement'])]
+    #[Groups(['read:etablissement', 'put:etablissement'])]
     private $adresse;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:etablissement'])]
+    #[Groups(['read:etablissement' , 'put:etablissement'])]
     private $cp;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:etablissement'])]
+    #[Groups(['read:etablissement', 'put:etablissement'])]
     private $ville;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    #[Groups(['read:etablissement'])]
+    #[Groups(['read:etablissement', 'put:etablissement'])]
     private $tel;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    #[Groups(['read:etablissement'])]
+    #[Groups(['read:etablissement', 'put:etablissement'])]
     private $mail;
 
     /**
      * @ORM\OneToMany(targetEntity=Classe::class, mappedBy="etablissement")
      */
+    #[Groups(['read:etablissement', 'put:etablissement'])]
     private $Classe;
 
     /**
      * @ORM\OneToMany(targetEntity=Eleve::class, mappedBy="etablissement")
      */
+    #[Groups(['read:etablissement', 'put:etablissement'])]
     private $Eleve;
 
     /**
      * @ORM\ManyToMany(targetEntity=Professeur::class, inversedBy="etablissements")
      */
+    #[Groups(['read:etablissement', 'read:professeurs' , 'put:etablissement'])]
     private $Professeur;
 
     /**
      * @ORM\OneToMany(targetEntity=ApsaSelectAnnee::class, mappedBy="etablissement")
      */
+    #[Groups(['read:etablissement', 'put:etablissement'])]
     private $ApsaSelectAnnee;
 
     /**
@@ -103,6 +152,7 @@ class Etablissement
     /**
      * @ORM\OneToMany(targetEntity=ChoixAnnee::class, mappedBy="etablissement", orphanRemoval=true)
      */
+    #[Groups(['read:etablissement', 'put:etablissement'])]
     private $choixAnnee;
 
     public function __construct()
@@ -359,4 +409,6 @@ class Etablissement
 
         return $this;
     }
+
+
 }

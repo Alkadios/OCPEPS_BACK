@@ -28,14 +28,48 @@ use Symfony\Component\Serializer\Annotation\Groups;
         'get' => [
             'normalization_context' => [
                 'groups' => ['read:apsaSelectAnnee', 'read:caId', 'read:apsaId', 'read:apsaLibelle', 'read:ordreIndicateur']
-            ]
+            ],
+            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
         ],
         'post' => [
             'denormalization_context' => [
                 'groups' => ['post:apsaSelectAnnee']
-            ]
+            ],
+            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
         ]
-    ]
+    ],
+    itemOperations: [
+        'get' => [
+            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ],
+        'put' => [
+            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ],
+        'patch' => [
+            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ],
+        'delete' => [
+            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ]
+    ],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['Annee.id' => 'exact', 'etablissement.id' => 'exact', 'Apsa.id' => 'exact'])]
 class ApsaSelectAnnee
@@ -75,7 +109,7 @@ class ApsaSelectAnnee
     /**
      * @ORM\ManyToOne(targetEntity=Etablissement::class, inversedBy="ApsaSelectAnnee")
      */
-    #[Groups(['read:caId'])]
+    #[Groups(['read:caId', 'post:apsaSelectAnnee'])]
     private $etablissement;
 
     public function __construct()

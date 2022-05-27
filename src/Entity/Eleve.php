@@ -9,7 +9,9 @@ use App\Repository\EleveRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Context;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 
 /**
  * @ORM\Entity(repositoryClass=EleveRepository::class)
@@ -20,35 +22,60 @@ use Symfony\Component\Serializer\Annotation\Groups;
         'get' => [
             'normalization_context' => [
                 'groups' => ['read:eleve','read:classe']
-            ]
+            ],
+            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
         ],
         'post' => [
             'denormalization_context' => [
                 'groups' => ['post:eleve','post:classe']
-            ]
+            ],
+            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
         ]
-
     ],
     itemOperations: [
         'get' => [
             'normalization_context' => [
                 'groups' => ['read:eleveApsa', 'read:eleve']
-            ]
+            ],
+            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
         ]
         ,
         'put' => [
             'denormalization_context' => [
                 'groups' => ['put:eleve','put:classe']
-            ]
+            ],
+            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
         ],
         'delete' => [
             'denormalization_context' => [
                 'groups' => ['delete:eleve', 'delete:classe']
-            ]
+            ],
+            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ],
+        'patch' => [
+            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
         ]
     ]
 )]
-#[ApiFilter(SearchFilter::class, properties: ['eleveClasses.classe.id' => 'exact', 'etablissement.id' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['eleveClasses.classe.id' => 'exact','classe.Annee.id' => 'exact', 'etablissement.id' => 'exact', 'user.id' => 'exact'])]
 class Eleve
 {
     /**
@@ -62,43 +89,44 @@ class Eleve
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:eleve', 'read:professeurClasse', 'read:classe', 'post:eleve', 'read:apsaSelectAnnee'])]
+    #[Groups(['read:eleve','put:eleve','read:professeurClasse', 'read:classe', 'post:eleve', 'read:apsaSelectAnnee'])]
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:eleve', 'read:professeurClasse', 'read:classe', 'post:eleve', 'read:apsaSelectAnnee'])]
+    #[Groups(['read:eleve','put:eleve', 'read:professeurClasse', 'read:classe', 'post:eleve', 'read:apsaSelectAnnee'])]
     private $prenom;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:eleve', 'post:eleve'])]
+    #[Groups(['read:eleve','put:eleve', 'post:eleve'])]
     private $telephone;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:eleve', 'post:eleve'])]
+    #[Groups(['read:eleve', 'put:eleve' ,'post:eleve'])]
     private $mailParent1;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:eleve', 'post:eleve'])]
+    #[Groups(['read:eleve','put:eleve', 'post:eleve'])]
     private $mailParent2;
 
     /**
      * @ORM\Column(type="date")
      */
-    #[Groups(['read:eleve', 'post:eleve'])]
+    #[Context(normalizationContext: [DateTimeNormalizer::FORMAT_KEY => 'd-m-Y'])]
+    #[Groups(['read:eleve','put:eleve', 'post:eleve'])]
     private $dateNaiss;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:eleve', 'post:eleve'])]
+    #[Groups(['read:eleve', 'put:eleve','post:eleve'])]
     private $sexeEleve;
 
 
@@ -125,7 +153,7 @@ class Eleve
     /**
      * @ORM\ManyToMany(targetEntity=Classe::class, inversedBy="eleves")
      */
-    #[Groups(['read:eleve' , 'post:eleve' , 'post:classe', 'read:eleveApsa'])]
+    #[Groups(['read:eleve' , 'post:eleve' ,'put:eleve', 'post:classe', 'read:eleveApsa'])]
     private $classe;
 
 

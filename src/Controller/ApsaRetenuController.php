@@ -9,7 +9,6 @@ use App\Repository\AnneeRepository;
 use App\Repository\ApsaRepository;
 use App\Repository\ApsaSelectAnneeRepository;
 use App\Repository\ChampApprentissageRepository;
-use App\Repository\EtablissementRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -20,27 +19,35 @@ use function PHPUnit\Framework\isEmpty;
 use function PHPUnit\Framework\isFalse;
 use function PHPUnit\Framework\isTrue;
 
-class ApsaSelectAnneeController extends AbstractController
+class ApsaRetenuController extends AbstractController
 {
 
-    private function searchInApsaSelectAnnee($ApsaSelectAnnees, $idCa, $idApsa, $idAnnee)
-    {
-        $trouver = false;
-
-        foreach ($ApsaSelectAnnees as $apsaSelectAnnee) {
-            if ($apsaSelectAnnee->getApsa()->getId() == $idApsa && $apsaSelectAnnee->getCa()->getId() == $idCa
-                && $apsaSelectAnnee->getAnnee()->getId() == $idAnnee) {
-                $trouver = true;
-                break;
-            }
-        }
-        return $trouver;
-    }
-
     /**
-     * @Route("api/apsa_select_annees/deleteAndReplace", name="deleteApsaSelectAnneeAndReplace", methods={"POST"})
+     * @Route("/apsa_retenus/{id}", name="project_show", methods={"GET"})
      */
-    public function deleteApsaSelectAnneeAndReplace(ApsaSelectAnneeRepository $apsaSelectAnneeRepository, AnneeRepository $anneeRepository, ChampApprentissageRepository $champApprentissageRepository, EtablissementRepository $etablissementRepository, ApsaRepository $apsaRepository, Request $request, EntityManagerInterface $manager): Response
+    public function show(int $id): Response
+    {
+        $project = $this->getDoctrine()
+            ->getRepository(Project::class)
+            ->find($id);
+
+        if (!$project) {
+
+            return $this->json('No project found for id' . $id, 404);
+        }
+
+        $data =  [
+            'id' => $project->getId(),
+            'name' => $project->getName(),
+            'description' => $project->getDescription(),
+        ];
+
+        return $this->json($data);
+    }
+    /**
+     * @Route("api/apsa_retenus/deleteAndReplace", name="deleteApsaSelectAnneeAndReplace", methods={"POST"})
+     */
+    public function deleteApsaSelectAnneeAndReplace(ApsaSelectAnneeRepository $apsaSelectAnneeRepository, AnneeRepository $anneeRepository, ChampApprentissageRepository $champApprentissageRepository, ApsaRepository $apsaRepository, Request $request, EntityManagerInterface $manager): Response
     {
         // Tableau contenant  la réponse lors de l'ajout
         $jsonres = [];
@@ -59,19 +66,17 @@ class ApsaSelectAnneeController extends AbstractController
             $ca_id = $donnee->Ca;
             $apsa_id = $donnee->Apsa;
             $annee_id = $donnee->Annee;
-            $etablissement_id = $donnee->Etablissement;
 
             if (isset($apsa_id) && isset($ca_id) && isset($annee_id)) {
                 $apsa = $apsaRepository->find($apsa_id);
                 $ca = $champApprentissageRepository->find($ca_id);
                 $annee = $anneeRepository->find($annee_id);
-                $etablissement = $etablissementRepository->find($etablissement_id);
+
                 //Création de l'ApsaSelectAnnee
                 $NewChampsApsaSelectAnnee = new ApsaSelectAnnee();
                 $NewChampsApsaSelectAnnee->setApsa($apsa);
                 $NewChampsApsaSelectAnnee->setCa($ca);
                 $NewChampsApsaSelectAnnee->setAnnee($annee);
-                $NewChampsApsaSelectAnnee->setEtablissement($etablissement);
 
                 array_push($apsaSelectAnneeObjectByJson,
                     $NewChampsApsaSelectAnnee);

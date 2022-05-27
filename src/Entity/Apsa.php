@@ -18,12 +18,46 @@ use Symfony\Component\Serializer\Annotation\Groups;
         'get' => [
             'normalization_context' => [
                 'groups' => ['read:champ_apprentissage', 'read:apsaRetenu']
-            ]
+            ],
+            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
         ],
         'post' => [
             'denormalization_context' => [
                 'groups' => ['post:Apsa']
-            ]
+            ],
+            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ]
+    ],
+    itemOperations: [
+        'get' => [
+            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ],
+        'put' => [
+            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ],
+        'patch' => [
+            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ],
+        'delete' => [
+            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
         ]
     ]
 )]

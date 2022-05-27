@@ -8,14 +8,59 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=EvaluationRepository::class)
  * @ORM\Table(
  *      name="evaluation"
  * )
- * @ApiResource()
  */
+#[ApiResource(
+    collectionOperations: [
+        'get' => [
+            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ],
+        'post' => [
+            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ],
+    ],
+    itemOperations: [
+        'get' => [
+            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ],
+        'put' => [
+            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ],
+        'patch' => [
+            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ],
+        'delete' => [
+            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ]
+    ],
+    normalizationContext: [
+        'groups' => ['read:User']
+    ]
+)]
 class Evaluation
 {
     /**
@@ -23,12 +68,14 @@ class Evaluation
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    #[Groups(['read:indicateur', 'read:apsaRetenu', 'read:apsaSelectAnnee'])]
     private $id;
 
 
     /**
      * @ORM\Column(type="date")
      */
+    #[Groups(['read:indicateur', 'read:apsaRetenu', 'read:apsaSelectAnnee'])]
     private $DateEval;
 
     /**

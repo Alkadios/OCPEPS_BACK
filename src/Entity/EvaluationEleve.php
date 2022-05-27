@@ -15,9 +15,44 @@ use Symfony\Component\Serializer\Annotation\Groups;
         'get' => [
             'normalization_context' => [
                 'groups' => ['read:indicateur', 'read:critere', 'read:apsaRetenu']
-            ]
+            ],
+            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
         ],
-        'post'
+        'post' => [
+            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ]
+        ]
+    ],
+    itemOperations: [
+        'get' => [
+            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')'",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ],
+        'put' => [
+            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ],
+        'patch' => [
+            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ],
+        'delete' => [
+            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ]
     ]
 )]
 class EvaluationEleve
@@ -41,14 +76,14 @@ class EvaluationEleve
      * @ORM\ManyToOne(targetEntity=Evaluation::class, inversedBy="evaluationEleves")
      * @ORM\JoinColumn(nullable=false)
      */
-    #[Groups(['read:indicateur', 'read:apsaRetenu'])]
+    #[Groups(['read:indicateur', 'read:apsaRetenu', 'read:apsaSelectAnnee'])]
     private $Evaluation;
 
     /**
      * @ORM\ManyToOne(targetEntity=Indicateur::class, inversedBy="evaluationEleves")
      * @ORM\JoinColumn(name="indicateur_id", referencedColumnName="id",nullable=false, onDelete="CASCADE")
      */
-    #[Groups(['read:indicateur', 'read:apsaRetenu'])]
+    #[Groups(['read:indicateur', 'read:apsaRetenu', 'read:apsaSelectAnnee'])]
     private $Indicateur;
 
     /**
