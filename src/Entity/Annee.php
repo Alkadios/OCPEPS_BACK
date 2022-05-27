@@ -20,7 +20,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
             'normalization_context' => [
                 'groups' => ['read:annee']
             ],
-            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
+            "security" => "is_granted('ROLE_ADMIN' || 'ROLE_USER')",
             'openapi_context' => [
                 'security' => [['bearerAuth' => []]]
             ],
