@@ -40,7 +40,7 @@ class OpenApiFactory implements OpenApiFactoryInterface
             'properties' => [
                 'username' => [
                     'type' => 'string',
-                    'example' => 'lucas.delefortrie@free.fr'
+                    'example' => 'exemple@free.fr'
                 ],
                 'password' => [
                     'type' => 'string',
