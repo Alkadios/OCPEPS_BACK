@@ -12,7 +12,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity(repositoryClass=AfRepository::class)
  */
-#[ApiResource()]
+#[ApiResource(
+    paginationEnabled: false
+)]
 class Af
 {
     /**
