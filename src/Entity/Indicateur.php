@@ -33,25 +33,25 @@ class Indicateur
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:indicateur', 'read:critere', 'read:apsaSelectAnnee', 'read:apsaRetenu'])]
+    #[Groups(['read:indicateur', 'read:critere', 'read:apsaRetenuIndicateur', 'read:apsaRetenu'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:indicateur', 'read:critere', 'read:apsaSelectAnnee'])]
+    #[Groups(['read:indicateur', 'read:critere', 'read:apsaRetenuIndicateur'])]
     private $libelle;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:indicateur', 'read:critere', 'read:apsaSelectAnnee'])]
+    #[Groups(['read:indicateur', 'read:critere', 'read:apsaRetenuIndicateur'])]
     private $description;
 
     /**
      * @ORM\OneToMany(targetEntity=EvaluationEleve::class, mappedBy="Indicateur", orphanRemoval=true)
      */
-    #[Groups(['read:indicateur', 'read:critere', 'read:apsaSelectAnnee'])]
+    #[Groups(['read:indicateur', 'read:critere', 'read:apsaRetenuIndicateur'])]
     private $evaluationEleves;
 
     /**
@@ -63,25 +63,25 @@ class Indicateur
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    #[Groups(['read:indicateur', 'read:apsaSelectAnnee'])]
+    #[Groups(['read:indicateur', 'read:apsaRetenuIndicateur'])]
     private $url_video;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    #[Groups(['read:indicateur', 'read:apsaSelectAnnee'])]
+    #[Groups(['read:indicateur'])]
     private $image;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    #[Groups(['read:indicateur', 'read:critere', 'read:apsaSelectAnnee', 'read:ordreIndicateur'])]
+    #[Groups(['read:indicateur', 'read:critere', 'read:apsaRetenuIndicateur', 'read:ordreIndicateur'])]
     private $ordre;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:indicateur','read:critere', 'read:apsaSelectAnnee'])]
+    #[Groups(['read:indicateur','read:critere', 'read:apsaRetenuIndicateur'])]
     private $color;
 
     public function __construct()

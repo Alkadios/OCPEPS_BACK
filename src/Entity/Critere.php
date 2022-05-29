@@ -33,25 +33,25 @@ class Critere
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:critere', 'read:apsaSelectAnnee'])]
+    #[Groups(['read:critere', 'read:apsaSelectAnnee', 'read:apsaRetenuCritere'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:critere', 'read:apsaSelectAnnee'])]
+    #[Groups(['read:critere', 'read:apsaSelectAnnee', 'read:apsaRetenuCritere'])]
     private $titre;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:critere', 'read:apsaSelectAnnee'])]
+    #[Groups(['read:critere', 'read:apsaSelectAnnee', 'read:apsaRetenuCritere'])]
     private $description;
 
     /**
      * @ORM\Column(type="text")
      */
-    #[Groups(['read:critere', 'read:apsaSelectAnnee'])]
+    #[Groups(['read:critere'])]
     private $image;
 
     /**
@@ -70,7 +70,7 @@ class Critere
     /**
      * @ORM\OneToMany(targetEntity=Indicateur::class, mappedBy="critere")
      */
-    #[Groups(['read:critere', 'read:apsaSelectAnnee', 'read:ordreIndicateur'])]
+    #[Groups(['read:critere', 'read:apsaSelectAnnee', 'read:ordreIndicateur', 'read:apsaRetenuIndicateur'])]
     private $Indicateur;
 
     public function __construct()

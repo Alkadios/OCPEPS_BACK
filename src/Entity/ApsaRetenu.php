@@ -28,7 +28,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     collectionOperations: [
         'get' => [
             'normalization_context' => [
-                'groups' => ['read:apsaSelectAnnee','read:critere', 'read:Apsa', 'read:AfRetenu', 'read:Critere', 'read:apsaSelectAnnee','read:choixAnnee', 'read:apsaRetenu']
+                'groups' => ['read:apsaRetenuCritere', 'read:apsaRetenuIndicateur', 'read:apsaSelectAnnee', 'read:Apsa', 'read:AfRetenu', 'read:Critere','read:choixAnnee', 'read:apsaRetenu']
             ]
         ],
         'post' => [
@@ -73,7 +73,7 @@ class ApsaRetenu
     /**
      * @ORM\OneToMany(targetEntity=Critere::class, mappedBy="ApsaRetenu", orphanRemoval=true)
      */
-    #[Groups(['read:apsaRetenu', 'read:eleve', 'read:apsaSelectAnnee', 'read:ordreIndicateur'])]
+    #[Groups(['read:apsaRetenu', 'read:eleve', 'read:ordreIndicateur', 'read:apsaRetenuCritere', 'read:apsaRetenuIndicateur'])]
     private $criteres;
 
     public function __construct()
