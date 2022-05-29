@@ -21,36 +21,35 @@ use Symfony\Component\Serializer\Annotation\Groups;
         ],
         'post' => [
             'denormalization_context' => [
-                'groups' => ['post:etablissement', 'post:professeur']
+                'groups' => ['post:etablissement']
             ]
         ],
-
     ],
     itemOperations: [
 
-    'get' => [
-        'normalization_context' => [
-            'groups' => ['read:etablissement']
-        ]
-    ],
-
-    'delete' => [
-        'normalization_context' => [
-            'groups' => ['delete:etablissement']
-        ]
-    ],
-
-    'put' => [
-        'denormalization_context' => [
-            'groups' => ['put:etablissement']
+        'get' => [
+            'normalization_context' => [
+                'groups' => ['read:etablissement']
+            ]
         ],
-        'normalization_context' => [
-            'groups' => ['read:etablissement', 'read:professeur']
-        ]
-    ]
+
+        'delete' => [
+            'normalization_context' => [
+                'groups' => ['delete:etablissement']
+            ]
+        ],
+
+        'put' => [
+            'denormalization_context' => [
+                'groups' => ['put:etablissement']
+            ],
+            'normalization_context' => [
+                'groups' => ['read:etablissement', 'read:professeur']
+            ]
+        ],
+
     ]
 )]
-
 class Etablissement
 {
     /**
@@ -58,43 +57,43 @@ class Etablissement
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:etablissement', 'read:caId','put:etablissement', 'read:eleve'])]
+    #[Groups(['read:etablissement', 'read:caId', 'put:etablissement', 'read:eleve'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:etablissement','read:classe','put:etablissement', 'read:eleve'])]
+    #[Groups(['read:etablissement', 'read:classe', 'put:etablissement', 'read:eleve', 'post:etablissement'])]
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:etablissement', 'put:etablissement'])]
+    #[Groups(['read:etablissement', 'put:etablissement', 'post:etablissement'])]
     private $adresse;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:etablissement' , 'put:etablissement'])]
+    #[Groups(['read:etablissement', 'put:etablissement', 'post:etablissement'])]
     private $cp;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:etablissement', 'put:etablissement'])]
+    #[Groups(['read:etablissement', 'put:etablissement', 'post:etablissement'])]
     private $ville;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    #[Groups(['read:etablissement', 'put:etablissement'])]
+    #[Groups(['read:etablissement', 'put:etablissement', 'post:etablissement'])]
     private $tel;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    #[Groups(['read:etablissement', 'put:etablissement'])]
+    #[Groups(['read:etablissement', 'put:etablissement', 'post:etablissement'])]
     private $mail;
 
     /**
@@ -112,7 +111,7 @@ class Etablissement
     /**
      * @ORM\ManyToMany(targetEntity=Professeur::class, inversedBy="etablissements")
      */
-    #[Groups(['read:etablissement', 'read:professeurs' , 'put:etablissement'])]
+    #[Groups(['read:etablissement', 'read:professeurs', 'put:etablissement'])]
     private $Professeur;
 
     /**
@@ -124,7 +123,7 @@ class Etablissement
     /**
      * @ORM\ManyToMany(targetEntity=NiveauScolaire::class, inversedBy="etablissements")
      */
-    #[Groups(['read:etablissement'])]
+    #[Groups(['read:etablissement', 'post:etablissement', 'put:etablissement'])]
     private $niveauScolaire;
 
     /**
