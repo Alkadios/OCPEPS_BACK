@@ -37,11 +37,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         'get' => [
             'normalization_context' => [
                 'groups' => ['read:etablissement']
-            ],
-            "security" => "is_granted('ROLE_USER')",
-            'openapi_context' => [
-                'security' => [['bearerAuth' => []]]
-            ],
+            ]
         ],
         'delete' => [
             'normalization_context' => [
