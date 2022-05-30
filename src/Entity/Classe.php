@@ -19,35 +19,58 @@ use Symfony\Component\Serializer\Annotation\Groups;
         'get' => [
             'normalization_context' => [
                 'groups' => ['read:classe', 'read:eleve']
-            ]
+            ],
+            "security" => "is_granted('ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
         ],
         'post' => [
             'denormalization_context' => [
                 'groups' => ['post:classe', 'post:eleve']
-            ]
+            ],
+            "security" => "is_granted('ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
         ],
     ],
     itemOperations: [
-
         'get' => [
             'normalization_context' => [
                 'groups' => ['read:classe', 'read:eleve']
-            ]
+            ],
+            "security" => "is_granted('ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
         ],
-
         'delete' => [
             'normalization_context' => [
                 'groups' => ['delete:classe', 'delete:eleve']
-            ]
+            ],
+            "security" => "is_granted('ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
         ],
-
         'put' => [
             'denormalization_context' => [
                 'groups' => ['put:classe']
             ],
             'normalization_context' => [
                 'groups' => ['read:classe', 'read:eleve']
-            ]
+            ],
+            "security" => "is_granted('ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ],
+        'patch' => [
+            "security" => "is_granted('ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
         ],
     ]
 )]

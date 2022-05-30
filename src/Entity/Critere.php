@@ -20,10 +20,45 @@ use Symfony\Component\Serializer\Annotation\Groups;
         'get' => [
             'normalization_context' => [
                 'groups' => ['read:critere', 'read:apsaRetenu']
-            ]
+            ],
+            "security" => "is_granted('ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
         ],
-        'post'
-    ]
+        'post' => [
+            "security" => "is_granted('ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ],
+    ],
+    itemOperations: [
+        'get' => [
+            "security" => "is_granted('ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ],
+        'put' => [
+            "security" => "is_granted('ROLE_USER')'",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ],
+        'patch' => [
+            "security" => "is_granted('ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ],
+        'delete' => [
+            "security" => "is_granted('ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ]
+    ],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['ApsaRetenu.id' => 'exact', 'ApsaRetenu.ApsaSelectAnnee.Apsa.id' => 'exact', 'ApsaRetenu.ApsaSelectAnnee.Annee.id' => 'exact', 'ApsaRetenu.AfRetenu.id' => 'exact'])]
 class Critere
@@ -33,25 +68,25 @@ class Critere
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:critere', 'read:apsaSelectAnnee', 'read:apsaRetenuCritere'])]
+    #[Groups(['read:critere', 'read:apsaSelectAnnee'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:critere', 'read:apsaSelectAnnee', 'read:apsaRetenuCritere'])]
+    #[Groups(['read:critere', 'read:apsaSelectAnnee'])]
     private $titre;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:critere', 'read:apsaSelectAnnee', 'read:apsaRetenuCritere'])]
+    #[Groups(['read:critere', 'read:apsaSelectAnnee'])]
     private $description;
 
     /**
      * @ORM\Column(type="text")
      */
-    #[Groups(['read:critere'])]
+    #[Groups(['read:critere', 'read:apsaSelectAnnee'])]
     private $image;
 
     /**
@@ -70,7 +105,7 @@ class Critere
     /**
      * @ORM\OneToMany(targetEntity=Indicateur::class, mappedBy="critere")
      */
-    #[Groups(['read:critere', 'read:apsaSelectAnnee', 'read:ordreIndicateur', 'read:apsaRetenuIndicateur'])]
+    #[Groups(['read:critere', 'read:apsaSelectAnnee', 'read:ordreIndicateur'])]
     private $Indicateur;
 
     public function __construct()

@@ -17,39 +17,62 @@ use Symfony\Component\Serializer\Annotation\Groups;
         'get' => [
             'normalization_context' => [
                 'groups' => ['read:etablissement']
-            ]
+            ],
+            "security" => "is_granted('ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
         ],
         'post' => [
             'denormalization_context' => [
-                'groups' => ['post:etablissement']
-            ]
+                'groups' => ['post:etablissement', 'post:professeur']
+            ],
+            "security" => "is_granted('ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
         ],
     ],
     itemOperations: [
-
         'get' => [
             'normalization_context' => [
                 'groups' => ['read:etablissement']
-            ]
+            ],
+            "security" => "is_granted('ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
         ],
-
         'delete' => [
             'normalization_context' => [
                 'groups' => ['delete:etablissement']
-            ]
+            ],
+            "security" => "is_granted('ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
         ],
-
         'put' => [
             'denormalization_context' => [
                 'groups' => ['put:etablissement']
             ],
             'normalization_context' => [
                 'groups' => ['read:etablissement', 'read:professeur']
-            ]
+            ],
+            "security" => "is_granted('ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
         ],
-
+        'patch' => [
+            "security" => "is_granted('ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ]
     ]
 )]
+
 class Etablissement
 {
     /**
@@ -57,43 +80,43 @@ class Etablissement
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:etablissement', 'read:caId', 'put:etablissement', 'read:eleve'])]
+    #[Groups(['read:etablissement', 'read:caId','put:etablissement', 'read:eleve'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:etablissement', 'read:classe', 'put:etablissement', 'read:eleve', 'post:etablissement'])]
+    #[Groups(['read:etablissement','read:classe','put:etablissement', 'read:eleve'])]
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:etablissement', 'put:etablissement', 'post:etablissement'])]
+    #[Groups(['read:etablissement', 'put:etablissement'])]
     private $adresse;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:etablissement', 'put:etablissement', 'post:etablissement'])]
+    #[Groups(['read:etablissement' , 'put:etablissement'])]
     private $cp;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:etablissement', 'put:etablissement', 'post:etablissement'])]
+    #[Groups(['read:etablissement', 'put:etablissement'])]
     private $ville;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    #[Groups(['read:etablissement', 'put:etablissement', 'post:etablissement'])]
+    #[Groups(['read:etablissement', 'put:etablissement'])]
     private $tel;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    #[Groups(['read:etablissement', 'put:etablissement', 'post:etablissement'])]
+    #[Groups(['read:etablissement', 'put:etablissement'])]
     private $mail;
 
     /**
@@ -111,7 +134,7 @@ class Etablissement
     /**
      * @ORM\ManyToMany(targetEntity=Professeur::class, inversedBy="etablissements")
      */
-    #[Groups(['read:etablissement', 'read:professeurs', 'put:etablissement'])]
+    #[Groups(['read:etablissement', 'read:professeurs' , 'put:etablissement'])]
     private $Professeur;
 
     /**
@@ -123,7 +146,7 @@ class Etablissement
     /**
      * @ORM\ManyToMany(targetEntity=NiveauScolaire::class, inversedBy="etablissements")
      */
-    #[Groups(['read:etablissement', 'post:etablissement', 'put:etablissement'])]
+    #[Groups(['read:etablissement'])]
     private $niveauScolaire;
 
     /**

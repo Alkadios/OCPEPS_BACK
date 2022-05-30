@@ -28,13 +28,47 @@ use Symfony\Component\Serializer\Annotation\Groups;
     collectionOperations: [
         'get' => [
             'normalization_context' => [
-                'groups' => ['read:apsaRetenuCritere', 'read:apsaRetenuIndicateur', 'read:apsaSelectAnnee', 'read:Apsa', 'read:AfRetenu', 'read:Critere','read:choixAnnee', 'read:apsaRetenu']
-            ]
+                'groups' => ['read:apsaSelectAnnee','read:critere', 'read:Apsa', 'read:AfRetenu', 'read:Critere', 'read:apsaSelectAnnee','read:choixAnnee', 'read:apsaRetenu']
+            ],
+            "security" => "is_granted('ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
         ],
         'post' => [
             'denormalization_context' => [
                 'groups' => ['post:ApsaRetenu']
-            ]
+            ],
+            "security" => "is_granted('ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ]
+    ],
+    itemOperations: [
+        'get' => [
+            "security" => "is_granted('ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ],
+        'put' => [
+            "security" => "is_granted('ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ],
+        'patch' => [
+            "security" => "is_granted('ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ],
+        'delete' => [
+            "security" => "is_granted('ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
         ]
     ]
 )]
@@ -73,7 +107,7 @@ class ApsaRetenu
     /**
      * @ORM\OneToMany(targetEntity=Critere::class, mappedBy="ApsaRetenu", orphanRemoval=true)
      */
-    #[Groups(['read:apsaRetenu', 'read:eleve', 'read:ordreIndicateur', 'read:apsaRetenuCritere', 'read:apsaRetenuIndicateur'])]
+    #[Groups(['read:apsaRetenu', 'read:eleve', 'read:apsaSelectAnnee', 'read:ordreIndicateur'])]
     private $criteres;
 
     public function __construct()

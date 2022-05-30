@@ -19,21 +19,57 @@ use Symfony\Component\Serializer\Annotation\Groups;
             'method' => 'GET',
             'path' => '/getApsa',
             'controller' => ApsaChampApprentissageController::class,
+            "security" => "is_granted('ROLE_USER')",
             'openapi_context' => [
-                'summary' => 'Get les APSA de ChampApprentissage'
+                'summary' => 'Get les APSA de ChampApprentissage',
+                'security' => [['bearerAuth' => []]]
             ]
         ],
         'get' => [
             'normalization_context' => [
                 'groups' => ['read:apsa', 'read:champapprentissage']
-            ]
+            ],
+            "security" => "is_granted('ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
         ],
         'post' => [
             'denormalization_context' => [
                 'groups' => ['psot:ChampApprentissage']
-            ]
+            ],
+            "security" => "is_granted('ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
         ]
-    ]
+    ],
+    itemOperations: [
+        'get' => [
+            "security" => "is_granted('ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ],
+        'put' => [
+            "security" => "is_granted('ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ],
+        'patch' => [
+            "security" => "is_granted('ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ],
+        'delete' => [
+            "security" => "is_granted('ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ]
+    ],
 )]
 class ChampApprentissage
 {

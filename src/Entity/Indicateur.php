@@ -20,9 +20,44 @@ use Symfony\Component\Serializer\Annotation\Groups;
         'get' => [
             'normalization_context' => [
                 'groups' => ['read:indicateur', 'read:critere']
-            ]
+            ],
+            "security" => "is_granted('ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
         ],
-        'post'
+        'post' => [
+            "security" => "is_granted('ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ]
+        ]
+    ],
+    itemOperations: [
+        'get' => [
+            "security" => "is_granted('ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ],
+        'put' => [
+            "security" => "is_granted('ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ],
+        'patch' => [
+            "security" => "is_granted('ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ],
+        'delete' => [
+            "security" => "is_granted('ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ]
     ]
 )]
 #[ApiFilter(SearchFilter::class, properties: ['critere.id' => 'exact'])]
@@ -33,25 +68,25 @@ class Indicateur
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:indicateur', 'read:critere', 'read:apsaRetenuIndicateur', 'read:apsaRetenu'])]
+    #[Groups(['read:indicateur', 'read:critere', 'read:apsaSelectAnnee', 'read:apsaRetenu'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:indicateur', 'read:critere', 'read:apsaRetenuIndicateur'])]
+    #[Groups(['read:indicateur', 'read:critere', 'read:apsaSelectAnnee'])]
     private $libelle;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:indicateur', 'read:critere', 'read:apsaRetenuIndicateur'])]
+    #[Groups(['read:indicateur', 'read:critere', 'read:apsaSelectAnnee'])]
     private $description;
 
     /**
      * @ORM\OneToMany(targetEntity=EvaluationEleve::class, mappedBy="Indicateur", orphanRemoval=true)
      */
-    #[Groups(['read:indicateur', 'read:critere', 'read:apsaRetenuIndicateur'])]
+    #[Groups(['read:indicateur', 'read:critere', 'read:apsaSelectAnnee'])]
     private $evaluationEleves;
 
     /**
@@ -63,25 +98,25 @@ class Indicateur
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    #[Groups(['read:indicateur', 'read:apsaRetenuIndicateur'])]
+    #[Groups(['read:indicateur', 'read:apsaSelectAnnee'])]
     private $url_video;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    #[Groups(['read:indicateur'])]
+    #[Groups(['read:indicateur', 'read:apsaSelectAnnee'])]
     private $image;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    #[Groups(['read:indicateur', 'read:critere', 'read:apsaRetenuIndicateur', 'read:ordreIndicateur'])]
+    #[Groups(['read:indicateur', 'read:critere', 'read:apsaSelectAnnee', 'read:ordreIndicateur'])]
     private $ordre;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['read:indicateur','read:critere', 'read:apsaRetenuIndicateur'])]
+    #[Groups(['read:indicateur','read:critere', 'read:apsaSelectAnnee'])]
     private $color;
 
     public function __construct()
