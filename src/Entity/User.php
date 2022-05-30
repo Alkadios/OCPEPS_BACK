@@ -29,44 +29,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
                 'security' => [['bearerAuth' => []]]
             ]
         ],
-        'get' => [
-            "security" => "is_granted('ROLE_USER')",
-            'openapi_context' => [
-                'security' => [['bearerAuth' => []]]
-            ],
-        ],
-        'post' => [
-            "security" => "is_granted('ROLE_USER')",
-            'openapi_context' => [
-                'security' => [['bearerAuth' => []]]
-            ],
-        ],
+        'get',
+        'post'
     ],
     itemOperations: [
-        'get' => [
-            "security" => "is_granted('ROLE_USER')",
-            'openapi_context' => [
-                'security' => [['bearerAuth' => []]]
-            ],
-        ],
-        'put' => [
-            "security" => "is_granted('ROLE_USER')",
-            'openapi_context' => [
-                'security' => [['bearerAuth' => []]]
-            ],
-        ],
-        'patch' => [
-            "security" => "is_granted('ROLE_USER')",
-            'openapi_context' => [
-                'security' => [['bearerAuth' => []]]
-            ],
-        ],
-        'delete' => [
-            "security" => "is_granted('ROLE_USER')",
-            'openapi_context' => [
-                'security' => [['bearerAuth' => []]]
-            ],
-        ]
+        'get',
+        'put',
+        'patch',
+        'delete'
     ],
     normalizationContext: [
         'groups' => ['read:User']
