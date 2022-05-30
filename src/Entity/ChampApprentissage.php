@@ -19,7 +19,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
             'method' => 'GET',
             'path' => '/getApsa',
             'controller' => ApsaChampApprentissageController::class,
-            "security" => "is_granted('ROLE_ADMIN')",
+            "security" => "is_granted('ROLE_USER')",
             'openapi_context' => [
                 'summary' => 'Get les APSA de ChampApprentissage',
                 'security' => [['bearerAuth' => []]]
@@ -29,7 +29,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
             'normalization_context' => [
                 'groups' => ['read:apsa', 'read:champapprentissage']
             ],
-            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')'",
+            "security" => "is_granted('ROLE_USER')",
             'openapi_context' => [
                 'security' => [['bearerAuth' => []]]
             ],
@@ -38,7 +38,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
             'denormalization_context' => [
                 'groups' => ['psot:ChampApprentissage']
             ],
-            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
+            "security" => "is_granted('ROLE_USER')",
             'openapi_context' => [
                 'security' => [['bearerAuth' => []]]
             ],
@@ -46,25 +46,25 @@ use Symfony\Component\Serializer\Annotation\Groups;
     ],
     itemOperations: [
         'get' => [
-            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
+            "security" => "is_granted('ROLE_USER')",
             'openapi_context' => [
                 'security' => [['bearerAuth' => []]]
             ],
         ],
         'put' => [
-            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
+            "security" => "is_granted('ROLE_USER')",
             'openapi_context' => [
                 'security' => [['bearerAuth' => []]]
             ],
         ],
         'patch' => [
-            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
+            "security" => "is_granted('ROLE_USER')",
             'openapi_context' => [
                 'security' => [['bearerAuth' => []]]
             ],
         ],
         'delete' => [
-            "security" => "is_granted('ROLE_ADMIN', 'ROLE_USER')",
+            "security" => "is_granted('ROLE_USER')",
             'openapi_context' => [
                 'security' => [['bearerAuth' => []]]
             ],
