@@ -15,6 +15,46 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity(repositoryClass=NiveauScolaireRepository::class)
  */
 #[ApiResource(
+    collectionOperations: [
+        'get' => [
+            "security" => "is_granted('ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ],
+        'post' => [
+            "security" => "is_granted('ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ],
+    ],
+    itemOperations: [
+        'get' => [
+            "security" => "is_granted('ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ],
+        'put' => [
+            "security" => "is_granted('ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ],
+        'patch' => [
+            "security" => "is_granted('ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ],
+        'delete' => [
+            "security" => "is_granted('ROLE_USER')",
+            'openapi_context' => [
+                'security' => [['bearerAuth' => []]]
+            ],
+        ]
+    ],
     normalizationContext: [
         'groups' => ['read:niveauScolaire', 'read:cycle']
     ],
@@ -28,7 +68,7 @@ class NiveauScolaire
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    #[Groups(['read:niveauScolaire', 'read:professeurClasse', 'read:etablissement', 'read:choixAnnee', 'post:etablissement', 'put:etablissement'])]
+    #[Groups(['read:niveauScolaire', 'read:professeurClasse', 'read:etablissement', 'read:choixAnnee'])]
     private $id;
 
     /**
