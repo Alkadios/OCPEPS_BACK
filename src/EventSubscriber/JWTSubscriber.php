@@ -2,6 +2,7 @@
 
 namespace App\EventSubscriber;
 
+use App\Entity\Etablissement;
 use App\Entity\Professeur;
 use App\Entity\User;
 use Lexik\Bundle\JWTAuthenticationBundle\Event\JWTCreatedEvent;
@@ -14,16 +15,19 @@ class JWTSubscriber implements EventSubscriberInterface
         $data = $event->getData();
         $user = $event->getUser();
 
-        if($user instanceof User){
+        if ($user instanceof User) {
             $data["id"] = $user->getId();
             $data['roles'] = $user->getRoles()[0];
             $data['email'] = $user->getEmail();
-            if($user->getProfesseurs()->count() > 0){
+            if ($user->getProfesseurs()->count() > 0) {
                 $data['professeurs'] = $user->getProfesseurs()[0]->getId();
-                if($user->getProfesseurs()[0]->getEtablissements()->count() > 0) {
-                    $data['currentEtablissement'] = $user->getProfesseurs()[0]->getEtablissements()->last()->getId();
+                if ($user->getProfesseurs()[0]->getEtablissements()->count() > 0) {
+                    $etablissements = [];
+                    foreach ($user->getProfesseurs()[0]->getEtablissements() as $unEtablissement) {
+                        array_push($etablissements, ["id" => $unEtablissement->getId(), "nom" => $unEtablissement->getNom()]);
+                    }
+                    $data['etablissements'] = $etablissements;
                 }
-
             }
 
 
