@@ -31,9 +31,9 @@ class JWTSubscriber implements EventSubscriberInterface
             }
             if ($user->getEleves()->count() > 0) {
                 $data['eleves'] = $user->getEleves()[0]->getId();
-
+                $etablissements = [];
                 if ($user->getEleves()[0]->getEtablissement() !== null) {
-                    $etablissements = ["id" => $user->getEleves()[0]->getEtablissement()->getId(), "nom" => $user->getEleves()[0]->getEtablissement()->getNom()];
+                    $etablissements[] = ["id" => $user->getEleves()[0]->getEtablissement()->getId(), "nom" => $user->getEleves()[0]->getEtablissement()->getNom()];
                 }
                 $data['etablissements'] = $etablissements;
             }
