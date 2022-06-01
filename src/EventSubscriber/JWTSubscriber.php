@@ -19,27 +19,24 @@ class JWTSubscriber implements EventSubscriberInterface
             $data["id"] = $user->getId();
             $data['roles'] = $user->getRoles()[0];
             $data['email'] = $user->getEmail();
-
             if ($user->getProfesseurs()->count() > 0) {
                 $data['professeurs'] = $user->getProfesseurs()[0]->getId();
                 if ($user->getProfesseurs()[0]->getEtablissements()->count() > 0) {
                     $etablissements = [];
                     foreach ($user->getProfesseurs()[0]->getEtablissements() as $unEtablissement) {
-                        $etablissements[] = ["id" => $unEtablissement->getId(), "nom" => $unEtablissement->getNom()];
-                    }
-                    $data['etablissements'] = $etablissements;
-                }
-            } elseif ($user->getEleves()->count() > 0) {
-                $data['eleves'] = $user->getEleves()[0]->getId();
-                if ($user->getEleves()[0]->getEtablissement()->count() > 0) {
-                    $etablissements = [];
-                    foreach ($user->getEleves()[0]->getEtablissement() as $unEtablissement) {
-                        $etablissements[] = ["id" => $unEtablissement->getId(), "nom" => $unEtablissement->getNom()];
+                        array_push($etablissements, ["id" => $unEtablissement->getId(), "nom" => $unEtablissement->getNom()]);
                     }
                     $data['etablissements'] = $etablissements;
                 }
             }
+            if ($user->getEleves()->count() > 0) {
+                $data['eleves'] = $user->getEleves()[0]->getId();
+                if ($user->getEleves()[0]->getEtablissement() !== null) {
+                    $data['etablissements'] = ["id" => $user->getEleves()[0]->getEtablissement()->getId(), "nom" => $user->getEleves()[0]->getEtablissement()->getNom()];
+                }
+            }
         }
+
         $event->setData($data);
     }
 
