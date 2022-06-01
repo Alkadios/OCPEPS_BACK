@@ -24,16 +24,18 @@ class JWTSubscriber implements EventSubscriberInterface
                 if ($user->getProfesseurs()[0]->getEtablissements()->count() > 0) {
                     $etablissements = [];
                     foreach ($user->getProfesseurs()[0]->getEtablissements() as $unEtablissement) {
-                        array_push($etablissements, ["id" => $unEtablissement->getId(), "nom" => $unEtablissement->getNom()]);
+                        $etablissements[] = ["id" => $unEtablissement->getId(), "nom" => $unEtablissement->getNom()];
                     }
                     $data['etablissements'] = $etablissements;
                 }
             }
             if ($user->getEleves()->count() > 0) {
                 $data['eleves'] = $user->getEleves()[0]->getId();
+
                 if ($user->getEleves()[0]->getEtablissement() !== null) {
-                    $data['etablissements'] = ["id" => $user->getEleves()[0]->getEtablissement()->getId(), "nom" => $user->getEleves()[0]->getEtablissement()->getNom()];
+                    $etablissements = ["id" => $user->getEleves()[0]->getEtablissement()->getId(), "nom" => $user->getEleves()[0]->getEtablissement()->getNom()];
                 }
+                $data['etablissements'] = $etablissements;
             }
         }
 
